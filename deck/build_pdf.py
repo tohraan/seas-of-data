@@ -13,6 +13,12 @@ ASSETS = {
     "/_blob/cad11cd05cf8579dcca29cec4ddbb73f": "ship_chips.png",
     "/_blob/20f19d6291c317ab6c264c862b72c922": "buoy_hero.png",
     "/_blob/72b5585bd0c87bb94d98e04e08eed6d7": "dashboard.png",
+    "/_blob/9ab8e505597d2810e899f9152626d7a3": "blueprint_side.png",
+    "/_blob/41bce21f1d2fcd895fe161d874638ee5": "blueprint_plan.png",
+    "/_blob/036701b207465f474ed552a1f0bdfcfc": "buoy_hero_wide.png",
+    "/_blob/d711313db388f7f733cef3153d33d8b6": "buoy_side.png",
+    "/_blob/b67f285bec7f3237a333b0f9f851174a": "buoy_top.png",
+    "/_blob/f7ee8bd1c9be9029ce33c789ca45d321": "buoy_closeup.png",
 }
 deck, out = Path(sys.argv[1]), Path(sys.argv[2]); out.mkdir(parents=True, exist_ok=True)
 fig = Path(__file__).resolve().parent / "figures"
