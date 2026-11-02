@@ -1,0 +1,5505 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.50252,
+     24.974983
+    ]
+   },
+   "properties": {
+    "id": "d0001",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.855,
+    "length_m": 169.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.02764,
+     25.039317
+    ]
+   },
+   "properties": {
+    "id": "d0002",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.782,
+    "length_m": 219.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "674488524",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.83556,
+     25.163985
+    ]
+   },
+   "properties": {
+    "id": "d0003",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.774,
+    "length_m": 149.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "655871040",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.705114,
+     25.211651
+    ]
+   },
+   "properties": {
+    "id": "d0004",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.767,
+    "length_m": 179.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "474772003",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.543771,
+     25.216905
+    ]
+   },
+   "properties": {
+    "id": "d0005",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.767,
+    "length_m": 89.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "534489566",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.849879,
+     25.147353
+    ]
+   },
+   "properties": {
+    "id": "d0006",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.741,
+    "length_m": 99.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.550413,
+     25.076229
+    ]
+   },
+   "properties": {
+    "id": "d0007",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.738,
+    "length_m": 169.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "478899301",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.525675,
+     25.152194
+    ]
+   },
+   "properties": {
+    "id": "d0008",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.725,
+    "length_m": 239.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "577273283",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.797514,
+     25.195555
+    ]
+   },
+   "properties": {
+    "id": "d0009",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.724,
+    "length_m": 159.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "509778153",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.952143,
+     25.112229
+    ]
+   },
+   "properties": {
+    "id": "d0010",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.693,
+    "length_m": 209.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.496589,
+     25.007942
+    ]
+   },
+   "properties": {
+    "id": "d0011",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.676,
+    "length_m": 89.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "694580692",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.008727,
+     25.0829
+    ]
+   },
+   "properties": {
+    "id": "d0012",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.667,
+    "length_m": 139.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.617424,
+     25.027004
+    ]
+   },
+   "properties": {
+    "id": "d0013",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.659,
+    "length_m": 129.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "400613544",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.887222,
+     24.967226
+    ]
+   },
+   "properties": {
+    "id": "d0014",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.644,
+    "length_m": 99.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "574592761",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.991198,
+     25.069494
+    ]
+   },
+   "properties": {
+    "id": "d0015",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.636,
+    "length_m": 60.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "519026373",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.770259,
+     25.211896
+    ]
+   },
+   "properties": {
+    "id": "d0016",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.628,
+    "length_m": 199.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "640501832",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.65329,
+     24.900468
+    ]
+   },
+   "properties": {
+    "id": "d0017",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.623,
+    "length_m": 109.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "662683840",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.871083,
+     25.145969
+    ]
+   },
+   "properties": {
+    "id": "d0018",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.599,
+    "length_m": 139.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "693905101",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.526108,
+     24.74493
+    ]
+   },
+   "properties": {
+    "id": "d0019",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.568,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "693791924",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.61851,
+     24.922988
+    ]
+   },
+   "properties": {
+    "id": "d0020",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.559,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "606642228",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.898946,
+     25.103249
+    ]
+   },
+   "properties": {
+    "id": "d0021",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.558,
+    "length_m": 60.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "500249654",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.037782,
+     25.070621
+    ]
+   },
+   "properties": {
+    "id": "d0022",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.557,
+    "length_m": 89.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "437089863",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.0436,
+     25.044674
+    ]
+   },
+   "properties": {
+    "id": "d0023",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.556,
+    "length_m": 129.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "420745532",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.874788,
+     25.140538
+    ]
+   },
+   "properties": {
+    "id": "d0024",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.554,
+    "length_m": 89.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.69121,
+     24.9048
+    ]
+   },
+   "properties": {
+    "id": "d0025",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.542,
+    "length_m": 79.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.526314,
+     25.021106
+    ]
+   },
+   "properties": {
+    "id": "d0026",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.526,
+    "length_m": 50.0,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.535386,
+     25.073266
+    ]
+   },
+   "properties": {
+    "id": "d0027",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.526,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "547979943",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.536359,
+     24.704219
+    ]
+   },
+   "properties": {
+    "id": "d0028",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.523,
+    "length_m": 60.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "625176136",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.129052,
+     25.153281
+    ]
+   },
+   "properties": {
+    "id": "d0029",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.511,
+    "length_m": 50.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "591860243",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.584513,
+     24.749316
+    ]
+   },
+   "properties": {
+    "id": "d0030",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.506,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "579996966",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.584824,
+     24.753104
+    ]
+   },
+   "properties": {
+    "id": "d0031",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.479,
+    "length_m": 30.0,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.524647,
+     24.743976
+    ]
+   },
+   "properties": {
+    "id": "d0032",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.463,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "518358850",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.531986,
+     24.733063
+    ]
+   },
+   "properties": {
+    "id": "d0033",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.459,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "433389320",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.628002,
+     24.709464
+    ]
+   },
+   "properties": {
+    "id": "d0034",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.452,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "424284854",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.042287,
+     25.043939
+    ]
+   },
+   "properties": {
+    "id": "d0035",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.438,
+    "length_m": 30.0,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.581713,
+     24.748504
+    ]
+   },
+   "properties": {
+    "id": "d0036",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.435,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "439726783",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.514461,
+     24.672022
+    ]
+   },
+   "properties": {
+    "id": "d0037",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.433,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "464261018",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.125179,
+     25.149508
+    ]
+   },
+   "properties": {
+    "id": "d0038",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.43,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "419537826",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.884164,
+     24.958639
+    ]
+   },
+   "properties": {
+    "id": "d0039",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.428,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "466515711",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.533772,
+     24.733187
+    ]
+   },
+   "properties": {
+    "id": "d0040",
+    "scene_id": "S1C_20261024T142351",
+    "timestamp": "2026-10-24T14:23:51Z",
+    "confidence": 0.407,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "412231302",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.989569,
+     25.069385
+    ]
+   },
+   "properties": {
+    "id": "d0041",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.907,
+    "length_m": 79.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "539657976",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.48263,
+     24.755415
+    ]
+   },
+   "properties": {
+    "id": "d0042",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.831,
+    "length_m": 129.3,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "490959142",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.026612,
+     25.037184
+    ]
+   },
+   "properties": {
+    "id": "d0043",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.738,
+    "length_m": 89.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "484937611",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.865326,
+     25.148754
+    ]
+   },
+   "properties": {
+    "id": "d0044",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.731,
+    "length_m": 169.1,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.818975,
+     25.153822
+    ]
+   },
+   "properties": {
+    "id": "d0045",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.719,
+    "length_m": 199.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "637465536",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.550424,
+     25.075958
+    ]
+   },
+   "properties": {
+    "id": "d0046",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.7,
+    "length_m": 159.2,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "673052612",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.57879,
+     24.856756
+    ]
+   },
+   "properties": {
+    "id": "d0047",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.686,
+    "length_m": 109.4,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.787317,
+     25.217737
+    ]
+   },
+   "properties": {
+    "id": "d0048",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.67,
+    "length_m": 179.1,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "482362852",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.800483,
+     25.203567
+    ]
+   },
+   "properties": {
+    "id": "d0049",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.668,
+    "length_m": 59.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "580343825",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.839507,
+     25.167541
+    ]
+   },
+   "properties": {
+    "id": "d0050",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.656,
+    "length_m": 119.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "658678947",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.478887,
+     24.616314
+    ]
+   },
+   "properties": {
+    "id": "d0051",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.655,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "471051794",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.872683,
+     25.216095
+    ]
+   },
+   "properties": {
+    "id": "d0052",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.652,
+    "length_m": 109.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "443337891",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.540415,
+     24.959376
+    ]
+   },
+   "properties": {
+    "id": "d0053",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.652,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "528535466",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.62934,
+     25.040226
+    ]
+   },
+   "properties": {
+    "id": "d0054",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.635,
+    "length_m": 218.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "622482741",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.676187,
+     25.216781
+    ]
+   },
+   "properties": {
+    "id": "d0055",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.623,
+    "length_m": 149.2,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "425114653",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.689431,
+     24.905623
+    ]
+   },
+   "properties": {
+    "id": "d0056",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.618,
+    "length_m": 99.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "639640230",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.70089,
+     25.114028
+    ]
+   },
+   "properties": {
+    "id": "d0057",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.614,
+    "length_m": 228.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "400037129",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.617528,
+     25.027062
+    ]
+   },
+   "properties": {
+    "id": "d0058",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.614,
+    "length_m": 149.2,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.535587,
+     24.945065
+    ]
+   },
+   "properties": {
+    "id": "d0059",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.614,
+    "length_m": 69.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "622875203",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.535012,
+     25.072721
+    ]
+   },
+   "properties": {
+    "id": "d0060",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.612,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "444811030",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.510368,
+     24.609489
+    ]
+   },
+   "properties": {
+    "id": "d0061",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.604,
+    "length_m": 29.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.598692,
+     24.746963
+    ]
+   },
+   "properties": {
+    "id": "d0062",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.59,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "624135594",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.873308,
+     25.198363
+    ]
+   },
+   "properties": {
+    "id": "d0063",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.587,
+    "length_m": 89.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "401265707",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.453856,
+     24.875388
+    ]
+   },
+   "properties": {
+    "id": "d0064",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.584,
+    "length_m": 149.2,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.798718,
+     25.20158
+    ]
+   },
+   "properties": {
+    "id": "d0065",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.579,
+    "length_m": 109.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "506577667",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.542535,
+     25.216831
+    ]
+   },
+   "properties": {
+    "id": "d0066",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.575,
+    "length_m": 99.5,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.885349,
+     24.967956
+    ]
+   },
+   "properties": {
+    "id": "d0067",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.57,
+    "length_m": 99.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "612974639",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.509628,
+     24.901321
+    ]
+   },
+   "properties": {
+    "id": "d0068",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.57,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "462158588",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.552226,
+     24.591687
+    ]
+   },
+   "properties": {
+    "id": "d0069",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.57,
+    "length_m": 89.5,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.124056,
+     25.215787
+    ]
+   },
+   "properties": {
+    "id": "d0070",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.535,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "586322670",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.104194,
+     25.19965
+    ]
+   },
+   "properties": {
+    "id": "d0071",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.532,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "422708354",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.870817,
+     25.196032
+    ]
+   },
+   "properties": {
+    "id": "d0072",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.532,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "596974605",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.630313,
+     24.710251
+    ]
+   },
+   "properties": {
+    "id": "d0073",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.531,
+    "length_m": 39.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.071188,
+     25.134786
+    ]
+   },
+   "properties": {
+    "id": "d0074",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.525,
+    "length_m": 39.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.605005,
+     24.722671
+    ]
+   },
+   "properties": {
+    "id": "d0075",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.519,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "665474974",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.538228,
+     24.958759
+    ]
+   },
+   "properties": {
+    "id": "d0076",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.518,
+    "length_m": 99.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "599957174",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.835846,
+     24.886821
+    ]
+   },
+   "properties": {
+    "id": "d0077",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.513,
+    "length_m": 19.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.697229,
+     24.84788
+    ]
+   },
+   "properties": {
+    "id": "d0078",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.51,
+    "length_m": 99.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "474333509",
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.563761,
+     25.07563
+    ]
+   },
+   "properties": {
+    "id": "d0079",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.506,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "450308838",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.91556,
+     24.949616
+    ]
+   },
+   "properties": {
+    "id": "d0080",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.501,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "487971960",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.528788,
+     24.62611
+    ]
+   },
+   "properties": {
+    "id": "d0081",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.501,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "694465265",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.049588,
+     25.148586
+    ]
+   },
+   "properties": {
+    "id": "d0082",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.5,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "425907437",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.565979,
+     24.680772
+    ]
+   },
+   "properties": {
+    "id": "d0083",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.499,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "562495072",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.979238,
+     24.974961
+    ]
+   },
+   "properties": {
+    "id": "d0084",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.498,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "453365148",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.482837,
+     24.617011
+    ]
+   },
+   "properties": {
+    "id": "d0085",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.496,
+    "length_m": 59.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "584496547",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.460007,
+     24.629514
+    ]
+   },
+   "properties": {
+    "id": "d0086",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.494,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "420306810",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.907662,
+     24.957493
+    ]
+   },
+   "properties": {
+    "id": "d0087",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.49,
+    "length_m": 79.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "489419166",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.806215,
+     24.86863
+    ]
+   },
+   "properties": {
+    "id": "d0088",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.49,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "446665773",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.661993,
+     25.298633
+    ]
+   },
+   "properties": {
+    "id": "d0089",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.485,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "432832960",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.523268,
+     24.603545
+    ]
+   },
+   "properties": {
+    "id": "d0090",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.482,
+    "length_m": 119.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "555596360",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.123112,
+     25.211942
+    ]
+   },
+   "properties": {
+    "id": "d0091",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.48,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "516637108",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.549988,
+     24.708891
+    ]
+   },
+   "properties": {
+    "id": "d0092",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.479,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "540078499",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.849214,
+     24.900647
+    ]
+   },
+   "properties": {
+    "id": "d0093",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.477,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "461746812",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.605482,
+     24.733286
+    ]
+   },
+   "properties": {
+    "id": "d0094",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.477,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "682295162",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.637765,
+     24.706133
+    ]
+   },
+   "properties": {
+    "id": "d0095",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.477,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "613649714",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.666237,
+     25.299146
+    ]
+   },
+   "properties": {
+    "id": "d0096",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.475,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "515907404",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.530087,
+     24.631846
+    ]
+   },
+   "properties": {
+    "id": "d0097",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.475,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "594155120",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.592428,
+     24.717033
+    ]
+   },
+   "properties": {
+    "id": "d0098",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.474,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "661940073",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.083073,
+     25.124235
+    ]
+   },
+   "properties": {
+    "id": "d0099",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.473,
+    "length_m": 99.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "679832498",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.56767,
+     24.63544
+    ]
+   },
+   "properties": {
+    "id": "d0100",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.47,
+    "length_m": 119.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "667598414",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.490829,
+     24.608068
+    ]
+   },
+   "properties": {
+    "id": "d0101",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.468,
+    "length_m": 39.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.882325,
+     24.963481
+    ]
+   },
+   "properties": {
+    "id": "d0102",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.466,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "517452915",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.659715,
+     25.297101
+    ]
+   },
+   "properties": {
+    "id": "d0103",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.464,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "570864234",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.665257,
+     25.295031
+    ]
+   },
+   "properties": {
+    "id": "d0104",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.461,
+    "length_m": 29.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.807808,
+     24.871528
+    ]
+   },
+   "properties": {
+    "id": "d0105",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.461,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "483701052",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.656306,
+     25.298728
+    ]
+   },
+   "properties": {
+    "id": "d0106",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.459,
+    "length_m": 29.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.582073,
+     24.748966
+    ]
+   },
+   "properties": {
+    "id": "d0107",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.455,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "435626287",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.990076,
+     25.049988
+    ]
+   },
+   "properties": {
+    "id": "d0108",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.452,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "435623901",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.51624,
+     24.685222
+    ]
+   },
+   "properties": {
+    "id": "d0109",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.447,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "640834436",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.881503,
+     24.968829
+    ]
+   },
+   "properties": {
+    "id": "d0110",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.446,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "608611334",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.682824,
+     24.875375
+    ]
+   },
+   "properties": {
+    "id": "d0111",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.441,
+    "length_m": 19.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.891692,
+     24.974391
+    ]
+   },
+   "properties": {
+    "id": "d0112",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.44,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "448665677",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.889359,
+     24.955052
+    ]
+   },
+   "properties": {
+    "id": "d0113",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.44,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "440994444",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.881986,
+     24.965026
+    ]
+   },
+   "properties": {
+    "id": "d0114",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.439,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "687449438",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.480806,
+     24.616881
+    ]
+   },
+   "properties": {
+    "id": "d0115",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.435,
+    "length_m": 19.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.881532,
+     24.967242
+    ]
+   },
+   "properties": {
+    "id": "d0116",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.434,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "647355268",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.640958,
+     24.742433
+    ]
+   },
+   "properties": {
+    "id": "d0117",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.431,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "410996072",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.122973,
+     25.207357
+    ]
+   },
+   "properties": {
+    "id": "d0118",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.43,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "672117203",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.902137,
+     24.962462
+    ]
+   },
+   "properties": {
+    "id": "d0119",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.428,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "540664220",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.896492,
+     24.974987
+    ]
+   },
+   "properties": {
+    "id": "d0120",
+    "scene_id": "S1C_20261027T021440",
+    "timestamp": "2026-10-27T02:14:40Z",
+    "confidence": 0.412,
+    "length_m": 29.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.59114,
+     24.953565
+    ]
+   },
+   "properties": {
+    "id": "d0121",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.848,
+    "length_m": 279.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "471243818",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.670283,
+     25.221299
+    ]
+   },
+   "properties": {
+    "id": "d0122",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.838,
+    "length_m": 239.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "586115955",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.576099,
+     25.190448
+    ]
+   },
+   "properties": {
+    "id": "d0123",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.824,
+    "length_m": 189.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "459591019",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.650709,
+     24.844354
+    ]
+   },
+   "properties": {
+    "id": "d0124",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.777,
+    "length_m": 139.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.012331,
+     25.07129
+    ]
+   },
+   "properties": {
+    "id": "d0125",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.764,
+    "length_m": 159.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "523745273",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.591032,
+     24.938925
+    ]
+   },
+   "properties": {
+    "id": "d0126",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.758,
+    "length_m": 209.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "559121231",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.623144,
+     24.821516
+    ]
+   },
+   "properties": {
+    "id": "d0127",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.746,
+    "length_m": 89.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "557734568",
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.476449,
+     24.957748
+    ]
+   },
+   "properties": {
+    "id": "d0128",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.727,
+    "length_m": 49.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.886868,
+     24.966982
+    ]
+   },
+   "properties": {
+    "id": "d0129",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.721,
+    "length_m": 129.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.550691,
+     25.076406
+    ]
+   },
+   "properties": {
+    "id": "d0130",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.713,
+    "length_m": 189.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "501537038",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.543522,
+     25.216655
+    ]
+   },
+   "properties": {
+    "id": "d0131",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.702,
+    "length_m": 119.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "502261860",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.640786,
+     24.846986
+    ]
+   },
+   "properties": {
+    "id": "d0132",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.695,
+    "length_m": 169.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "423966402",
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.852458,
+     25.147588
+    ]
+   },
+   "properties": {
+    "id": "d0133",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.689,
+    "length_m": 139.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.991324,
+     25.069598
+    ]
+   },
+   "properties": {
+    "id": "d0134",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.688,
+    "length_m": 59.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "679206793",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.53511,
+     24.948792
+    ]
+   },
+   "properties": {
+    "id": "d0135",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.687,
+    "length_m": 129.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "450184662",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.601519,
+     24.733398
+    ]
+   },
+   "properties": {
+    "id": "d0136",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.669,
+    "length_m": 149.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "669730849",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.02927,
+     25.041324
+    ]
+   },
+   "properties": {
+    "id": "d0137",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.652,
+    "length_m": 79.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "460905266",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.819937,
+     25.152413
+    ]
+   },
+   "properties": {
+    "id": "d0138",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.63,
+    "length_m": 189.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "445114365",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.536456,
+     24.704255
+    ]
+   },
+   "properties": {
+    "id": "d0139",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.627,
+    "length_m": 49.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.540989,
+     24.932802
+    ]
+   },
+   "properties": {
+    "id": "d0140",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.625,
+    "length_m": 189.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "416482390",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.753816,
+     24.870182
+    ]
+   },
+   "properties": {
+    "id": "d0141",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.596,
+    "length_m": 109.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "666623394",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.52625,
+     24.744918
+    ]
+   },
+   "properties": {
+    "id": "d0142",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.589,
+    "length_m": 49.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "626660856",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.0503,
+     25.065401
+    ]
+   },
+   "properties": {
+    "id": "d0143",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.586,
+    "length_m": 79.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "561683488",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.045055,
+     25.06097
+    ]
+   },
+   "properties": {
+    "id": "d0144",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.574,
+    "length_m": 79.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "592872654",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.011496,
+     25.072641
+    ]
+   },
+   "properties": {
+    "id": "d0145",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.573,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "581390092",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.121107,
+     25.194691
+    ]
+   },
+   "properties": {
+    "id": "d0146",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.554,
+    "length_m": 89.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.582349,
+     24.749186
+    ]
+   },
+   "properties": {
+    "id": "d0147",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.544,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "509946223",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.129147,
+     25.153389
+    ]
+   },
+   "properties": {
+    "id": "d0148",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.539,
+    "length_m": 59.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "403857184",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.566041,
+     24.880461
+    ]
+   },
+   "properties": {
+    "id": "d0149",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.53,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "525017426",
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.584972,
+     24.753005
+    ]
+   },
+   "properties": {
+    "id": "d0150",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.526,
+    "length_m": 59.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "519624194",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.547435,
+     24.712612
+    ]
+   },
+   "properties": {
+    "id": "d0151",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.51,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "538630187",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.906217,
+     25.106335
+    ]
+   },
+   "properties": {
+    "id": "d0152",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.509,
+    "length_m": 69.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "654138798",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.549701,
+     24.726512
+    ]
+   },
+   "properties": {
+    "id": "d0153",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.499,
+    "length_m": 40.0,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.660489,
+     24.753786
+    ]
+   },
+   "properties": {
+    "id": "d0154",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.499,
+    "length_m": 129.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "575548274",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.600139,
+     25.069974
+    ]
+   },
+   "properties": {
+    "id": "d0155",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.498,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "565228735",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.584631,
+     24.749348
+    ]
+   },
+   "properties": {
+    "id": "d0156",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.494,
+    "length_m": 30.0,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.042239,
+     25.044031
+    ]
+   },
+   "properties": {
+    "id": "d0157",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.486,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "556261389",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.514545,
+     24.672026
+    ]
+   },
+   "properties": {
+    "id": "d0158",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.475,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "411032494",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.044262,
+     25.045726
+    ]
+   },
+   "properties": {
+    "id": "d0159",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.473,
+    "length_m": 69.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "560731989",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.524799,
+     24.743918
+    ]
+   },
+   "properties": {
+    "id": "d0160",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.471,
+    "length_m": 30.0,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.040235,
+     25.063046
+    ]
+   },
+   "properties": {
+    "id": "d0161",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.468,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "598242827",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.041072,
+     25.071955
+    ]
+   },
+   "properties": {
+    "id": "d0162",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.467,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "404524539",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.125488,
+     25.205822
+    ]
+   },
+   "properties": {
+    "id": "d0163",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.465,
+    "length_m": 59.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "509516444",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.538441,
+     24.735539
+    ]
+   },
+   "properties": {
+    "id": "d0164",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.46,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "499567113",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.04272,
+     25.045372
+    ]
+   },
+   "properties": {
+    "id": "d0165",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.46,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "482613068",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.56829,
+     24.877906
+    ]
+   },
+   "properties": {
+    "id": "d0166",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.457,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "626400776",
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.057161,
+     25.064695
+    ]
+   },
+   "properties": {
+    "id": "d0167",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.457,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "680970667",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.472829,
+     24.970393
+    ]
+   },
+   "properties": {
+    "id": "d0168",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.457,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "659463262",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.532293,
+     24.732695
+    ]
+   },
+   "properties": {
+    "id": "d0169",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.451,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "641102486",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.046465,
+     25.0627
+    ]
+   },
+   "properties": {
+    "id": "d0170",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.449,
+    "length_m": 40.0,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.533887,
+     24.733252
+    ]
+   },
+   "properties": {
+    "id": "d0171",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.448,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "653099697",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.050368,
+     25.062381
+    ]
+   },
+   "properties": {
+    "id": "d0172",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.445,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "691918629",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.036838,
+     25.062378
+    ]
+   },
+   "properties": {
+    "id": "d0173",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.445,
+    "length_m": 40.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "464870979",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.850473,
+     24.899863
+    ]
+   },
+   "properties": {
+    "id": "d0174",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.439,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "613904731",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.045683,
+     25.081175
+    ]
+   },
+   "properties": {
+    "id": "d0175",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.439,
+    "length_m": 69.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "454777864",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.628064,
+     24.709542
+    ]
+   },
+   "properties": {
+    "id": "d0176",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.431,
+    "length_m": 20.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "505243283",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.125324,
+     25.149623
+    ]
+   },
+   "properties": {
+    "id": "d0177",
+    "scene_id": "S1D_20261030T142416",
+    "timestamp": "2026-10-30T14:24:16Z",
+    "confidence": 0.423,
+    "length_m": 30.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "564069861",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.901031,
+     25.116787
+    ]
+   },
+   "properties": {
+    "id": "d0178",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.903,
+    "length_m": 99.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "549580074",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.5412,
+     25.216908
+    ]
+   },
+   "properties": {
+    "id": "d0179",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.798,
+    "length_m": 109.3,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "484326299",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.989676,
+     25.069456
+    ]
+   },
+   "properties": {
+    "id": "d0180",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.768,
+    "length_m": 69.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "651224900",
+    "port": "Jebel Ali",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.854256,
+     25.129114
+    ]
+   },
+   "properties": {
+    "id": "d0181",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.759,
+    "length_m": 178.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "653760396",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.825706,
+     25.076032
+    ]
+   },
+   "properties": {
+    "id": "d0182",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.757,
+    "length_m": 79.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "669276819",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.849277,
+     25.147223
+    ]
+   },
+   "properties": {
+    "id": "d0183",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.727,
+    "length_m": 149.1,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "561160676",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.737767,
+     25.248584
+    ]
+   },
+   "properties": {
+    "id": "d0184",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.716,
+    "length_m": 169.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "515810541",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.594686,
+     25.208762
+    ]
+   },
+   "properties": {
+    "id": "d0185",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.712,
+    "length_m": 159.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "405427812",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.614662,
+     24.922717
+    ]
+   },
+   "properties": {
+    "id": "d0186",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.677,
+    "length_m": 59.6,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.867461,
+     25.138992
+    ]
+   },
+   "properties": {
+    "id": "d0187",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.675,
+    "length_m": 169.0,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.74566,
+     25.230521
+    ]
+   },
+   "properties": {
+    "id": "d0188",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.672,
+    "length_m": 159.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "612125996",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.550246,
+     25.067942
+    ]
+   },
+   "properties": {
+    "id": "d0189",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.671,
+    "length_m": 99.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "545131097",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.816732,
+     25.152796
+    ]
+   },
+   "properties": {
+    "id": "d0190",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.667,
+    "length_m": 188.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.890714,
+     25.118827
+    ]
+   },
+   "properties": {
+    "id": "d0191",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.665,
+    "length_m": 89.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "554578079",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.87303,
+     25.216661
+    ]
+   },
+   "properties": {
+    "id": "d0192",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.664,
+    "length_m": 79.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "606228306",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.636083,
+     25.25183
+    ]
+   },
+   "properties": {
+    "id": "d0193",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.664,
+    "length_m": 69.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "633683951",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.643138,
+     24.94796
+    ]
+   },
+   "properties": {
+    "id": "d0194",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.663,
+    "length_m": 129.2,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "569689700",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.550181,
+     25.075911
+    ]
+   },
+   "properties": {
+    "id": "d0195",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.662,
+    "length_m": 169.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "608775747",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.797883,
+     25.163505
+    ]
+   },
+   "properties": {
+    "id": "d0196",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.661,
+    "length_m": 119.3,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "505331209",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.574532,
+     24.714262
+    ]
+   },
+   "properties": {
+    "id": "d0197",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.658,
+    "length_m": 69.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "608492529",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.573213,
+     25.19059
+    ]
+   },
+   "properties": {
+    "id": "d0198",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.653,
+    "length_m": 159.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "595211720",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.477574,
+     24.612571
+    ]
+   },
+   "properties": {
+    "id": "d0199",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.649,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "559733685",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.885056,
+     24.967954
+    ]
+   },
+   "properties": {
+    "id": "d0200",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.647,
+    "length_m": 99.4,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "552698967",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.749291,
+     25.20664
+    ]
+   },
+   "properties": {
+    "id": "d0201",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.644,
+    "length_m": 159.0,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "428958827",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.77538,
+     25.201686
+    ]
+   },
+   "properties": {
+    "id": "d0202",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.641,
+    "length_m": 198.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "693765895",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.902911,
+     25.106504
+    ]
+   },
+   "properties": {
+    "id": "d0203",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.636,
+    "length_m": 119.3,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.684526,
+     24.90764
+    ]
+   },
+   "properties": {
+    "id": "d0204",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.633,
+    "length_m": 89.4,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.552023,
+     24.591786
+    ]
+   },
+   "properties": {
+    "id": "d0205",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.627,
+    "length_m": 69.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "515652513",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.65166,
+     24.747833
+    ]
+   },
+   "properties": {
+    "id": "d0206",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.614,
+    "length_m": 79.5,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "587798646",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.595721,
+     25.211897
+    ]
+   },
+   "properties": {
+    "id": "d0207",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.604,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "629643617",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.550364,
+     25.086121
+    ]
+   },
+   "properties": {
+    "id": "d0208",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.602,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "518633950",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.472688,
+     24.618778
+    ]
+   },
+   "properties": {
+    "id": "d0209",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.598,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "445967175",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.602685,
+     24.847026
+    ]
+   },
+   "properties": {
+    "id": "d0210",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.592,
+    "length_m": 59.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "574560070",
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.644221,
+     25.273118
+    ]
+   },
+   "properties": {
+    "id": "d0211",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.566,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "443011921",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.649499,
+     25.26825
+    ]
+   },
+   "properties": {
+    "id": "d0212",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.559,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "508244766",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.028062,
+     25.104302
+    ]
+   },
+   "properties": {
+    "id": "d0213",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.553,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "677508866",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.823692,
+     25.07604
+    ]
+   },
+   "properties": {
+    "id": "d0214",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.549,
+    "length_m": 79.5,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.474716,
+     24.612577
+    ]
+   },
+   "properties": {
+    "id": "d0215",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.549,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "423892313",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.643008,
+     25.266614
+    ]
+   },
+   "properties": {
+    "id": "d0216",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.548,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "665912449",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.581875,
+     24.748951
+    ]
+   },
+   "properties": {
+    "id": "d0217",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.545,
+    "length_m": 59.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "664989807",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.646114,
+     25.273739
+    ]
+   },
+   "properties": {
+    "id": "d0218",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.529,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "453005498",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.124124,
+     25.21571
+    ]
+   },
+   "properties": {
+    "id": "d0219",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.525,
+    "length_m": 39.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.46427,
+     24.632969
+    ]
+   },
+   "properties": {
+    "id": "d0220",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.523,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "441415999",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.607066,
+     25.240898
+    ]
+   },
+   "properties": {
+    "id": "d0221",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.521,
+    "length_m": 59.6,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.523419,
+     24.603506
+    ]
+   },
+   "properties": {
+    "id": "d0222",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.521,
+    "length_m": 69.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "496845819",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.500908,
+     24.612116
+    ]
+   },
+   "properties": {
+    "id": "d0223",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.518,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "549784847",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.64422,
+     25.264367
+    ]
+   },
+   "properties": {
+    "id": "d0224",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.516,
+    "length_m": 29.8,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.459869,
+     24.629505
+    ]
+   },
+   "properties": {
+    "id": "d0225",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.515,
+    "length_m": 39.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "469698115",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.474839,
+     24.95692
+    ]
+   },
+   "properties": {
+    "id": "d0226",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.503,
+    "length_m": 109.3,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "637180782",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.521836,
+     24.604373
+    ]
+   },
+   "properties": {
+    "id": "d0227",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.498,
+    "length_m": 59.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "546322138",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.85788,
+     24.899457
+    ]
+   },
+   "properties": {
+    "id": "d0228",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.482,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "453096944",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.835765,
+     24.886876
+    ]
+   },
+   "properties": {
+    "id": "d0229",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.482,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "403457043",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.864654,
+     25.094591
+    ]
+   },
+   "properties": {
+    "id": "d0230",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.468,
+    "length_m": 59.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "465387598",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.648246,
+     25.274041
+    ]
+   },
+   "properties": {
+    "id": "d0231",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.465,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "592685473",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.569885,
+     25.213195
+    ]
+   },
+   "properties": {
+    "id": "d0232",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.464,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "551487305",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.638934,
+     24.737226
+    ]
+   },
+   "properties": {
+    "id": "d0233",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.464,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "678181432",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.54599,
+     24.745565
+    ]
+   },
+   "properties": {
+    "id": "d0234",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.464,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "657842816",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.468492,
+     24.633763
+    ]
+   },
+   "properties": {
+    "id": "d0235",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.461,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "696955527",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.459931,
+     24.631078
+    ]
+   },
+   "properties": {
+    "id": "d0236",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.46,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "553279752",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.651195,
+     25.263643
+    ]
+   },
+   "properties": {
+    "id": "d0237",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.457,
+    "length_m": 19.9,
+    "ais_matched": false,
+    "dark": true,
+    "mmsi": null,
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.907514,
+     24.957688
+    ]
+   },
+   "properties": {
+    "id": "d0238",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.455,
+    "length_m": 69.6,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "472789372",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.480731,
+     24.616845
+    ]
+   },
+   "properties": {
+    "id": "d0239",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.453,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "457989516",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.056218,
+     25.095729
+    ]
+   },
+   "properties": {
+    "id": "d0240",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.452,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "606484109",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.482287,
+     24.6171
+    ]
+   },
+   "properties": {
+    "id": "d0241",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.451,
+    "length_m": 29.8,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "514599359",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.630589,
+     24.710151
+    ]
+   },
+   "properties": {
+    "id": "d0242",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.45,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "662636787",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.652258,
+     25.272406
+    ]
+   },
+   "properties": {
+    "id": "d0243",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.446,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "487529949",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.671774,
+     24.846595
+    ]
+   },
+   "properties": {
+    "id": "d0244",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.437,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "658189321",
+    "port": "Khalifa Port",
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.654469,
+     25.273347
+    ]
+   },
+   "properties": {
+    "id": "d0245",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.432,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "473789835",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.528821,
+     24.626081
+    ]
+   },
+   "properties": {
+    "id": "d0246",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.43,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "556620354",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.469842,
+     24.639546
+    ]
+   },
+   "properties": {
+    "id": "d0247",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.428,
+    "length_m": 49.7,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "534007794",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.565984,
+     24.680797
+    ]
+   },
+   "properties": {
+    "id": "d0248",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.427,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "521288362",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.531719,
+     24.632819
+    ]
+   },
+   "properties": {
+    "id": "d0249",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.415,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "591318194",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.631806,
+     24.588099
+    ]
+   },
+   "properties": {
+    "id": "d0250",
+    "scene_id": "S1D_20261102T021455",
+    "timestamp": "2026-11-02T02:14:55Z",
+    "confidence": 0.402,
+    "length_m": 19.9,
+    "ais_matched": true,
+    "dark": false,
+    "mmsi": "589740685",
+    "port": null,
+    "ais_source": "simulated"
+   }
+  }
+ ]
+}

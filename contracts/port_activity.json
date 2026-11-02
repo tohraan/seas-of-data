@@ -1,0 +1,58 @@
+[
+ {
+  "port": "Jebel Ali",
+  "date": "2026-10-24",
+  "vessel_count": 5,
+  "berth_occupancy_pct": 8.3,
+  "activity_index": 111.1
+ },
+ {
+  "port": "Khalifa Port",
+  "date": "2026-10-24",
+  "vessel_count": 0,
+  "berth_occupancy_pct": 0.0,
+  "activity_index": 0.0
+ },
+ {
+  "port": "Jebel Ali",
+  "date": "2026-10-27",
+  "vessel_count": 4,
+  "berth_occupancy_pct": 6.7,
+  "activity_index": 88.9
+ },
+ {
+  "port": "Khalifa Port",
+  "date": "2026-10-27",
+  "vessel_count": 3,
+  "berth_occupancy_pct": 10.0,
+  "activity_index": 120.0
+ },
+ {
+  "port": "Jebel Ali",
+  "date": "2026-10-30",
+  "vessel_count": 15,
+  "berth_occupancy_pct": 25.0,
+  "activity_index": 333.3
+ },
+ {
+  "port": "Khalifa Port",
+  "date": "2026-10-30",
+  "vessel_count": 5,
+  "berth_occupancy_pct": 16.7,
+  "activity_index": 200.0
+ },
+ {
+  "port": "Jebel Ali",
+  "date": "2026-11-02",
+  "vessel_count": 1,
+  "berth_occupancy_pct": 1.7,
+  "activity_index": 22.2
+ },
+ {
+  "port": "Khalifa Port",
+  "date": "2026-11-02",
+  "vessel_count": 2,
+  "berth_occupancy_pct": 6.7,
+  "activity_index": 80.0
+ }
+]

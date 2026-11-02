@@ -1,0 +1,16 @@
+[project]
+name = "seas-of-data-ml"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "ultralytics",
+  "rasterio",
+  "numpy",
+  "shapely",
+  "jsonschema",
+  "requests",
+  "python-dotenv",
+  "pillow",
+  "matplotlib",
+  "scipy",
+]

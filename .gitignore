@@ -12,3 +12,6 @@ node_modules/
 dist/
 *.FCBak
 *.blend1
+runs/
+ml/*.log
+.claude/
