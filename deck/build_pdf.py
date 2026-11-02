@@ -5,7 +5,15 @@ Image assets uploaded to the artifact (/_blob/<id>) are mapped to local files in
 import json, sys
 from pathlib import Path
 
-ASSETS = {"/_blob/b65252db3b927d8ee32cdc1605a493b6": "demo_20261102.png"}
+ASSETS = {
+    "/_blob/b65252db3b927d8ee32cdc1605a493b6": "demo_20261102.png",
+    "/_blob/461591161f07ae74e670f49ec2a33949": "radar_raw.png",
+    "/_blob/df4c273b6b8c45b1eeb5a62f57038304": "radar_seamask.png",
+    "/_blob/68c2ae49e2455da8f63f537faa398e62": "radar_zoom.png",
+    "/_blob/cad11cd05cf8579dcca29cec4ddbb73f": "ship_chips.png",
+    "/_blob/20f19d6291c317ab6c264c862b72c922": "buoy_hero.png",
+    "/_blob/72b5585bd0c87bb94d98e04e08eed6d7": "dashboard.png",
+}
 deck, out = Path(sys.argv[1]), Path(sys.argv[2]); out.mkdir(parents=True, exist_ok=True)
 fig = Path(__file__).resolve().parent / "figures"
 idx = json.loads((deck / "project/deck.json").read_text())
