@@ -7,8 +7,21 @@ import pandas as pd
 import pytest
 from streamlit.testing.v1 import AppTest
 
-from analysis import PORT_POSITIONS, enrich, health_checks, port_etas, reach_km, repeat_locations
-from data import CONTRACTS_DIR, ContractError, load_detections, load_port_activity, summarise
+from analysis import (
+    PORT_POSITIONS,
+    enrich,
+    health_checks,
+    port_etas,
+    reach_km,
+    repeat_locations,
+)
+from data import (
+    CONTRACTS_DIR,
+    ContractError,
+    load_detections,
+    load_port_activity,
+    summarise,
+)
 
 APP = Path(__file__).resolve().parent.parent / "app.py"
 

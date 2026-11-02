@@ -16,7 +16,13 @@ from analysis import (
     reach_km,
     repeat_locations,
 )
-from data import ContractError, ais_is_simulated, load_detections, load_port_activity, summarise
+from data import (
+    ContractError,
+    ais_is_simulated,
+    load_detections,
+    load_port_activity,
+    summarise,
+)
 
 DARK_VESSEL = [208, 59, 59]
 AIS_VESSEL = [57, 135, 229]
@@ -173,9 +179,9 @@ def render_watchlist(frame: pd.DataFrame, total_passes: int) -> None:
         column_config=detection_columns(float(frame["length_m"].max())),
     )
     st.caption(
-        f"High means a strong radar score (0.60 or more) and 50 m or longer. Medium means one of those, or inside a port area. "
-        f"A spot seen in 3 or more passes drops one level, because it may be anchored or a fixed structure. "
-        f"These thresholds are our own starting rules, not calibrated."
+        "High means a strong radar score (0.60 or more) and 50 m or longer. Medium means one of those, or inside a port area. "
+        "A spot seen in 3 or more passes drops one level, because it may be anchored or a fixed structure. "
+        "These thresholds are our own starting rules, not calibrated."
     )
     download_button(dark, "watchlist.csv", "watchlist_csv")
 
