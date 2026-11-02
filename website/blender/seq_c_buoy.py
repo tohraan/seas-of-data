@@ -199,4 +199,5 @@ def main():
     render_frames(SEQ, *FRAMES)
 
 
-main()
+if __name__ == "__main__":
+    main()

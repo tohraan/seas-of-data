@@ -1,4 +1,4 @@
-"""Procedural container ship, about 210 m long, bow toward +X, waterline at z = 0, built from code so no model download is needed."""
+"""Procedural container ship or crude tanker, about 210 m long, bow toward +X, waterline at z = 0, built from code so no model download is needed."""
 import math
 import random
 
@@ -272,7 +272,61 @@ def cyl_obj(name, centre, radius, depth, material, parent, rotation=(0, 0, 0), v
     return o
 
 
-def build_ship(name="Ship", seed=3):
+def deck_plate(z, inset=0.6, n=80):
+    """Flat deck following the sheer line, slightly inside the hull edge."""
+    aft, fwd = x_limits(z)
+    bm = bmesh.new()
+    xs = [aft + 0.5 + (fwd - aft - 1.5) * i / (n - 1) for i in range(n)]
+    sb = [bm.verts.new((x, -max(half_breadth(x, z) - inset, 0.05), z)) for x in xs]
+    ps = [bm.verts.new((x, max(half_breadth(x, z) - inset, 0.05), z)) for x in xs]
+    for i in range(n - 1):
+        bm.faces.new((sb[i], sb[i + 1], ps[i + 1], ps[i]))
+    me = bpy.data.meshes.new("Deck")
+    bm.to_mesh(me)
+    bm.free()
+    return me
+
+
+def tanker_deck(root, steel, white):
+    """Crude tanker deck: red deck plate, centre-line pipe rack and catwalk, tank hatches, midship manifold
+    and two hose cranes."""
+    deck = bpy.data.objects.new("TankerDeck", deck_plate(DECK_Z + 0.05))
+    bpy.context.collection.objects.link(deck)
+    deck.data.materials.append(simple_material("DeckRed", (0.20, 0.035, 0.025), roughness=0.75))
+    deck.parent = root
+    pipe = simple_material("PipeGrey", (0.42, 0.44, 0.42), metallic=0.3, roughness=0.5)
+    green = simple_material("ManifoldGreen", (0.10, 0.25, 0.14), roughness=0.5)
+    x0, x1 = -72.0, 88.0
+    for i, (y, r) in enumerate(((-2.2, 0.35), (-1.3, 0.45), (-0.3, 0.3), (0.6, 0.45), (1.6, 0.3), (2.4, 0.25))):
+        cyl_obj(f"Pipe{i}", ((x0 + x1) / 2, y, DECK_Z + 1.1 + 0.2 * (i % 2)), r, x1 - x0, pipe, root,
+                rotation=(0, math.pi / 2, 0), verts=12)
+    for k, x in enumerate(range(int(x0), int(x1), 8)):
+        box_obj(f"PipeRack{k}", (x, 0, DECK_Z + 0.55), (0.4, 6.0, 1.0), steel, root)
+        box_obj(f"Catwalk{k}", (x, 4.2, DECK_Z + 1.3), (0.3, 0.3, 2.6), steel, root)
+    box_obj("CatwalkDeck", ((x0 + x1) / 2, 4.2, DECK_Z + 2.65), (x1 - x0, 1.4, 0.12), steel, root)
+    for side in (-1, 1):
+        box_obj(f"CatwalkRail{side}", ((x0 + x1) / 2, 4.2 + side * 0.7, DECK_Z + 3.2), (x1 - x0, 0.06, 0.06),
+                white, root)
+    # Tank hatches and vent posts in pairs along each side.
+    for k, x in enumerate(range(-60, 85, 18)):
+        for side in (-1, 1):
+            cyl_obj(f"Hatch{k}{side}", (x, side * 8.5, DECK_Z + 0.45), 0.9, 0.8, green, root, verts=16)
+            cyl_obj(f"Vent{k}{side}", (x + 4, side * 11.0, DECK_Z + 1.8), 0.25, 3.6, white, root, verts=10)
+    # Midship manifold: transverse pipes with risers, and the hose cranes either side.
+    for i in range(4):
+        cyl_obj(f"Manifold{i}", (-6 + i * 2.2, 0, DECK_Z + 1.4), 0.4, 26, green, root, rotation=(math.pi / 2, 0, 0),
+                verts=12)
+        for side in (-1, 1):
+            cyl_obj(f"Riser{i}{side}", (-6 + i * 2.2, side * 13.2, DECK_Z + 0.8), 0.4, 1.4, green, root, verts=12)
+    box_obj("ManifoldPlatform", (-2.7, 0, DECK_Z + 0.25), (11, 28, 0.3), steel, root)
+    for side in (-1, 1):
+        post = cyl_obj(f"CranePost{side}", (-14, side * 11, DECK_Z + 4), 0.6, 8, white, root, verts=16)
+        jib = box_obj(f"CraneJib{side}", (-9, side * 11, DECK_Z + 9.5), (12, 0.5, 0.6), white, root)
+        jib.rotation_euler.y = math.radians(-22)
+    return deck
+
+
+def build_ship(name="Ship", seed=3, kind="container"):
     root = bpy.data.objects.new(name, None)
     bpy.context.collection.objects.link(root)
 
@@ -285,19 +339,22 @@ def build_ship(name="Ship", seed=3):
     ws = hull.modifiers.new("WN", "WEIGHTED_NORMAL")
     ws.keep_sharp = True
 
-    cme, hme = containers(seed)
-    cont = bpy.data.objects.new("Containers", cme)
-    bpy.context.collection.objects.link(cont)
-    cont.data.materials.append(container_material())
-    cont.parent = root
-    hatch = bpy.data.objects.new("HatchCovers", hme)
-    bpy.context.collection.objects.link(hatch)
-    hatch.data.materials.append(simple_material("HatchPaint", (0.10, 0.14, 0.11), roughness=0.6))
-    hatch.parent = root
-
     white = superstructure_material()
     plain = simple_material("PlainWhite", (0.74, 0.74, 0.72), roughness=0.45)
     steel = simple_material("SteelGrey", (0.35, 0.36, 0.37), metallic=0.6, roughness=0.45)
+    if kind == "tanker":
+        tanker_deck(root, steel, plain)
+    else:
+        cme, hme = containers(seed)
+        cont = bpy.data.objects.new("Containers", cme)
+        bpy.context.collection.objects.link(cont)
+        cont.data.materials.append(container_material())
+        cont.parent = root
+        hatch = bpy.data.objects.new("HatchCovers", hme)
+        bpy.context.collection.objects.link(hatch)
+        hatch.data.materials.append(simple_material("HatchPaint", (0.10, 0.14, 0.11), roughness=0.6))
+        hatch.parent = root
+
     dark = simple_material("FunnelBlack", (0.015, 0.015, 0.017), roughness=0.5)
     orange = simple_material("Lifeboat", (0.9, 0.28, 0.02), roughness=0.4, coat=0.5)
     red = simple_material("FunnelBand", (0.35, 0.03, 0.02), roughness=0.4)

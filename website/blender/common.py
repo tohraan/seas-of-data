@@ -175,10 +175,11 @@ def sun_lamp(elevation_deg, rotation_deg, energy=4.0, colour=(1.0, 0.86, 0.72), 
 
 def ocean(name="Ocean", spatial_size=120, repeat=6, wave_scale=1.0, choppiness=1.15, wind=9.0, alignment=0.35,
           direction_deg=30, foam_coverage=0.35, seed=7, resolution=None, extra_foam=None, haze=(0.62, 0.70, 0.78),
-          haze_distance=2200.0, haze_strength=1.0):
+          haze_distance=2200.0, haze_strength=1.0, slick=None):
     """Animated ocean surface with a physically motivated deep-water shader.
 
     extra_foam(tree, coords) may return a 0..1 socket to add wake or contact foam.
+    slick(tree, coords) may return a 0..1 socket marking an oil film (see ocean_material).
     """
     bpy.ops.mesh.primitive_plane_add(size=2, location=(0, 0, 0))
     obj = bpy.context.object
@@ -211,7 +212,7 @@ def ocean(name="Ocean", spatial_size=120, repeat=6, wave_scale=1.0, choppiness=1
     obj.location = (c, c, 0)
     smooth = obj.modifiers.new("Smooth", "NODES")
     smooth.node_group = shade_smooth_group()
-    obj.data.materials.append(ocean_material(extra_foam, haze, haze_distance, haze_strength))
+    obj.data.materials.append(ocean_material(extra_foam, haze, haze_distance, haze_strength, slick))
     return obj, mod
 
 
@@ -260,7 +261,8 @@ def all_fcurves(action):
     return out
 
 
-def ocean_material(extra_foam=None, haze=(0.62, 0.70, 0.78), haze_distance=2200.0, haze_strength=1.0):
+def ocean_material(extra_foam=None, haze=(0.62, 0.70, 0.78), haze_distance=2200.0, haze_strength=1.0, slick=None,
+                   ripple=(0.9, 0.12, 0.2)):
     m, t, p = new_material("OceanWater")
     out = t.nodes["Material Output"]
     p.location = (400, 300)
@@ -278,17 +280,17 @@ def ocean_material(extra_foam=None, haze=(0.62, 0.70, 0.78), haze_distance=2200.
     p.inputs["Subsurface Weight"].default_value = 0.0
 
     # Roughness varies slightly, like wind slicks.
-    slick = node(t, "ShaderNodeTexNoise", (-1100, -200), **{"Scale": 0.004, "Detail": 3.0})
-    link(t, tc.outputs["Object"], slick.inputs["Vector"])
-    rough = ramp(t, slick.outputs["Fac"], [(0.35, (0.025, 0.025, 0.025, 1)), (0.7, (0.075, 0.075, 0.075, 1))])
+    wind = node(t, "ShaderNodeTexNoise", (-1100, -200), **{"Scale": 0.004, "Detail": 3.0})
+    link(t, tc.outputs["Object"], wind.inputs["Vector"])
+    rough = ramp(t, wind.outputs["Fac"], [(0.35, (0.025, 0.025, 0.025, 1)), (0.7, (0.075, 0.075, 0.075, 1))])
     link(t, rough.outputs["Color"], p.inputs["Roughness"])
 
     # Capillary ripples as two bump layers.
-    n1 = node(t, "ShaderNodeTexNoise", (-1100, -500), **{"Scale": 0.9, "Detail": 6.0, "Roughness": 0.55})
+    n1 = node(t, "ShaderNodeTexNoise", (-1100, -500), **{"Scale": ripple[0], "Detail": 6.0, "Roughness": 0.55})
     n2 = node(t, "ShaderNodeTexNoise", (-1100, -750), **{"Scale": 7.0, "Detail": 4.0})
     link(t, tc.outputs["Object"], n1.inputs["Vector"])
     link(t, tc.outputs["Object"], n2.inputs["Vector"])
-    b1 = node(t, "ShaderNodeBump", (-700, -500), **{"Strength": 0.12, "Distance": 0.2})
+    b1 = node(t, "ShaderNodeBump", (-700, -500), **{"Strength": ripple[1], "Distance": ripple[2]})
     b2 = node(t, "ShaderNodeBump", (-500, -600), **{"Strength": 0.06, "Distance": 0.05})
     link(t, n1.outputs["Fac"], b1.inputs["Height"])
     link(t, n2.outputs["Fac"], b2.inputs["Height"])
@@ -313,6 +315,41 @@ def ocean_material(extra_foam=None, haze=(0.62, 0.70, 0.78), haze_distance=2200.
     link(t, p.outputs[0], mix.inputs[1])
     link(t, foam_bsdf.outputs[0], mix.inputs[2])
 
+    if slick:
+        # Oil film: damps the capillary ripples and breaking crests, so the water goes glassy and dark,
+        # with thin-film colour where the film is thin.
+        sm = slick(t, tc)
+        calm = math_node(t, "SUBTRACT", 1.0, sm, clamp=True)
+        film = node(t, "ShaderNodeTexNoise", (-1100, -1000), **{"Scale": 0.05, "Detail": 4.0})
+        link(t, tc.outputs["Object"], film.inputs["Vector"])
+        # Thick patches weather into brown emulsion ("mousse"); the thin sheen around them stays glassy.
+        thick = math_node(t, "MULTIPLY", math_node(t, "SUBTRACT", math_node(t, "MULTIPLY", sm, film.outputs["Fac"]),
+                                                       0.53), 6.0, clamp=True)
+        oil_rough = node(t, "ShaderNodeMix", (0, -100), data_type="FLOAT")
+        link(t, thick, oil_rough.inputs["Factor"])
+        oil_rough.inputs["A"].default_value = 0.004
+        oil_rough.inputs["B"].default_value = 0.35
+        r = node(t, "ShaderNodeMix", (200, -100), data_type="FLOAT")
+        link(t, sm, r.inputs["Factor"])
+        link(t, rough.outputs["Color"], r.inputs["A"])
+        link(t, oil_rough.outputs["Result"], r.inputs["B"])
+        link(t, r.outputs["Result"], p.inputs["Roughness"])
+        link(t, math_node(t, "MULTIPLY", n1.outputs["Fac"], calm), b1.inputs["Height"])
+        link(t, math_node(t, "MULTIPLY", n2.outputs["Fac"], calm), b2.inputs["Height"])
+        oil = node(t, "ShaderNodeMix", (0, 500), data_type="RGBA")
+        link(t, thick, oil.inputs["Factor"])
+        oil.inputs["A"].default_value = (0.006, 0.004, 0.002, 1)
+        oil.inputs["B"].default_value = (0.12, 0.05, 0.016, 1)
+        body = node(t, "ShaderNodeMix", (200, 500), data_type="RGBA")
+        link(t, sm, body.inputs["Factor"])
+        link(t, crest_ramp.outputs["Color"], body.inputs["A"])
+        link(t, oil.outputs["Result"], body.inputs["B"])
+        link(t, body.outputs["Result"], p.inputs["Base Color"])
+        sheen = math_node(t, "MULTIPLY", math_node(t, "SUBTRACT", sm, thick, clamp=True), film.outputs["Fac"])
+        link(t, math_node(t, "MULTIPLY", sheen, 900.0), p.inputs["Thin Film Thickness"])
+        p.inputs["Thin Film IOR"].default_value = 1.5
+        link(t, math_node(t, "MULTIPLY", foam_mask.outputs["Color"], calm), mix.inputs[0])
+
     # Aerial perspective: blend toward the horizon colour with distance, which hides tile repeats.
     cam = node(t, "ShaderNodeCameraData", (600, 700))
     d = math_node(t, "DIVIDE", cam.outputs["View Distance"], haze_distance)
@@ -328,12 +365,13 @@ def ocean_material(extra_foam=None, haze=(0.62, 0.70, 0.78), haze_distance=2200.
     return m
 
 
-def far_sea(z=0.0, size=60000, haze=(0.62, 0.70, 0.78), haze_distance=2200.0, haze_strength=1.0, hole=None):
+def far_sea(z=0.0, size=60000, haze=(0.62, 0.70, 0.78), haze_distance=2200.0, haze_strength=1.0, hole=None, slick=None,
+            ripple=(0.9, 0.12, 0.2)):
     """Flat sea out to the horizon beyond the displaced ocean tiles; same shader minus the displacement."""
     bpy.ops.mesh.primitive_plane_add(size=size, location=(0, 0, z - 0.6))
     obj = bpy.context.object
     obj.name = "FarSea"
-    obj.data.materials.append(ocean_material(None, haze, haze_distance, haze_strength))
+    obj.data.materials.append(ocean_material(None, haze, haze_distance, haze_strength, slick, ripple))
     return obj
 
 

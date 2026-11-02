@@ -1,4 +1,5 @@
-"""Sequence A: water-level view of a container ship under way, craning up to a high aerial view of the ship and its wake.
+"""Sequence A: water-level view of a crude tanker at dawn, AIS off, craning up to a high aerial view of the ship and
+the oil it is pumping over the side.
 
   blender -b -P website/blender/seq_a_ship.py               # all 180 frames
   SEAS_FRAMES=1,90,180 blender -b -P website/blender/seq_a_ship.py
@@ -17,9 +18,9 @@ from ship import BOW_START, HALF_BEAM, LENGTH_AFT, LENGTH_FWD, build_ship  # noq
 
 SEQ = "a"
 FRAMES = (1, 180)
-SUN_EL, SUN_ROT = 10.0, 107.0
-HAZE = (0.50, 0.56, 0.64)
-SPEED = 7.0  # m/s through the water
+SUN_EL, SUN_ROT = 6.0, 107.0
+HAZE = (0.66, 0.56, 0.50)
+SPEED = 4.0  # m/s: slow, as if loitering
 OCEAN_CENTRE_X = -180.0
 
 
@@ -68,15 +69,41 @@ def wake_foam(ship):
     return build
 
 
+def oil_slick(ship):
+    """Discharge from the after manifold: a ribbon that drifts to starboard and spreads, broken into patches by
+    noise locked to the water so it streams away from the ship."""
+    def build(t, tc):
+        stc = node(t, "ShaderNodeTexCoord", (-2000, -1600))
+        stc.object = ship
+        sep = node(t, "ShaderNodeSeparateXYZ", (-1800, -1600))
+        link(t, stc.outputs["Object"], sep.inputs[0])
+        x, y = sep.outputs["X"], sep.outputs["Y"]
+        d = math_node(t, "SUBTRACT", LENGTH_AFT + 30.0, x)
+        dpos = math_node(t, "MAXIMUM", d, 0.0)
+        centre = math_node(t, "SUBTRACT", -10.0, math_node(t, "MULTIPLY", dpos, 0.16))
+        width = math_node(t, "ADD", 8.0, math_node(t, "MULTIPLY", dpos, 0.32))
+        inside = math_node(t, "SUBTRACT", 1.0, math_node(t, "DIVIDE", math_node(t, "ABSOLUTE",
+                           math_node(t, "SUBTRACT", y, centre)), width), clamp=True)
+        fade = math_node(t, "EXPONENT", math_node(t, "DIVIDE", dpos, -900.0))
+        start = math_node(t, "DIVIDE", dpos, 25.0, clamp=True)
+        core = math_node(t, "MULTIPLY", math_node(t, "MULTIPLY", inside, fade), start)
+        blot = node(t, "ShaderNodeTexNoise", (-1400, -1800), **{"Scale": 0.012, "Detail": 6.0, "Roughness": 0.6})
+        link(t, tc.outputs["Object"], blot.inputs["Vector"])
+        v = math_node(t, "ADD", math_node(t, "MULTIPLY", core, 1.8), math_node(t, "MULTIPLY",
+                      math_node(t, "SUBTRACT", blot.outputs["Fac"], 0.5), 1.4))
+        return math_node(t, "MULTIPLY", math_node(t, "SUBTRACT", v, 0.45), 5.0, clamp=True)
+    return build
+
+
 def main():
     scene = reset_scene("SeqA")
-    sky_world(SUN_EL, SUN_ROT, strength=0.14, aerosol=1.6)
-    sun_lamp(SUN_EL, SUN_ROT, energy=2.4, colour=(1.0, 0.74, 0.52))
+    sky_world(SUN_EL, SUN_ROT, strength=0.24, aerosol=2.0)
+    sun_lamp(SUN_EL, SUN_ROT, energy=2.2, colour=(1.0, 0.58, 0.32))
 
-    ship = build_ship()
+    ship = build_ship("Tanker", kind="tanker")
     sea, mod = ocean(spatial_size=150, repeat=8, wave_scale=0.9, choppiness=1.2, wind=10.0, alignment=0.4,
                      direction_deg=200, foam_coverage=0.4, extra_foam=wake_foam(ship), haze=HAZE, haze_distance=5000,
-                     haze_strength=0.6)
+                     haze_strength=0.6, slick=oil_slick(ship))
     far_sea(haze=HAZE, haze_distance=5000, haze_strength=0.6)
     base = sea.location.copy()
     base.x += OCEAN_CENTRE_X
@@ -120,4 +147,5 @@ def main():
     render_frames(SEQ, *FRAMES)
 
 
-main()
+if __name__ == "__main__":
+    main()
