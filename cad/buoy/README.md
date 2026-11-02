@@ -12,6 +12,7 @@ This is a concept design. No structural, stability or mooring analysis has been 
 | `buoy.stl` | Whole buoy as one watertight mesh |
 | `parts/*.stl` | One mesh per part, used for the renders |
 | `build_buoy.py` | Generates all of the above |
+| `../render_buoy.py` | Renders the images in `../renders/`: `hero`, `side`, `top` and `closeup`, plus 1920 px `deck_hero` and `deck_masthead` for slides |
 
 ## Rebuild
 Run from the repo root. Dimensions are named constants at the top of `build_buoy.py`.
