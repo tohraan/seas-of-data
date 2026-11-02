@@ -23,6 +23,15 @@ Read fresh from `contracts/` on every page load:
 - Detections are validated against `contracts/detections.schema.json`. Port activity is validated against the fields listed in `contracts/README.md`, because it has no schema file.
 - If a real file exists but is invalid, the dashboard shows the error for that section. It does not fall back to sample data, so fake numbers can't pass as real ones.
 
+To try the dashboard with files from another folder, without touching `contracts/`, set `SEAS_CONTRACTS_DIR`:
+```bash
+cd dashboard && SEAS_CONTRACTS_DIR=/path/to/contracts uv run streamlit run app.py
+```
+
+## Reading the numbers
+- If detections have `ais_source: "simulated"`, the dark ship labels say so, and a banner explains that the dark share is a simulation parameter, not a finding.
+- Port counts per pass are small, so the chart shows raw counts as bars, with the activity index beside them in the table. The index is not drawn as a trend.
+
 ## Test
 ```bash
 cd dashboard && uv run pytest

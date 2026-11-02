@@ -107,4 +107,32 @@ def test_dark_only_toggle_keeps_stats_and_filters_table():
     app.toggle[0].set_value(True).run()
     assert not app.exception
     assert [m.value for m in app.metric] == ["5", "2", "40.0%"]
-    assert set(app.dataframe[0].value["status"]) == {"Dark vessel"}
+    assert set(app.dataframe[len(app.dataframe) - 1].value["status"]) == {"Dark vessel"}
+
+
+def test_simulated_ais_is_labelled(contracts, monkeypatch):
+    document = sample_document(contracts)
+    for feature in document["features"]:
+        feature["properties"]["ais_source"] = "simulated"
+    (contracts / "detections.geojson").write_text(json.dumps(document))
+    monkeypatch.setenv("SEAS_CONTRACTS_DIR", str(contracts))
+    app = AppTest.from_file(str(APP), default_timeout=30).run()
+    assert not app.exception
+    assert [m.label for m in app.metric] == ["Total ships", "Dark ships (AIS simulated)", "Dark share (AIS simulated)"]
+    assert "AIS is simulated" in app.info[0].value
+    assert set(app.dataframe[len(app.dataframe) - 1].value["status"]) == {"Dark (AIS simulated)", "Matched (AIS simulated)"}
+
+
+def test_real_ais_has_no_simulation_label():
+    app = AppTest.from_file(str(APP), default_timeout=30).run()
+    assert [m.label for m in app.metric] == ["Total ships", "Dark ships", "Dark share"]
+    assert not app.info
+
+
+def test_port_section_shows_counts_beside_index_without_a_trend_line():
+    app = AppTest.from_file(str(APP), default_timeout=30).run()
+    spec = json.loads(app.get("plotly_chart")[0].proto.spec)
+    assert {trace["type"] for trace in spec["data"]} == {"bar"}
+    port_table = app.dataframe[0].value
+    assert {"vessel_count", "activity_index"} <= set(port_table.columns)
+    assert len(port_table) == 3

@@ -1,5 +1,6 @@
 """Load and validate the files in contracts/, the only interface with the ML side."""
 import json
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -10,7 +11,7 @@ CONTRACTS_DIR = Path(__file__).resolve().parent.parent / "contracts"
 
 DETECTION_COLUMNS = [
     "id", "scene_id", "timestamp", "confidence", "length_m",
-    "ais_matched", "dark", "mmsi", "port", "lon", "lat",
+    "ais_matched", "dark", "mmsi", "port", "ais_source", "lon", "lat",
 ]
 
 # contracts/ has no schema for port activity, so this mirrors contracts/README.md.
@@ -41,6 +42,10 @@ class Loaded:
     is_sample: bool
 
 
+def _contracts_dir() -> Path:
+    return Path(os.environ.get("SEAS_CONTRACTS_DIR") or CONTRACTS_DIR)
+
+
 def _resolve(contracts_dir: Path, real: str, sample: str) -> tuple[Path, bool]:
     real_path = contracts_dir / real
     if real_path.exists():
@@ -64,7 +69,8 @@ def _validate(document, schema: dict, name: str) -> None:
         raise ContractError(f"{name}: {len(errors)} validation error(s). First at {where}: {first.message}")
 
 
-def load_detections(contracts_dir: Path = CONTRACTS_DIR) -> Loaded:
+def load_detections(contracts_dir: Path | None = None) -> Loaded:
+    contracts_dir = contracts_dir or _contracts_dir()
     path, is_sample = _resolve(contracts_dir, "detections.geojson", "sample_detections.geojson")
     document = _read_json(path)
     schema = _read_json(contracts_dir / "detections.schema.json")
@@ -87,7 +93,8 @@ def load_detections(contracts_dir: Path = CONTRACTS_DIR) -> Loaded:
     return Loaded(frame, path, is_sample)
 
 
-def load_port_activity(contracts_dir: Path = CONTRACTS_DIR) -> Loaded:
+def load_port_activity(contracts_dir: Path | None = None) -> Loaded:
+    contracts_dir = contracts_dir or _contracts_dir()
     path, is_sample = _resolve(contracts_dir, "port_activity.json", "sample_port_activity.json")
     document = _read_json(path)
     _validate(document, PORT_ACTIVITY_SCHEMA, path.name)
@@ -95,6 +102,10 @@ def load_port_activity(contracts_dir: Path = CONTRACTS_DIR) -> Loaded:
     frame = pd.DataFrame(document, columns=list(PORT_ACTIVITY_SCHEMA["items"]["required"]))
     frame["date"] = pd.to_datetime(frame["date"])
     return Loaded(frame.sort_values(["port", "date"]), path, is_sample)
+
+
+def ais_is_simulated(detections: pd.DataFrame) -> bool:
+    return bool((detections["ais_source"] == "simulated").any())
 
 
 def summarise(detections: pd.DataFrame) -> dict:
