@@ -21,5 +21,16 @@
     "test": 1962
   },
   "source": "Colab run on a T4 (about 0.89 h); numbers copied from the notebook output the user pasted, not re-run locally. best.pt not yet in ml/models/.",
-  "caveat": "HRSID images have finer pixels than Sentinel-1 IW GRD (10 m); no labelled Gulf scenes exist, so Gulf accuracy is not measured."
+  "caveat": "HRSID images have finer pixels than Sentinel-1 IW GRD (10 m); no labelled Gulf scenes exist, so Gulf accuracy is not measured.",
+  "local_fallback_model": {
+    "model": "yolo11n, 15 epochs, trained on the Mac (MPS)",
+    "weights": "ml/runs/local_n15/weights/best.pt (not committed, gitignored)",
+    "dataset": "HRSID official test split",
+    "n_images": 1962,
+    "precision": 0.88,
+    "recall": 0.733,
+    "mAP50": 0.838,
+    "mAP50_95": 0.56,
+    "source": "measured locally with yolo val on 2 Nov 2026"
+  }
 }
