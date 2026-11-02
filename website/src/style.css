@@ -69,7 +69,9 @@ i.t, i.a { font-style: normal; font-weight: 600; }
   position: fixed; inset: 0; z-index: 100;
   display: grid; place-items: center;
   background: var(--ink);
+  transition: opacity 0.7s ease-out, visibility 0.7s;
 }
+.loader.done { opacity: 0; visibility: hidden; }
 .loader-inner { display: grid; gap: 14px; justify-items: center; }
 .loader-brand { font: 400 1.6rem var(--serif); letter-spacing: 0.04em; }
 .loader-bar { width: 160px; height: 1px; background: var(--line); overflow: hidden; }
@@ -239,12 +241,12 @@ i.t, i.a { font-style: normal; font-weight: 600; }
   font: 500 0.72rem var(--mono); color: var(--muted);
 }
 .steps li b { font: 600 0.98rem var(--sans); }
-.steps li span { display: grid; grid-template-rows: 0fr; overflow: hidden; font-size: 0.86rem; color: var(--fg-2); transition: grid-template-rows 0.4s, margin 0.4s; }
+.steps li span { display: block; max-height: 0; overflow: hidden; font-size: 0.86rem; color: var(--fg-2); transition: max-height 0.4s, margin 0.4s; }
 .steps li.done { opacity: 0.7; }
 .steps li.done::before { content: '✓'; color: var(--teal); }
 .steps li.on { opacity: 1; }
 .steps li.on::before { color: var(--teal); }
-.steps li.on span { grid-template-rows: 1fr; margin-top: 4px; }
+.steps li.on span { max-height: 4.8em; margin-top: 4px; }
 .steps li::after { content: ''; position: absolute; left: -29px; top: 10px; bottom: 10px; width: 2px; background: var(--teal); transform: scaleY(0); transition: transform 0.35s; }
 .steps li.on::after { transform: scaleY(1); }
 
@@ -475,9 +477,12 @@ i.t, i.a { font-style: normal; font-weight: 600; }
     left: 12px; right: 12px; top: auto; bottom: 12px; margin: 0; width: auto;
     padding: 18px 18px 14px;
   }
-  .detect-panel .display { font-size: 1.7rem; }
+  .detect-panel .kicker { margin-bottom: 0.4rem; }
+  .detect-panel .display { font-size: 1.5rem; margin-bottom: 0.4rem; }
   .detect-sub { display: none; }
-  .steps li { padding: 7px 0 7px 32px; }
+  .steps li { padding: 6px 0 6px 32px; }
+  .steps li b { font-size: 0.9rem; }
+  .steps li span { font-size: 0.8rem; }
   .steps li::after { left: -18px; }
   .detect-counts { grid-template-columns: 1fr 1fr 1fr; padding: 20px; gap: 6px 12px; }
   .count-label { font-size: 0.6rem; letter-spacing: 0.06em; }

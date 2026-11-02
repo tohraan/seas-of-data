@@ -96,8 +96,9 @@ function heroIntro() {
 function hideLoader() {
   const el = document.querySelector('.loader');
   if (!el || el.classList.contains('done')) return;
+  // A CSS fade and a timer, not a tween: background tabs pause requestAnimationFrame.
   el.classList.add('done');
-  gsap.to(el, { autoAlpha: 0, duration: 0.7, ease: 'power2.out', onComplete: () => el.remove() });
+  setTimeout(() => el.remove(), 800);
   if (!reduced) heroIntro();
 }
 
@@ -220,7 +221,8 @@ async function main() {
   const bar = document.querySelector('.loader-bar i');
   gsap.to(bar, { scaleX: 0.7, duration: 2.5, ease: 'power2.out' });
   Promise.race([first, new Promise((r) => setTimeout(r, 4000))]).then(() => {
-    gsap.to(bar, { scaleX: 1, duration: 0.3, onComplete: hideLoader });
+    gsap.to(bar, { scaleX: 1, duration: 0.3 });
+    setTimeout(hideLoader, 300);
   });
   first.then(() => { seqs.b.load(); seqs.c.load(); });
 

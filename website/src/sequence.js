@@ -48,9 +48,9 @@ export class Sequence {
       }
     };
     const first = (async () => {
+      // onload rather than decode(): decode() can stall in a background tab, and this gates the loader.
       const img = new Image();
-      img.src = this.url(0);
-      await img.decode().catch(() => {});
+      await new Promise((done) => { img.onload = img.onerror = done; img.src = this.url(0); });
       this.frames[0] = img.naturalWidth ? img : null;
       this.draw(0);
     })();

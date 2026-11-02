@@ -7,3 +7,5 @@ node_modules/
 dist/
 .vercel/
 __pycache__/
+.vercel
+.env*
