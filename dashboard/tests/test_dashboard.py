@@ -13,15 +13,24 @@ from data import CONTRACTS_DIR, ContractError, load_detections, load_port_activi
 APP = Path(__file__).resolve().parent.parent / "app.py"
 
 
-@pytest.fixture
-def contracts(tmp_path):
+@pytest.fixture(autouse=True)
+def contracts(tmp_path, monkeypatch):
+    # Every test starts from the sample files, whatever real files are published in contracts/.
     for name in ("detections.schema.json", "sample_detections.geojson", "sample_port_activity.json"):
         shutil.copy(CONTRACTS_DIR / name, tmp_path)
+    monkeypatch.setenv("SEAS_CONTRACTS_DIR", str(tmp_path))
     return tmp_path
 
 
 def sample_document(contracts):
     return json.loads((contracts / "sample_detections.geojson").read_text())
+
+
+def test_published_contract_files_are_valid():
+    if (CONTRACTS_DIR / "detections.geojson").exists():
+        assert not load_detections(CONTRACTS_DIR).is_sample
+    if (CONTRACTS_DIR / "port_activity.json").exists():
+        assert not load_port_activity(CONTRACTS_DIR).is_sample
 
 
 def test_falls_back_to_sample_when_real_file_missing(contracts):
