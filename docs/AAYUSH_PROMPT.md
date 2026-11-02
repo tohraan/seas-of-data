@@ -3,7 +3,7 @@
 Aayush: clone the repo, open Claude Code in the repo folder, and paste everything inside the box below as your first message.
 
 ```bash
-git clone https://github.com/<OWNER>/<REPO>.git && cd <REPO> && git checkout aayush
+git clone https://github.com/tohraan/seas-of-data.git && cd seas-of-data && git checkout aayush
 ```
 
 ---
