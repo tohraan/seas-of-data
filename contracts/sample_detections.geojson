@@ -1,0 +1,7 @@
+{"type":"FeatureCollection","features":[
+{"type":"Feature","geometry":{"type":"Point","coordinates":[55.04,25.01]},"properties":{"id":"d001","scene_id":"SAMPLE_S1A_2026-10-20","timestamp":"2026-10-20T02:14:00Z","confidence":0.93,"length_m":210,"ais_matched":true,"dark":false,"mmsi":"470000001","port":"Jebel Ali"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[55.00,25.06]},"properties":{"id":"d002","scene_id":"SAMPLE_S1A_2026-10-20","timestamp":"2026-10-20T02:14:00Z","confidence":0.88,"length_m":95,"ais_matched":false,"dark":true,"mmsi":null,"port":null}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[56.45,26.55]},"properties":{"id":"d003","scene_id":"SAMPLE_S1A_2026-10-21","timestamp":"2026-10-21T02:20:00Z","confidence":0.97,"length_m":330,"ais_matched":true,"dark":false,"mmsi":"636000002","port":null}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[56.30,26.48]},"properties":{"id":"d004","scene_id":"SAMPLE_S1A_2026-10-21","timestamp":"2026-10-21T02:20:00Z","confidence":0.74,"length_m":60,"ais_matched":false,"dark":true,"mmsi":null,"port":null}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[54.65,24.81]},"properties":{"id":"d005","scene_id":"SAMPLE_S1A_2026-10-22","timestamp":"2026-10-22T02:10:00Z","confidence":0.91,"length_m":180,"ais_matched":true,"dark":false,"mmsi":"477000003","port":"Khalifa Port"}}
+]}

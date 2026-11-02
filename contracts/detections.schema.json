@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ship detections (ML -> dashboard)",
+  "type": "object",
+  "required": ["type", "features"],
+  "properties": {
+    "type": {"const": "FeatureCollection"},
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "geometry", "properties"],
+        "properties": {
+          "type": {"const": "Feature"},
+          "geometry": {"type": "object", "required": ["type", "coordinates"],
+            "properties": {"type": {"const": "Point"}, "coordinates": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2, "description": "[longitude, latitude]"}}},
+          "properties": {
+            "type": "object",
+            "required": ["id", "scene_id", "timestamp", "confidence", "ais_matched", "dark"],
+            "properties": {
+              "id": {"type": "string"},
+              "scene_id": {"type": "string"},
+              "timestamp": {"type": "string", "format": "date-time"},
+              "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+              "length_m": {"type": ["number", "null"]},
+              "ais_matched": {"type": "boolean"},
+              "dark": {"type": "boolean", "description": "true = detected in radar with no AIS match"},
+              "mmsi": {"type": ["string", "null"]},
+              "port": {"type": ["string", "null"]}
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.env
+ml/data/
+ml/runs/
+*.tif
+*.SAFE/
+*.zip
+node_modules/
+dist/
+*.FCBak
+*.blend1
