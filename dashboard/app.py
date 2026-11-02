@@ -118,11 +118,10 @@ def render_map(detections: pd.DataFrame, simulated: bool, density: bool) -> None
     )
 
 
-def detection_rows(frame: pd.DataFrame, simulated: bool, total_passes: int) -> pd.DataFrame:
+def detection_rows(frame: pd.DataFrame, total_passes: int) -> pd.DataFrame:
     rows = by_priority(frame).copy()
-    labels = status_labels(simulated)
     rows["priority_label"] = rows["priority"].map(PRIORITY_LABELS)
-    rows["status"] = rows["dark"].map({True: f"🔴 {labels[True]}", False: f"🔵 {labels[False]}"})
+    rows["status"] = rows["dark"].map({True: "🔴 Dark", False: "🔵 Matched"})
     rows["seen"] = [f"{seen} of {total_passes} passes" for seen in rows["passes_seen"]]
     return rows
 
@@ -133,7 +132,7 @@ def detection_columns(max_length: float) -> dict:
         "id": "ID",
         "status": "Status",
         "reason": st.column_config.TextColumn("Why it's flagged", width="large"),
-        "location": st.column_config.TextColumn("Location", width="medium"),
+        "location": st.column_config.TextColumn("Location", width="large"),
         "size_class": "Size",
         "length_m": st.column_config.ProgressColumn("Length", format="%d m", min_value=0, max_value=max_length),
         "confidence": st.column_config.ProgressColumn("Radar score", format="%.2f", min_value=0, max_value=1),
@@ -152,12 +151,12 @@ def download_button(frame: pd.DataFrame, file_name: str, key: str) -> None:
     st.download_button("Download CSV", by_priority(frame)[columns].to_csv(index=False), file_name, "text/csv", key=key)
 
 
-def render_watchlist(frame: pd.DataFrame, simulated: bool, total_passes: int) -> None:
+def render_watchlist(frame: pd.DataFrame, total_passes: int) -> None:
     dark = frame[frame["dark"]]
     if dark.empty:
         st.info("No dark vessels in this selection.")
         return
-    rows = detection_rows(dark, simulated, total_passes)
+    rows = detection_rows(dark, total_passes)
     for column, (_, row) in zip(st.columns(3), rows.head(3).iterrows()):
         with column.container(border=True):
             st.markdown(f"**{row['priority_label']} · {row['id']}**")
@@ -170,7 +169,7 @@ def render_watchlist(frame: pd.DataFrame, simulated: bool, total_passes: int) ->
         rows,
         hide_index=True,
         width="stretch",
-        column_order=["priority_label", "id", "reason", "location", "length_m", "confidence", "seen", "timestamp", "map_url"],
+        column_order=["priority_label", "id", "map_url", "reason", "location", "length_m", "confidence", "seen", "timestamp"],
         column_config=detection_columns(float(frame["length_m"].max())),
     )
     st.caption(
@@ -181,7 +180,7 @@ def render_watchlist(frame: pd.DataFrame, simulated: bool, total_passes: int) ->
     download_button(dark, "watchlist.csv", "watchlist_csv")
 
 
-def render_detection_table(frame: pd.DataFrame, simulated: bool, total_passes: int) -> None:
+def render_detection_table(frame: pd.DataFrame, total_passes: int) -> None:
     show_column, zone_column, size_column, score_column, search_column = st.columns([1, 2, 2, 2, 2])
     show = show_column.selectbox("Show", ["All", "Dark only", "Matched only"], key="table_show")
     zones = zone_column.multiselect("Area", sorted(frame["zone"].unique()), key="table_zones", placeholder="All areas")
@@ -202,11 +201,11 @@ def render_detection_table(frame: pd.DataFrame, simulated: bool, total_passes: i
 
     st.caption(f"{len(filtered)} of {len(frame)} detections. Sorted by priority, then radar score.")
     st.dataframe(
-        detection_rows(filtered, simulated, total_passes),
+        detection_rows(filtered, total_passes),
         hide_index=True,
         width="stretch",
         height=460,
-        column_order=["priority_label", "id", "status", "location", "size_class", "length_m", "confidence", "seen", "ais_label", "timestamp", "map_url"],
+        column_order=["priority_label", "id", "map_url", "status", "location", "size_class", "length_m", "confidence", "seen", "ais_label", "timestamp"],
         column_config=detection_columns(float(frame["length_m"].max())),
     )
     if not filtered.empty:
@@ -220,13 +219,13 @@ def render_reach(frame: pd.DataFrame) -> None:
         return
     st.markdown(
         "A dark vessel has no heading or speed to project from, so this shows the area it could have reached, not where it is. "
-        "Set how long ago it was seen and how fast it might be going."
+        "Choose how fast it might be going and how far ahead to look."
     )
     options = {f"{row.id}: {row.priority} priority, {row.location}": row for row in dark.itertuples()}
     choice_column, speed_column, hours_column = st.columns([3, 1, 1])
     choice = choice_column.selectbox("Dark vessel", list(options), key="reach_choice")
     speed = speed_column.slider("Assumed speed (knots)", 1, 30, 12, key="reach_speed")
-    hours = hours_column.slider("Hours since seen", 1, 72, 6, key="reach_hours")
+    hours = hours_column.slider("Hours after it was seen", 1, 72, 6, key="reach_hours")
 
     vessel = options[choice]
     radius = reach_km(speed, hours)
@@ -270,8 +269,8 @@ def render_reach(frame: pd.DataFrame) -> None:
             height=MAP_HEIGHT_PX,
         )
     with detail_column:
-        st.metric("Could be up to", f"{radius:,.0f} km away")
-        st.metric("Seen", f"{elapsed:,.0f} hours ago", help="Time since this satellite pass, compared with the clock now.")
+        st.metric(f"After {hours} h, it could be up to", f"{radius:,.0f} km away")
+        st.metric("Last seen", f"{elapsed:,.0f} hours ago", help="Time since this satellite pass, compared with the clock now.")
         st.markdown(f"**Time to reach each port at {speed} knots**")
         st.dataframe(
             etas,
@@ -338,8 +337,8 @@ def render_patterns(frame: pd.DataFrame) -> None:
         st.info("No spot appears in more than one pass.")
         return
     st.markdown(
-        f"**{len(repeats)} spots** were seen in two or more passes. These are likely anchored ships, or fixed structures that "
-        "should be removed from the ship count. A spot that is sometimes dark can't be read as a ship switching AIS off "
+        f"**{len(repeats)} spots** were seen in two or more passes. They could be anchored ships, or fixed structures that "
+        "shouldn't count as ships at all. A spot that is sometimes dark can't be read as a ship switching AIS off "
         "while the AIS is simulated. With real AIS, it would be one of the strongest signals here."
     )
     st.dataframe(
@@ -448,7 +447,8 @@ def render_port_activity() -> None:
     low, high = activity["vessel_count"].min(), activity["vessel_count"].max()
     st.caption(
         f"Counts are small ({low}-{high} vessels per pass), so changes in the activity index "
-        f"between passes are not a trend. Source: contracts/{loaded.path.name}"
+        f"between passes are not a trend. The index compares each pass with that port's own median, and berth % uses "
+        f"assumed port capacities. Source: contracts/{loaded.path.name}"
     )
 
 
@@ -519,10 +519,10 @@ with map_tab:
         render_port_activity()
 
 with watchlist_tab:
-    render_watchlist(selected, simulated, total_passes)
+    render_watchlist(selected, total_passes)
 
 with table_tab:
-    render_detection_table(selected, simulated, total_passes)
+    render_detection_table(selected, total_passes)
 
 with reach_tab:
     render_reach(selected)

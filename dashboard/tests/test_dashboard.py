@@ -167,7 +167,7 @@ def test_simulated_ais_is_labelled(contracts, monkeypatch):
     assert [m.label for m in app.metric][:3] == ["Detections", "Dark (AIS simulated)", "Dark share (AIS simulated)"]
     assert any("AIS is simulated" in info.value for info in app.info)
     table = detections_table(app)
-    assert set(table["status"]) == {"🔴 Dark (AIS simulated)", "🔵 Matched (AIS simulated)"}
+    assert set(table["status"]) == {"🔴 Dark", "🔵 Matched"}
     assert any("(simulated)" in label for label in table["ais_label"])
 
 

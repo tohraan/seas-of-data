@@ -28,7 +28,22 @@ To try the dashboard with files from another folder, without touching `contracts
 cd dashboard && SEAS_CONTRACTS_DIR=/path/to/contracts uv run streamlit run app.py
 ```
 
+## Tabs
+| Tab | What it does |
+|---|---|
+| Map | Detections for the chosen pass, optional busy-area overlay, port activity |
+| Watchlist | Dark vessels ranked by priority, with the reason for each, plus CSV export |
+| All detections | Filter by status, area, size and radar score, search by ID or MMSI, plus CSV export |
+| Where could it be? | The area a dark vessel could have reached at an assumed speed, and time to each port |
+| Patterns | Detections per pass by area and size, and spots seen in more than one pass |
+| Data health | What the data can and can't support, including the fields it lacks |
+
+The derived signals are in `analysis.py`. The priority thresholds, size classes and 300 m repeat radius are our own starting rules and aren't calibrated.
+
 ## Reading the numbers
+- The default view is the latest pass. Across all passes, one ship can be counted several times.
+- The radar score is a detector output, not a probability.
+- No real route or heading-based projection is shown, because the data has no heading, speed or real AIS history. The reach zone is an area the vessel could have reached, not a predicted position.
 - If detections have `ais_source: "simulated"`, the dark ship labels say so, and a banner explains that the dark share is a simulation parameter, not a finding.
 - Port counts per pass are small, so the chart shows raw counts as bars, with the activity index beside them in the table. The index is not drawn as a trend.
 
