@@ -3,9 +3,11 @@ import math
 import shutil
 from pathlib import Path
 
+import pandas as pd
 import pytest
 from streamlit.testing.v1 import AppTest
 
+from analysis import PORT_POSITIONS, enrich, health_checks, port_etas, reach_km, repeat_locations
 from data import CONTRACTS_DIR, ContractError, load_detections, load_port_activity, summarise
 
 APP = Path(__file__).resolve().parent.parent / "app.py"
@@ -71,8 +73,25 @@ def test_malformed_port_activity_is_rejected(contracts):
         load_port_activity(contracts)
 
 
+def run_app():
+    return AppTest.from_file(str(APP), default_timeout=30).run()
+
+
+def run_all_passes():
+    app = run_app()
+    choice = next(option for option in app.selectbox(key="pass_choice").options if option.startswith("All passes"))
+    app.selectbox(key="pass_choice").select(choice).run()
+    assert not app.exception
+    return app
+
+
+def detections_table(app):
+    # The watchlist table comes first and holds the same columns, so the full table is the last match.
+    return [df.value for df in app.dataframe if "priority_label" in df.value.columns][-1]
+
+
 def test_map_payload_uses_literal_pixel_units_and_valid_json():
-    app = AppTest.from_file(str(APP), default_timeout=30).run()
+    app = run_all_passes()
     payload = app.get("deck_gl_json_chart")[0].proto.json
     layers = json.loads(payload, parse_constant=pytest.fail)["layers"]
     assert [len(layer["data"]) for layer in layers] == [3, 2]
@@ -82,7 +101,7 @@ def test_map_payload_uses_literal_pixel_units_and_valid_json():
 
 
 def test_map_view_frames_every_detection():
-    app = AppTest.from_file(str(APP), default_timeout=30).run()
+    app = run_all_passes()
     deck = json.loads(app.get("deck_gl_json_chart")[0].proto.json)
     view = deck["initialViewState"]
     scale = 512 * 2 ** view["zoom"] / 360
@@ -96,18 +115,46 @@ def test_map_view_frames_every_detection():
             assert abs(mercator_y(point["lat"]) - mercator_y(view["latitude"])) * scale < 230
 
 
-def test_app_renders_sample_data():
-    app = AppTest.from_file(str(APP), default_timeout=30).run()
+def test_default_view_is_the_latest_pass_not_a_multi_pass_total():
+    app = run_app()
     assert not app.exception
-    assert [m.value for m in app.metric] == ["5", "2", "40.0%"]
+    assert [m.label for m in app.metric][:4] == ["Detections", "Dark", "Dark share", "High priority"]
+    assert app.metric[0].value == "1"
+    assert run_all_passes().metric[0].value == "5"
 
 
-def test_dark_only_toggle_keeps_stats_and_filters_table():
-    app = AppTest.from_file(str(APP), default_timeout=30).run()
-    app.toggle[0].set_value(True).run()
+def test_dark_only_toggle_keeps_stats():
+    app = run_all_passes()
+    app.toggle(key="dark_only").set_value(True).run()
     assert not app.exception
-    assert [m.value for m in app.metric] == ["5", "2", "40.0%"]
-    assert set(app.dataframe[len(app.dataframe) - 1].value["status"]) == {"Dark vessel"}
+    assert [m.value for m in app.metric][:3] == ["5", "2", "40.0%"]
+    layers = json.loads(app.get("deck_gl_json_chart")[0].proto.json)["layers"]
+    assert [len(layer["data"]) for layer in layers] == [0, 2]
+
+
+def test_density_layer_can_be_turned_on():
+    app = run_all_passes()
+    app.toggle(key="density").set_value(True).run()
+    assert not app.exception
+    layers = json.loads(app.get("deck_gl_json_chart")[0].proto.json)["layers"]
+    assert layers[0]["@@type"] == "HeatmapLayer"
+
+
+def test_table_filters_and_search():
+    app = run_all_passes()
+    app.selectbox(key="table_show").select("Dark only").run()
+    assert not app.exception
+    assert set(detections_table(app)["id"]) == {"d002", "d004"}
+    app.selectbox(key="table_show").select("All").run()
+    app.text_input(key="table_search").set_value("636000002").run()
+    assert set(detections_table(app)["id"]) == {"d003"}
+
+
+def test_table_has_no_blank_mmsi_or_port_labels():
+    table = detections_table(run_all_passes())
+    assert table["ais_label"].notna().all()
+    assert table["location"].notna().all()
+    assert set(table.loc[table["dark"], "ais_label"]) == {"No AIS"}
 
 
 def test_simulated_ais_is_labelled(contracts, monkeypatch):
@@ -116,23 +163,107 @@ def test_simulated_ais_is_labelled(contracts, monkeypatch):
         feature["properties"]["ais_source"] = "simulated"
     (contracts / "detections.geojson").write_text(json.dumps(document))
     monkeypatch.setenv("SEAS_CONTRACTS_DIR", str(contracts))
-    app = AppTest.from_file(str(APP), default_timeout=30).run()
-    assert not app.exception
-    assert [m.label for m in app.metric] == ["Total ships", "Dark ships (AIS simulated)", "Dark share (AIS simulated)"]
-    assert "AIS is simulated" in app.info[0].value
-    assert set(app.dataframe[len(app.dataframe) - 1].value["status"]) == {"Dark (AIS simulated)", "Matched (AIS simulated)"}
+    app = run_all_passes()
+    assert [m.label for m in app.metric][:3] == ["Detections", "Dark (AIS simulated)", "Dark share (AIS simulated)"]
+    assert any("AIS is simulated" in info.value for info in app.info)
+    table = detections_table(app)
+    assert set(table["status"]) == {"🔴 Dark (AIS simulated)", "🔵 Matched (AIS simulated)"}
+    assert any("(simulated)" in label for label in table["ais_label"])
 
 
 def test_real_ais_has_no_simulation_label():
-    app = AppTest.from_file(str(APP), default_timeout=30).run()
-    assert [m.label for m in app.metric] == ["Total ships", "Dark ships", "Dark share"]
-    assert not app.info
+    app = run_all_passes()
+    assert [m.label for m in app.metric][:3] == ["Detections", "Dark", "Dark share"]
+    assert not any("AIS is simulated" in info.value for info in app.info)
 
 
 def test_port_section_shows_counts_beside_index_without_a_trend_line():
-    app = AppTest.from_file(str(APP), default_timeout=30).run()
-    spec = json.loads(app.get("plotly_chart")[0].proto.spec)
-    assert {trace["type"] for trace in spec["data"]} == {"bar"}
-    port_table = app.dataframe[0].value
-    assert {"vessel_count", "activity_index"} <= set(port_table.columns)
+    app = run_app()
+    port_chart_spec = next(
+        spec for spec in (json.loads(c.proto.spec) for c in app.get("plotly_chart"))
+        if spec["layout"]["barmode"] == "group"
+    )
+    assert {trace["type"] for trace in port_chart_spec["data"]} == {"bar"}
+    port_table = next(df.value for df in app.dataframe if "activity_index" in df.value.columns)
     assert len(port_table) == 3
+
+
+def test_reach_tab_scales_with_speed_and_time():
+    app = run_all_passes()
+    app.slider(key="reach_speed").set_value(10).run()
+    app.slider(key="reach_hours").set_value(2).run()
+    assert not app.exception
+    assert any(m.value == "37 km away" for m in app.metric)
+    circle = json.loads(app.get("deck_gl_json_chart")[1].proto.json)["layers"][0]
+    assert circle["getRadius"] == pytest.approx(37040)
+
+
+def test_invalid_real_file_shows_error_not_samples(contracts, monkeypatch):
+    (contracts / "detections.geojson").write_text('{"type":"FeatureCollection","features":[{"type":"Feature"}]}')
+    monkeypatch.setenv("SEAS_CONTRACTS_DIR", str(contracts))
+    app = run_app()
+    assert not app.exception
+    assert "rejected" in app.error[0].value
+    assert not app.metric
+
+
+def test_empty_detections_file_renders(contracts, monkeypatch):
+    (contracts / "detections.geojson").write_text('{"type":"FeatureCollection","features":[]}')
+    monkeypatch.setenv("SEAS_CONTRACTS_DIR", str(contracts))
+    app = run_app()
+    assert not app.exception
+    assert "no detections" in app.info[0].value
+
+
+def make_frame(rows):
+    base = {"scene_id": "A", "timestamp": pd.Timestamp("2026-11-02", tz="UTC"), "confidence": 0.8, "length_m": 100.0,
+            "ais_matched": False, "dark": True, "mmsi": None, "port": None, "ais_source": None, "lat": 25.0, "lon": 54.7}
+    return pd.DataFrame([{**base, "id": f"x{i}", **row} for i, row in enumerate(rows)])
+
+
+def test_priority_rules():
+    frame = enrich(make_frame([
+        {},
+        {"lat": 25.2, "confidence": 0.8, "length_m": 20.0},
+        {"lat": 25.4, "confidence": 0.4, "length_m": 20.0},
+        {"lat": 25.6, "confidence": 0.4, "length_m": 20.0, "port": "Jebel Ali"},
+        {"lat": 25.8, "dark": False, "mmsi": "1"},
+        {"lat": 26.0, "length_m": None},
+    ]))
+    assert frame["priority"].tolist() == ["High", "Medium", "Low", "Medium", "Not flagged", "Medium"]
+    assert frame["size_class"].tolist() == ["Medium", "Small", "Small", "Small", "Medium", "Unknown"]
+
+
+def test_same_spot_across_three_passes_is_marked_and_demoted():
+    frame = enrich(make_frame([
+        {"scene_id": "A"},
+        {"scene_id": "B", "lon": 54.701},
+        {"scene_id": "C", "lon": 54.702},
+        {"scene_id": "A", "lat": 26.0},
+    ]))
+    assert frame["passes_seen"].tolist() == [3, 3, 3, 1]
+    assert frame["priority"].tolist() == ["Medium", "Medium", "Medium", "High"]
+    repeats = repeat_locations(frame)
+    assert repeats[["passes", "detections", "times_dark"]].values.tolist() == [[3, 3, 3]]
+
+
+def test_location_label_explains_missing_port():
+    frame = enrich(make_frame([{"lat": 24.81, "lon": 54.75}, {"port": "Khalifa Port", "lat": 24.81, "lon": 54.65}]))
+    assert frame["location"].iloc[0].startswith("Open water, 10 km from Khalifa Port")
+    assert frame["location"].iloc[1] == "Khalifa Port area"
+
+
+def test_reach_and_port_eta_arithmetic():
+    assert reach_km(10, 2) == pytest.approx(37.04)
+    etas = port_etas(*PORT_POSITIONS["Jebel Ali"], speed_knots=10)
+    assert etas.iloc[0]["port"] == "Jebel Ali"
+    assert etas.iloc[0]["hours"] == 0
+
+
+def test_health_checks_count_weak_and_small_targets():
+    frame = enrich(make_frame([{"confidence": 0.4, "length_m": 20.0}, {"lat": 26.0, "scene_id": "B", "timestamp": pd.Timestamp("2026-11-04", tz="UTC")}]))
+    checks = health_checks(frame, pd.Timestamp("2026-11-04 10:00", tz="UTC")).set_index("Check")["Result"]
+    assert checks["Latest data"] == "10 hours old"
+    assert checks["Satellite passes"] == "2 passes, 48-48 hours apart"
+    assert checks["Weak detections"] == "1 of 2 under 0.50 confidence"
+    assert checks["Very small targets"] == "1 of 2 at 30 m or less"
