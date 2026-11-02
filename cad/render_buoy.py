@@ -29,7 +29,7 @@ MATERIALS = {
     "SolarPanels": ((0.01, 0.03, 0.12), 0.3, 0.12, 0.0),
     "PanelPosts": ((0.5, 0.52, 0.54), 1.0, 0.35, 0.0),
     "Mast": ((0.62, 0.64, 0.66), 1.0, 0.3, 0.0),
-    "RadarReflector": ((0.85, 0.86, 0.87), 1.0, 0.2, 0.0),
+    "RadarReflector": ((0.16, 0.18, 0.2), 0.5, 0.4, 0.0),
     "CameraMount": ((0.8, 0.8, 0.8), 0.0, 0.4, 0.0),
     "CameraDome": ((0.02, 0.02, 0.03), 0.0, 0.06, 0.0),
     "AISAntenna": ((0.03, 0.03, 0.03), 0.0, 0.45, 0.0),
@@ -40,11 +40,15 @@ MATERIALS = {
 
 # name: (location, look-at target, lens in mm or None, orthographic scale or None, show water)
 SHOTS = {
-    "hero": ((6.2, -6.6, 2.0), (0.0, 0.0, 1.75), 40, None, True),
-    "side": ((12.0, 0.0, 1.85), (0.0, 0.0, 1.85), None, 5.4, False),
+    "hero": ((6.2, -6.6, 2.0), (0.0, 0.0, 1.9), 42, None, True),
+    "side": ((12.0, 0.0, 1.84), (0.0, 0.0, 1.84), None, 7.8, False),
     "top": ((1.2, -1.6, 9.0), (0.0, 0.0, 0.9), 45, None, True),
     "closeup": ((2.5, -2.3, 1.75), (0.1, 0.0, 1.05), 45, None, True),
+    "deck_hero": ((7.5, -5.0, 3.0), (0.0, 0.0, 1.84), 40, None, False),
+    "deck_masthead": ((2.6, -2.2, 3.4), (0.12, 0.0, 3.05), 65, None, False),
 }
+DECK_RESOLUTION = (1920, 1200)
+SELECTED_SHOTS = os.environ.get("SEAS_RENDER_SHOTS", ",".join(SHOTS)).split(",")
 
 
 def waterline_m():
@@ -103,7 +107,7 @@ def make_sky_world():
     sky.sun_elevation = math.radians(32)
     sky.sun_rotation = math.radians(200)
     background = nodes["Background"]
-    background.inputs["Strength"].default_value = 0.35
+    background.inputs["Strength"].default_value = 0.09
     world.node_tree.links.new(sky.outputs["Color"], background.inputs["Color"])
     return world
 
@@ -119,7 +123,7 @@ def make_studio_world():
 
 def make_sun():
     data = bpy.data.lights.new("Sun", "SUN")
-    data.energy = 3.5
+    data.energy = 2.2
     data.angle = math.radians(3)
     sun = bpy.data.objects.new("Sun", data)
     bpy.context.collection.objects.link(sun)
@@ -145,8 +149,8 @@ def main():
     scene.cycles.device = "CPU"
     scene.cycles.samples = SAMPLES
     scene.cycles.use_denoising = True
-    scene.render.resolution_x, scene.render.resolution_y = RESOLUTION
     scene.render.image_settings.file_format = "PNG"
+    scene.view_settings.view_transform = "Standard"
 
     OUTPUT_DIR.mkdir(exist_ok=True)
     import_parts()
@@ -160,7 +164,9 @@ def main():
     bpy.context.collection.objects.link(camera)
     scene.camera = camera
 
-    for name, (location, target, lens, ortho_scale, show_water) in SHOTS.items():
+    for name in SELECTED_SHOTS:
+        location, target, lens, ortho_scale, show_water = SHOTS[name]
+        scene.render.resolution_x, scene.render.resolution_y = DECK_RESOLUTION if name.startswith("deck_") else RESOLUTION
         set_camera(camera, location, target, lens, ortho_scale)
         water.hide_render = not show_water
         scene.world = sky_world if show_water else studio_world
