@@ -54,7 +54,8 @@ export class Sequence {
       this.frames[0] = img.naturalWidth ? img : null;
       this.draw(0);
     })();
-    first.then(() => Promise.all([worker(), worker(), worker(), worker()]));
+    // Resolves once every frame has been tried (the film capture waits for this).
+    this.done = first.then(() => Promise.all([worker(), worker(), worker(), worker()]));
     return first;
   }
 

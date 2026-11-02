@@ -1,0 +1,85 @@
+{
+  "note": "Dark at Dawn: a dramatized scenario around real detection d0190 from the Sentinel-1D pass of 2 Nov 2026. Times are GST (UTC+4). Entries with real=true come from our pipeline output; everything else is dramatized.",
+  "nodes": {
+    "s1": [40, 26], "iot": [240, 26], "ground": [40, 88], "pipe": [140, 88], "buoy": [240, 88], "ops": [140, 132]
+  },
+  "tanker": { "name": "MT Corvane", "last_ais": { "t": "05:29:12", "lat": 25.161, "lon": 54.792, "x": 727.1, "y": 357.3, "kn": 9.6 } },
+  "target": { "id": "d0190", "x": 807.6, "y": 386.8, "lat": 25.152796, "lon": 54.816732, "len_m": 189, "conf": 0.667, "real": true },
+  "buoy": { "id": "B-07", "x": 901.7, "y": 450.0, "lat": 25.1352, "lon": 54.8456, "bearing_deg": 304, "range_km": 3.5 },
+  "task": {
+    "type": "verify",
+    "target": "d0190",
+    "lat": 25.1528,
+    "lon": 54.8167,
+    "length_m": 189,
+    "bearing_deg": 304,
+    "range_km": 3.5,
+    "ask": ["ais_log_6h", "camera", "sheen"],
+    "reply_within_min": 15
+  },
+  "chapters": [
+    {
+      "id": "cold", "clock": ["06:10:05", "06:12:40"], "lit": [],
+      "log": [
+        { "at": 0.0, "t": "05:29:12", "src": "AIS", "msg": "MT CORVANE · 25.161N 54.792E · 9.6 kn" },
+        { "at": 0.3, "t": "06:10:12", "src": "AIS", "msg": "MT CORVANE · silent 41 min", "tone": "a" }
+      ]
+    },
+    {
+      "id": "ais", "clock": ["06:12:40", "06:14:20"], "lit": [],
+      "log": [
+        { "at": 0.55, "t": "06:13:30", "src": "AIS", "msg": "MT CORVANE · dropped from public tracking", "tone": "a" }
+      ]
+    },
+    {
+      "id": "orbit", "clock": ["06:14:20", "06:15:40"], "lit": ["s1"],
+      "log": [
+        { "at": 0.3, "t": "06:14:55", "src": "S1D", "msg": "IW GRD acquired · VV · 250 km swath", "real": true },
+        { "at": 0.82, "t": "06:15:31", "src": "S1D", "msg": "downlink to ground station" }
+      ],
+      "pulses": [{ "from": "s1", "to": "ground", "a": 0.8, "b": 1.0 }]
+    },
+    {
+      "id": "detect", "clock": ["08:00:02", "08:01:05"], "lit": ["s1", "ground", "pipe"],
+      "log": [
+        { "at": 0.02, "t": "08:00:02", "src": "ESA", "msg": "S1D GRD scene published" },
+        { "at": 0.3, "t": "08:00:31", "src": "PIPE", "msg": "sea mask + CFAR · 35 ships in view", "real": true },
+        { "at": 0.66, "t": "08:00:58", "src": "PIPE", "msg": "AIS match · 8 dark", "real": true },
+        { "at": 0.8, "t": "08:01:04", "src": "PIPE", "msg": "d0190 DARK · 189 m · 25.153N 54.817E", "tone": "a", "real": true }
+      ],
+      "pulses": [{ "from": "ground", "to": "pipe", "a": 0.0, "b": 0.12 }]
+    },
+    {
+      "id": "task", "clock": ["08:01:05", "08:01:22"], "lit": ["s1", "ground", "pipe", "iot", "buoy"],
+      "log": [
+        { "at": 0.12, "t": "08:01:06", "src": "PIPE", "msg": "nearest buoy to d0190: B-07 · 3.5 km" },
+        { "at": 0.5, "t": "08:01:09", "src": "PIPE", "msg": "task → B-07 via sat IoT · 212 B" },
+        { "at": 0.92, "t": "08:01:22", "src": "B-07", "msg": "task received" }
+      ],
+      "pulses": [{ "from": "pipe", "to": "iot", "a": 0.5, "b": 0.7 }, { "from": "iot", "to": "buoy", "a": 0.7, "b": 0.9 }]
+    },
+    {
+      "id": "buoy", "clock": ["08:01:22", "08:02:40"], "lit": ["s1", "ground", "pipe", "iot", "buoy"],
+      "log": [
+        { "at": 0.32, "t": "08:01:40", "src": "B-07", "msg": "AIS log 6 h · 0 reports from 304°", "tone": "a" },
+        { "at": 0.5, "t": "08:01:58", "src": "B-07", "msg": "camera slew → 304°" },
+        { "at": 0.68, "t": "08:02:21", "src": "B-07", "msg": "sheen index 0.71 · baseline 0.08", "tone": "a" }
+      ]
+    },
+    {
+      "id": "pov", "clock": ["08:02:40", "08:03:30"], "lit": ["s1", "ground", "pipe", "iot", "buoy"],
+      "log": [
+        { "at": 0.55, "t": "08:02:58", "src": "B-07", "msg": "snapshot · 38 KB JPEG" },
+        { "at": 0.92, "t": "08:03:12", "src": "IoT", "msg": "snapshot → pipeline · 14 s" }
+      ],
+      "pulses": [{ "from": "buoy", "to": "iot", "a": 0.6, "b": 0.78 }, { "from": "iot", "to": "pipe", "a": 0.78, "b": 0.95 }]
+    },
+    {
+      "id": "alert", "clock": ["08:03:30", "08:04:10"], "lit": ["s1", "ground", "pipe", "iot", "buoy", "ops"],
+      "log": [
+        { "at": 0.3, "t": "08:04:05", "src": "PIPE", "msg": "ALERT dark vessel, buoy-verified → duty officer", "tone": "a" }
+      ],
+      "pulses": [{ "from": "pipe", "to": "ops", "a": 0.05, "b": 0.3 }]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
-// Chapter 03: the real 2 Nov Sentinel-1 pass. It opens on the orbit render's last frame (same ground, same framing),
-// cross-fades into radar, then walks the pipeline: sea mask, CFAR hits, merged and geocoded ships, AIS match.
+// Chapter 3: the real 2 Nov Sentinel-1 pass. It opens on the orbit render's last frame (same ground, same framing),
+// cross-fades into radar, walks the pipeline (sea mask, CFAR hits, merged and geocoded ships, AIS match), then
+// closes in on one dark lead, d0190, the ship the rest of the story follows.
 import gsap from 'gsap';
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -10,7 +11,7 @@ const el = (tag, attrs = {}, parent) => {
   return n;
 };
 
-export async function initDetect({ reduced }) {
+export async function initDetect({ reduced, scrub, focusId }) {
   const data = await fetch('/data/sar_points.json').then((r) => r.json());
   const section = document.querySelector('.detect');
   const sar = section.querySelector('.sar');
@@ -40,8 +41,10 @@ export async function initDetect({ reduced }) {
       label = el('text', { class: `tag${p.dark ? ' tag--dark' : ''}`, x: 40, y: 10 }, g);
       label.textContent = p.dark ? `DARK · ${Math.round(p.len)} m` : `${p.lat.toFixed(3)}°N ${p.lon.toFixed(3)}°E`;
     }
-    return { p, cross, ring, label };
+    return { p, g, cross, ring, label };
   });
+  const focus = ships.find((s) => s.p.id === focusId);
+  focus.g.classList.add('focus');
   const coordLabels = ships.filter((s) => s.label && !s.p.dark).map((s) => s.label);
   const darkLabels = ships.filter((s) => s.label && s.p.dark).map((s) => s.label);
 
@@ -63,6 +66,12 @@ export async function initDetect({ reduced }) {
   const wide = () => window.innerWidth > 760;
   const panX = () => window.innerWidth * (wide() ? 0.36 : 0.5) - (box.left + cx * box.w);
   const panY = () => window.innerHeight * (wide() ? 0.46 : 0.3) - (box.top + cy * box.h);
+  // Close-up on the lead: put it left of the card (desktop) or above it (phone).
+  const ZOOM = 3.2;
+  const zoomX = () => window.innerWidth * (wide() ? 0.44 : 0.5)
+    - (box.left + cx * box.w + (focus.p.x / data.w - cx) * box.w * ZOOM);
+  const zoomY = () => window.innerHeight * (wide() ? 0.5 : 0.3)
+    - (box.top + cy * box.h + (focus.p.y / data.h - cy) * box.h * ZOOM);
 
   const steps = [...section.querySelectorAll('.steps li')];
   const STEP_AT = [0.14, 0.26, 0.38, 0.52, 0.66];
@@ -73,11 +82,10 @@ export async function initDetect({ reduced }) {
 
   if (reduced) {
     setStep(4);
-    section.classList.add('matched');
+    section.classList.add('matched', 'focused');
     return;
   }
 
-  const counts = [...section.querySelectorAll('.detect-counts [data-count]')];
   const setLive = (self) => section.classList.toggle('live', self.scroll() >= self.start - 1);
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
@@ -86,7 +94,7 @@ export async function initDetect({ reduced }) {
       start: 'top top',
       end: '+=460%',
       pin: '.detect-stage',
-      scrub: 0.6,
+      scrub,
       invalidateOnRefresh: true,
       // The stage overlaps the orbit chapter's last screen; it only shows once its pin has taken over.
       onToggle: setLive,
@@ -96,6 +104,7 @@ export async function initDetect({ reduced }) {
       const t = tl.time();
       setStep(STEP_AT.findLastIndex((a) => t >= a));
       section.classList.toggle('matched', t >= STEP_AT[4] + 0.02);
+      section.classList.toggle('focused', t >= 0.76);
     },
   });
 
@@ -125,13 +134,11 @@ export async function initDetect({ reduced }) {
     .to(coordLabels, { opacity: 0, duration: 0.03 }, STEP_AT[4])
     // AIS match: the .matched class recolours rings teal or amber; dark tags slide in.
     .fromTo(darkLabels, { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.03, stagger: 0.004 }, STEP_AT[4] + 0.04)
-    .to(sar, { scale: 1.3, duration: 0.12, ease: 'power1.inOut' }, 0.74)
-    // Totals across all four passes.
-    .to('.detect-panel', { autoAlpha: 0, duration: 0.04 }, 0.82)
-    .fromTo('.detect-counts', { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.05, ease: 'power2.out' }, 0.84);
-  counts.forEach((c) => {
-    const o = { v: 0 };
-    tl.to(o, { v: +c.dataset.count, duration: 0.08, ease: 'power1.out', onUpdate: () => { c.textContent = Math.round(o.v); } }, 0.86);
-  });
-  tl.to({}, { duration: 0.04 }, 0.96);
+    // The lead: everything else steps back, the camera closes in, its card comes up.
+    .to('.detect-panel', { autoAlpha: 0, duration: 0.04 }, 0.74)
+    .to(darkLabels, { opacity: 0, duration: 0.03 }, 0.74)
+    .to(sar, { scale: ZOOM, x: zoomX, y: zoomY, duration: 0.12, ease: 'power2.inOut' }, 0.75)
+    .fromTo('.lead-card', { autoAlpha: 0, x: () => (wide() ? 60 : 0), y: () => (wide() ? 0 : 60) },
+      { autoAlpha: 1, x: 0, y: 0, duration: 0.05, ease: 'power2.out' }, 0.86)
+    .to({}, { duration: 0.06 }, 0.94);
 }
