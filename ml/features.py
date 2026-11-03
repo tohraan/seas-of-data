@@ -1,6 +1,8 @@
 """Per-detection radar features and the rule that sorts detections into ship / uncertain.
 
 contrast_db   brightest pixel in the detection box minus the median of its 81 x 81 px surroundings (box + 6 px excluded), in dB
+vh_contrast_db  the same measure on the VH (cross-polarised) band of the same product. Ships, with their corners and
+              superstructure, stay bright in VH; sea clutter and most sidelobes fall away, so VH confirms a VV target.
 land_m        distance from the detection to the nearest land cell of the static sea mask (assets/sea_mask.npz, 0.001 deg cells,
               so it is only good to about 110 m)
 
@@ -14,7 +16,7 @@ import numpy as np
 from scipy import ndimage as ndi
 
 MASK = Path(__file__).parent / "assets" / "sea_mask.npz"
-RULE = {"min_contrast_db": 18.0, "min_snr_z": 9.0, "coast_m": 600.0, "coast_contrast_db": 32.0}
+RULE = {"min_contrast_db": 18.0, "min_snr_z": 9.0, "coast_m": 600.0, "coast_contrast_db": 32.0, "min_vh_contrast_db": None}
 HALF = 40          # window half-size, px
 EXCL = 6           # px excluded around the box when estimating the background
 
@@ -48,7 +50,9 @@ def contrast_db(ds, box):
     return float(inside.max()) - bg
 
 
-def is_ship_like(contrast, snr_z, land_m, rule=RULE):
+def is_ship_like(contrast, snr_z, land_m, vh_contrast=None, rule=RULE):
     if contrast is None or contrast < rule["min_contrast_db"] or snr_z < rule["min_snr_z"]:
         return False
+    if rule.get("min_vh_contrast_db") is not None and (vh_contrast is None or vh_contrast < rule["min_vh_contrast_db"]):
+        return False   # not confirmed in VH (or VH unavailable): uncertain, never deleted
     return land_m is None or land_m >= rule["coast_m"] or contrast >= rule["coast_contrast_db"]

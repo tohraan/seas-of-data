@@ -94,7 +94,8 @@
   "min_contrast_db": 18.0,
   "min_snr_z": 9.0,
   "coast_m": 600.0,
-  "coast_contrast_db": 32.0
+  "coast_contrast_db": 32.0,
+  "min_vh_contrast_db": null
  },
  "rule_note": "Thresholds picked on the odd-numbered review sheets (63 chips) and checked on the even ones (57 chips); the review labels were written before the rule existed.",
  "by_size_band": {

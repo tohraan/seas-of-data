@@ -67,7 +67,7 @@ def classify(d):
     """radar_class: ship | likely_fixed | uncertain. Tag, never delete: ships alongside quays legitimately repeat."""
     if d["persistence"] >= d["n_scenes"] and d["n_scenes"] >= 4:
         return "likely_fixed"          # bright at the same spot in every pass
-    return "ship" if is_ship_like(d["contrast_db"], d["confidence"] * 20, d["land_m"]) else "uncertain"
+    return "ship" if is_ship_like(d["contrast_db"], d["confidence"] * 20, d["land_m"], d.get("vh_contrast_db")) else "uncertain"
 
 
 def enrich(per_scene):
@@ -99,6 +99,27 @@ def open_scene(scenes_dir, scene_id):
             if sc["scene_id"] == scene_id:
                 return url, sc["product"]
     return url, item + " (Planetary Computer item id)"
+
+
+def vh_contrasts(scene_id, dets, vv_shape):
+    """VH contrast per detection box, read from the Planetary Computer copy of the same product (VV and VH share the
+    GRD pixel grid). Cached in runs/vh_cache.json by scene + box, so reruns don't re-read the network."""
+    import rasterio
+    import fetch_pc
+    cache_f = ROOT / "ml" / "runs" / "vh_cache.json"
+    cache = json.loads(cache_f.read_text()) if cache_f.exists() else {}
+    key = lambda d: f"{scene_id}|{','.join(map(str, d['box_px']))}"
+    todo = [d for d in dets if key(d) not in cache]
+    if todo:
+        url, _ = fetch_pc.signed_url(scene_id, "vh")
+        with rasterio.open(url) as vh:
+            if (vh.height, vh.width) != vv_shape:
+                raise SystemExit(f"{scene_id}: VH grid {vh.height}x{vh.width} differs from VV {vv_shape}")
+            for d in todo:
+                cache[key(d)] = round(contrast_db(vh, d["box_px"]), 1)
+        cache_f.parent.mkdir(parents=True, exist_ok=True)
+        cache_f.write_text(json.dumps(cache, indent=0, sort_keys=True))
+    return [cache[key(d)] for d in dets]
 
 
 def scene_window(ds):
@@ -154,6 +175,7 @@ def main():
     ap.add_argument("raw", nargs="+")
     ap.add_argument("--scenes", default=str(ROOT / "ml" / "data" / "scenes"))
     ap.add_argument("--no-chips", action="store_true")
+    ap.add_argument("--no-vh", action="store_true", help="skip the VH read (offline); every detection then fails the VH test")
     args = ap.parse_args()
 
     per_scene, meta = [], {}
@@ -179,6 +201,9 @@ def main():
                 d["land_m"] = land(d["lon"], d["lat"])
                 if not args.no_chips:
                     write_chips(ds, lo, hi, d, chip_dir)
+            vhs = [None] * len(dets) if args.no_vh else vh_contrasts(scene_id, dets, (ds.height, ds.width))
+            for d, v in zip(dets, vhs):
+                d["vh_contrast_db"] = v
     enrich(per_scene)                      # pass 2: persistence + radar_class (needs every pass)
 
     features, rows = [], []
@@ -193,7 +218,10 @@ def main():
                 "properties": {
                     "id": d["id"], "scene_id": scene_id, "timestamp": ts, "product": products[scene_id],
                     "confidence": round(d["confidence"], 3), "snr_z": round(d["confidence"] * 20, 1),
-                    "contrast_db": d["contrast_db"], "land_distance_m": None if d["land_m"] is None else round(d["land_m"]),
+                    "contrast_db": d["contrast_db"], "vh_contrast_db": d["vh_contrast_db"],
+                    "vh_confirmed": None if RULE["min_vh_contrast_db"] is None or d["vh_contrast_db"] is None
+                    else d["vh_contrast_db"] >= RULE["min_vh_contrast_db"],
+                    "land_distance_m": None if d["land_m"] is None else round(d["land_m"]),
                     "length_m": d.get("length_m"), "size_class": size_class(d.get("length_m")),
                     "box_px": d["box_px"], "persistence": d["persistence"], "radar_class": d["radar_class"],
                     "ais_matched": False, "dark": None, "mmsi": None, "port": port,

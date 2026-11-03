@@ -4,7 +4,8 @@
   "min_contrast_db": 18.0,
   "min_snr_z": 9.0,
   "coast_m": 600.0,
-  "coast_contrast_db": 32.0
+  "coast_contrast_db": 32.0,
+  "min_vh_contrast_db": null
  },
  "persist_gate_m": 150,
  "products": {
