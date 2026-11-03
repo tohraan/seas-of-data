@@ -20,6 +20,7 @@ STAC_SEARCH = "https://planetarycomputer.microsoft.com/api/stac/v1/search"
 SIGN = "https://planetarycomputer.microsoft.com/api/sas/v1/sign?href="
 COLLECTION = "sentinel-1-grd"
 SEA_MASK = Path(__file__).resolve().parents[2] / "ml" / "assets" / "sea_mask.npz"
+CONTRACT = Path(__file__).resolve().parents[2] / "contracts" / "detections.geojson"
 
 os.environ.update(
     GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR",
@@ -28,6 +29,17 @@ os.environ.update(
     GDAL_HTTP_MAX_RETRY="5",
     GDAL_HTTP_RETRY_DELAY="2",
 )
+
+
+def contract_scene_ids(path: Path = CONTRACT) -> list[str]:
+    features = json.loads(path.read_text())["features"]
+    return sorted({feature["properties"]["scene_id"] for feature in features})
+
+
+def distance_m(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
+    dx = (lon2 - lon1) * 111320 * math.cos(math.radians((lat1 + lat2) / 2))
+    dy = (lat2 - lat1) * 110540
+    return math.hypot(dx, dy)
 
 
 def _post_json(url: str, body: dict) -> dict:

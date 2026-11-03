@@ -5,6 +5,7 @@ import pandas as pd
 import streamlit as st
 
 from analysis import (
+    AIS_CHECK_OPTIONS,
     CLASS_LABELS,
     REVIEW_LABELS,
     SIZE_LABELS,
@@ -21,6 +22,7 @@ from components import (
     DARK_RGB,
     FIXED_HEX,
     FIXED_RGB,
+    GFW_ATTRIBUTION,
     MAP_HEIGHT_PX,
     SHIP_HEX,
     SHIP_RGB,
@@ -34,20 +36,23 @@ from components import (
     pass_time,
     point_layer,
     radar_layer,
+    ship_type_label,
 )
-from data import Evidence, resolve_chip
+from data import Evidence, load_wide_radar, resolve_chip
 
+EXTRA_RGB = [25, 158, 112]
 TABLE_COLUMNS = [
-    "thumb", "id", "class_label", "size_label", "length_m", "contrast_db", "location", "seen",
-    "review_label", "check_label", "vh_label", "ais_label", "timestamp",
+    "thumb", "id", "class_label", "ais_label", "size_label", "length_m", "contrast_db", "location", "seen",
+    "review_label", "check_label", "vh_label", "timestamp",
 ]
 
 
 def filtered(frame: pd.DataFrame) -> pd.DataFrame:
-    class_column, size_column, area_column, review_column, search_column = st.columns([2, 2, 2, 2, 2])
+    class_column, ais_column, size_column, area_column, review_column, search_column = st.columns(6)
     classes = class_column.multiselect(
         "Radar class", list(CLASS_LABELS.values()), default=["Ship"], key="ex_class", placeholder="All classes",
     )
+    ais_checks = ais_column.multiselect("AIS check", AIS_CHECK_OPTIONS, key="ex_ais", placeholder="Any AIS check")
     sizes = size_column.multiselect(
         "Size", [SIZE_LABELS[key] for key in SIZE_RANGES], key="ex_size", placeholder="All sizes",
     )
@@ -58,6 +63,8 @@ def filtered(frame: pd.DataFrame) -> pd.DataFrame:
     result = frame
     if classes:
         result = result[result["class_label"].isin(classes)]
+    if ais_checks:
+        result = result[result["ais_group"].isin(ais_checks)]
     if sizes:
         result = result[result["size_label"].isin(sizes)]
     if zones:
@@ -84,12 +91,27 @@ def map_points(detections: pd.DataFrame) -> pd.DataFrame:
     return labelled[["id", "lon", "lat", "radar_class", "is_dark", "tooltip"]]
 
 
-def render_map(shown: pd.DataFrame, evidence: Evidence | None, scene_id: str | None, chosen_id: str | None, show_radar: bool) -> None:
+def fishing_watch_only(checks: dict | None, scene_id: str | None) -> pd.DataFrame:
+    """Targets Fishing Watch found in this pass that our detector has no partner for."""
+    rows = []
+    for item in (checks or {}).get("passes", []):
+        if scene_id in (None, item["scene_id"]):
+            for target in item.get("gfw_only", []):
+                who = target.get("name") or "name not reported" if target.get("matched") else "No AIS match"
+                rows.append({"lat": target["lat"], "lon": target["lon"], "tooltip": f"<b>Seen by Fishing Watch only</b><br/>{who}<br/>{item['timestamp'][:16]} UTC"})
+    return pd.DataFrame(rows, columns=["lat", "lon", "tooltip"])
+
+
+def render_map(shown: pd.DataFrame, evidence: Evidence | None, scene_id: str | None, chosen_id: str | None, show_radar: bool, extra: pd.DataFrame | None = None) -> None:
     points = map_points(shown)
     layers = []
     latest_pass = evidence.passes[-1] if evidence and evidence.passes else None
     info = (evidence.pass_info(scene_id) if evidence and scene_id else latest_pass) if show_radar else None
     if info:
+        wide = load_wide_radar().get(info["scene_id"])
+        wide_image = cached_radar_image(wide["image"]) if wide else None
+        if wide_image:
+            layers.append(radar_layer(wide_image, wide["corners"], opacity=0.75))
         image = cached_radar_image(info["image"])
         if image:
             layers.append(radar_layer(image, info["corners"]))
@@ -99,6 +121,8 @@ def render_map(shown: pd.DataFrame, evidence: Evidence | None, scene_id: str | N
         point_layer(points[(points["radar_class"] == "likely_fixed") & ~points["is_dark"]], FIXED_RGB, 6, 2),
         point_layer(points[points["is_dark"]], DARK_RGB, 8, 2),
     ]
+    if extra is not None and not extra.empty:
+        layers.append(point_layer(extra, EXTRA_RGB, 5, 1))
     if chosen_id:
         layers.append(point_layer(points[points["id"] == chosen_id], [0, 0, 0, 0], 13, 3))
     st.pydeck_chart(deck(layers, map_view(shown)), height=MAP_HEIGHT_PX)
@@ -108,10 +132,12 @@ def render_map(shown: pd.DataFrame, evidence: Evidence | None, scene_id: str | N
         (FIXED_HEX, "Likely fixed", True),
     ]
     if points["is_dark"].any():
-        items.append((DARK_HEX, "Possibly dark (real AIS check)", True))
+        items.append((DARK_HEX, "Possibly dark (no AIS match)", True))
+    if extra is not None and not extra.empty:
+        items.append(("#199e70", "Seen by Fishing Watch only", False))
     legend(items)
     if info:
-        st.caption(f"Radar image: Sentinel-1 VV, {info['scene_id']}. {ATTRIBUTION}")
+        st.caption(f"Radar image: Sentinel-1 VV, {info['scene_id']}. Sharp near the ports, where ships are detected, and coarser across the rest of the scene. {ATTRIBUTION}")
     else:
         st.caption(ATTRIBUTION)
 
@@ -120,7 +146,7 @@ def fact(label: str, value: str) -> None:
     st.markdown(f"**{label}:** {value}")
 
 
-def render_detail(row: pd.Series, frame: pd.DataFrame, directory: Path, total_passes: int) -> None:
+def render_detail(row: pd.Series, frame: pd.DataFrame, directory: Path, total_passes: int, history_reasons: dict | None = None) -> None:
     st.subheader(f"{row['class_label']} · {row['id']}")
     chip = resolve_chip(row["chip"], directory)
     context = resolve_chip(row["chip_context"], directory)
@@ -144,7 +170,16 @@ def render_detail(row: pd.Series, frame: pd.DataFrame, directory: Path, total_pa
         fact("Brightness", f"{row['contrast_db']:.1f} dB above the surrounding sea")
     fact("Same spot", f"seen in {int(row['persistence'])} of {total_passes} passes")
     fact("Visual review", row["review_label"])
-    fact("AIS", row["ais_label"])
+    fact("AIS check", row["ais_label"])
+    if isinstance(row["ais_type"], str) and row["ais_type"]:
+        imo = row["ais_imo"] if isinstance(row["ais_imo"], str) and row["ais_imo"] else "not reported"
+        fact("Identified as", f"{ship_type_label(row['ais_type']).lower()}, IMO {imo}, from Global Fishing Watch")
+    if row["ais_group"] == "No AIS match":
+        nearest = row["nearest_ais_km"]
+        distance = "" if pd.isna(nearest) else f" The closest ship on AIS at that hour was {nearest:.1f} km away."
+        st.caption(f"No AIS report matched this target.{distance} That doesn't prove the ship switched AIS off.")
+    for reason in (history_reasons or {}).get(row["gfw_vessel_id"], []):
+        fact("Ship history", reason["text"])
     if row["check_label"] != "Not run":
         yolo = "not found" if pd.isna(row["yolo_confidence"]) else f"found at {row['yolo_confidence']:.2f}"
         fact("Second opinion", f"YOLO {yolo}; bright in VH: {row['vh_label'].lower()}")
@@ -173,9 +208,13 @@ def citation(frame: pd.DataFrame, manifest: dict | None) -> str:
     )
 
 
-def render(selected: pd.DataFrame, frame: pd.DataFrame, evidence: Evidence | None, scene_id: str | None, directory: Path, manifest: dict | None, total_passes: int) -> None:
+def render(selected: pd.DataFrame, frame: pd.DataFrame, evidence: Evidence | None, scene_id: str | None, directory: Path, manifest: dict | None, total_passes: int, checks: dict | None = None, history: dict | None = None) -> None:
     shown = sort_for_table(filtered(selected))
-    radar_toggle = st.toggle("Show the radar image", value=evidence is not None, key="ex_radar", disabled=evidence is None)
+    radar_column, extra_column = st.columns(2)
+    radar_toggle = radar_column.toggle("Show the radar image", value=evidence is not None, key="ex_radar", disabled=evidence is None)
+    extra_toggle = extra_column.toggle("Also show ships only Fishing Watch saw", key="ex_extra", disabled=checks is None)
+    extra = fishing_watch_only(checks, scene_id) if extra_toggle else None
+    history_reasons = {ship["vessel_id"]: ship["reasons"] for ship in history["ships"]} if history else {}
     map_column, detail_column = st.columns([3, 2], gap="large")
 
     table = shown.copy()
@@ -197,6 +236,7 @@ def render(selected: pd.DataFrame, frame: pd.DataFrame, evidence: Evidence | Non
             "thumb": st.column_config.ImageColumn("Radar", width="small"),
             "id": st.column_config.TextColumn("ID", width="medium"),
             "class_label": "Class",
+            "ais_label": st.column_config.TextColumn("AIS check", width="medium"),
             "size_label": "Size",
             "length_m": st.column_config.ProgressColumn("Length", format="%d m", min_value=0, max_value=longest),
             "contrast_db": st.column_config.NumberColumn("Brightness (dB)", format="%.1f"),
@@ -205,7 +245,6 @@ def render(selected: pd.DataFrame, frame: pd.DataFrame, evidence: Evidence | Non
             "review_label": "Visual review",
             "check_label": "YOLO check",
             "vh_label": "Bright in VH",
-            "ais_label": "AIS",
             "timestamp": st.column_config.DatetimeColumn("Pass (UTC)", format="DD MMM HH:mm"),
         },
     )
@@ -219,10 +258,10 @@ def render(selected: pd.DataFrame, frame: pd.DataFrame, evidence: Evidence | Non
         chosen_id = st.query_params.get("id")
 
     with map_column:
-        render_map(shown, evidence, scene_id, chosen_id, radar_toggle)
+        render_map(shown, evidence, scene_id, chosen_id, radar_toggle, extra)
     with detail_column:
         if chosen_id:
-            render_detail(frame[frame["id"] == chosen_id].iloc[0], frame, directory, total_passes)
+            render_detail(frame[frame["id"] == chosen_id].iloc[0], frame, directory, total_passes, history_reasons)
         else:
             st.info("Select a row in the table below to see its radar images and evidence.")
 
@@ -230,5 +269,7 @@ def render(selected: pd.DataFrame, frame: pd.DataFrame, evidence: Evidence | Non
         csv_column, geojson_column, _ = st.columns([1, 1, 4])
         csv_column.download_button("Download CSV", to_csv(shown), "seas_of_data_detections.csv", "text/csv", key="ex_csv")
         geojson_column.download_button("Download GeoJSON", to_geojson(shown), "seas_of_data_detections.geojson", "application/geo+json", key="ex_geojson")
+    if checks:
+        st.markdown(GFW_ATTRIBUTION)
     with st.expander("How to cite this data"):
         st.code(citation(selected, manifest), language=None, wrap_lines=True)

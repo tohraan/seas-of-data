@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from components import (
+    GFW_ATTRIBUTION,
     INK_SECONDARY,
     SERIES_COLOURS,
     pass_time,
@@ -121,6 +122,46 @@ def render_precision(metrics: dict) -> None:
         st.caption("The smaller the target, the less often it looks like a ship.")
 
 
+def render_fishing_watch_check(frame: pd.DataFrame, checks: dict | None) -> None:
+    """How our detections line up with Fishing Watch's own processing of the same radar passes."""
+    if not checks:
+        return
+    available = [item for item in checks.get("passes", []) if item.get("available")]
+    if not available:
+        return
+    st.subheader("Checked against Global Fishing Watch")
+    theirs = sum(item["gfw_total"] for item in available)
+    paired = sum(item["paired"] for item in available)
+    st.markdown(
+        f"Fishing Watch runs its own ship detection on the same Sentinel-1 passes and matches the results to AIS. That gives us an outside check, on {len(available)} of {len(checks['passes'])} passes so far. "
+        f"**Of their {theirs} targets, our detector also found {paired}.** The rest are ships we missed or targets near the coast that our sea mask excludes."
+    )
+    rows = []
+    checked = frame[frame["gfw_check"].isin(["ais_match", "no_ais", "no_detection"])]
+    for radar_class, label in [("ship", "Ship"), ("uncertain", "Uncertain"), ("likely_fixed", "Likely fixed")]:
+        group = checked[checked["radar_class"] == radar_class]
+        if group.empty:
+            continue
+        seen = group["gfw_check"].isin(["ais_match", "no_ais"])
+        rows.append({
+            "Our radar class": label,
+            "Detections": len(group),
+            "Also found by Fishing Watch": f"{int(seen.sum())} ({seen.mean() * 100:.0f}%)",
+            "Matched to a ship's AIS": int((group["gfw_check"] == "ais_match").sum()),
+            "No AIS match": int((group["gfw_check"] == "no_ais").sum()),
+        })
+    st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+    st.caption(
+        "Positions are paired within 1 km, because Fishing Watch rounds them to about 1 km. "
+        "That the ship class is found far more often than the uncertain class is independent support for the class rule. "
+        "A target with no AIS match isn't proof of wrongdoing: its AIS may have been out of reception, or it may not be a ship."
+    )
+    pending = [item["scene_id"] for item in checks["passes"] if not item.get("available")]
+    if pending:
+        st.caption(f"Not published yet, because this data runs about 5 days behind: {', '.join(pending)}.")
+    st.markdown(GFW_ATTRIBUTION)
+
+
 def render_review_check(frame: pd.DataFrame) -> None:
     """Do the two independent signals agree with the visual review? Neither was used to make it."""
     reviewed = frame[frame["review"].isin(["confirmed", "unsure", "rejected"]) & frame["detector_check"].notna()]
@@ -224,19 +265,21 @@ def render_second_opinion(frame: pd.DataFrame, evidence: Evidence | None) -> Non
     st.caption(f"Second opinion built {evidence.built_at[:10]}. {evidence.source}.")
 
 
-def render(frame: pd.DataFrame, manifest: dict | None, metrics: dict | None, evidence: Evidence | None) -> None:
+def render(frame: pd.DataFrame, manifest: dict | None, metrics: dict | None, evidence: Evidence | None, checks: dict | None = None) -> None:
     if manifest:
         render_provenance(manifest)
         render_funnel(manifest)
     if metrics:
         render_precision(metrics)
+    render_fishing_watch_check(frame, checks)
     st.subheader("Limits")
     st.markdown(
-        "- **No AIS is joined yet**, so nothing here says a ship is dark, and no ship has a name, type or flag.\n"
+        "- **The AIS check isn't ours and isn't instant.** It's Fishing Watch's matching, about 5 days behind, so the newest pass may have none yet.\n"
         "- **Missed ships can't be counted.** There's no ground truth for the Gulf, so recall is unknown.\n"
         "- **Each pass is a snapshot**, days apart. Radar shows no speed or heading, so ships can't be followed between passes.\n"
         "- **Only one part of the Gulf is covered:** Jebel Ali, Khalifa Port and their approaches.\n"
-        "- **Length is approximate**, good to about ±20 m at 10 m pixels."
+        "- **Length is approximate**, good to about ±20 m at 10 m pixels.\n"
+        "- **AIS positions are rounded to about 1 km.** The replay moves any that land on the shore to the nearest water, using OpenStreetMap, and leaves out the few too far from water to be real. Its lines between hours are estimates."
     )
     render_second_opinion(frame, evidence)
     if manifest and manifest.get("reproduce"):

@@ -13,10 +13,17 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image
-from sentinel import SeaMask, find_product, read_scene, signed_url, to_uint8
 from ultralytics import YOLO
 
-CONTRACT = Path(__file__).resolve().parents[2] / "contracts" / "detections.geojson"
+from sentinel import (
+    SeaMask,
+    contract_scene_ids,
+    find_product,
+    read_scene,
+    signed_url,
+    to_uint8,
+)
+
 TILE_PX, STRIDE_PX = 800, 640
 UPSCALE = 3.0
 MODEL_INPUT_PX = 640
@@ -25,11 +32,6 @@ CONFIDENCE_FLOOR = 0.10
 NMS_OVERLAP = 0.4
 MAX_SHIP_M = 450
 MASK_STEP_PX = 8
-
-
-def contract_scene_ids(path: Path = CONTRACT) -> list[str]:
-    features = json.loads(path.read_text())["features"]
-    return sorted({feature["properties"]["scene_id"] for feature in features})
 
 
 def overlap(a: list[float], b: list[float]) -> float:
