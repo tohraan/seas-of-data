@@ -196,7 +196,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-1beedb.png",
     "chip_context": "chips/s1c-20261024-1beedb_ctx.jpg"
    }
@@ -316,7 +316,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-2921df.png",
     "chip_context": "chips/s1c-20261024-2921df_ctx.jpg"
    }
@@ -396,7 +396,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261024-32aa9c.png",
     "chip_context": "chips/s1c-20261024-32aa9c_ctx.jpg"
    }
@@ -436,7 +436,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-3a7571.png",
     "chip_context": "chips/s1c-20261024-3a7571_ctx.jpg"
    }
@@ -556,7 +556,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-6e5499.png",
     "chip_context": "chips/s1c-20261024-6e5499_ctx.jpg"
    }
@@ -596,7 +596,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-7203bd.png",
     "chip_context": "chips/s1c-20261024-7203bd_ctx.jpg"
    }
@@ -676,7 +676,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-76918c.png",
     "chip_context": "chips/s1c-20261024-76918c_ctx.jpg"
    }
@@ -716,7 +716,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-832e14.png",
     "chip_context": "chips/s1c-20261024-832e14_ctx.jpg"
    }
@@ -836,7 +836,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-8c887e.png",
     "chip_context": "chips/s1c-20261024-8c887e_ctx.jpg"
    }
@@ -876,7 +876,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261024-970371.png",
     "chip_context": "chips/s1c-20261024-970371_ctx.jpg"
    }
@@ -956,7 +956,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261024-9ae57c.png",
     "chip_context": "chips/s1c-20261024-9ae57c_ctx.jpg"
    }
@@ -996,7 +996,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-9b693e.png",
     "chip_context": "chips/s1c-20261024-9b693e_ctx.jpg"
    }
@@ -1076,7 +1076,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-ae43f0.png",
     "chip_context": "chips/s1c-20261024-ae43f0_ctx.jpg"
    }
@@ -1116,7 +1116,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-b26181.png",
     "chip_context": "chips/s1c-20261024-b26181_ctx.jpg"
    }
@@ -1196,7 +1196,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261024-bac655.png",
     "chip_context": "chips/s1c-20261024-bac655_ctx.jpg"
    }
@@ -1276,7 +1276,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261024-c00a8e.png",
     "chip_context": "chips/s1c-20261024-c00a8e_ctx.jpg"
    }
@@ -1316,7 +1316,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-c3624e.png",
     "chip_context": "chips/s1c-20261024-c3624e_ctx.jpg"
    }
@@ -1356,7 +1356,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-d560f2.png",
     "chip_context": "chips/s1c-20261024-d560f2_ctx.jpg"
    }
@@ -1396,7 +1396,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261024-e29223.png",
     "chip_context": "chips/s1c-20261024-e29223_ctx.jpg"
    }
@@ -1436,7 +1436,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-e5e8ea.png",
     "chip_context": "chips/s1c-20261024-e5e8ea_ctx.jpg"
    }
@@ -1516,7 +1516,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261024-f22646.png",
     "chip_context": "chips/s1c-20261024-f22646_ctx.jpg"
    }
@@ -1556,7 +1556,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261024-fc649b.png",
     "chip_context": "chips/s1c-20261024-fc649b_ctx.jpg"
    }
@@ -1636,7 +1636,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-0200cd.png",
     "chip_context": "chips/s1c-20261027-0200cd_ctx.jpg"
    }
@@ -1756,7 +1756,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-037269.png",
     "chip_context": "chips/s1c-20261027-037269_ctx.jpg"
    }
@@ -1956,7 +1956,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-0f03ff.png",
     "chip_context": "chips/s1c-20261027-0f03ff_ctx.jpg"
    }
@@ -2076,7 +2076,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-1b9a99.png",
     "chip_context": "chips/s1c-20261027-1b9a99_ctx.jpg"
    }
@@ -2116,7 +2116,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-1d1dad.png",
     "chip_context": "chips/s1c-20261027-1d1dad_ctx.jpg"
    }
@@ -2156,7 +2156,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-2191f5.png",
     "chip_context": "chips/s1c-20261027-2191f5_ctx.jpg"
    }
@@ -2196,7 +2196,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261027-2359e5.png",
     "chip_context": "chips/s1c-20261027-2359e5_ctx.jpg"
    }
@@ -2316,7 +2316,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-27e806.png",
     "chip_context": "chips/s1c-20261027-27e806_ctx.jpg"
    }
@@ -2476,7 +2476,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261027-3570b0.png",
     "chip_context": "chips/s1c-20261027-3570b0_ctx.jpg"
    }
@@ -2516,7 +2516,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-3b1b52.png",
     "chip_context": "chips/s1c-20261027-3b1b52_ctx.jpg"
    }
@@ -2596,7 +2596,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-43bb77.png",
     "chip_context": "chips/s1c-20261027-43bb77_ctx.jpg"
    }
@@ -2676,7 +2676,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261027-445cc7.png",
     "chip_context": "chips/s1c-20261027-445cc7_ctx.jpg"
    }
@@ -2716,7 +2716,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-44c11a.png",
     "chip_context": "chips/s1c-20261027-44c11a_ctx.jpg"
    }
@@ -2796,7 +2796,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-469f7d.png",
     "chip_context": "chips/s1c-20261027-469f7d_ctx.jpg"
    }
@@ -2836,7 +2836,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-477327.png",
     "chip_context": "chips/s1c-20261027-477327_ctx.jpg"
    }
@@ -2876,7 +2876,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-47bd14.png",
     "chip_context": "chips/s1c-20261027-47bd14_ctx.jpg"
    }
@@ -2916,7 +2916,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-4bb2f3.png",
     "chip_context": "chips/s1c-20261027-4bb2f3_ctx.jpg"
    }
@@ -2956,7 +2956,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-4bfc4e.png",
     "chip_context": "chips/s1c-20261027-4bfc4e_ctx.jpg"
    }
@@ -3036,7 +3036,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-5124e2.png",
     "chip_context": "chips/s1c-20261027-5124e2_ctx.jpg"
    }
@@ -3196,7 +3196,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-63f154.png",
     "chip_context": "chips/s1c-20261027-63f154_ctx.jpg"
    }
@@ -3316,7 +3316,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-6cd66c.png",
     "chip_context": "chips/s1c-20261027-6cd66c_ctx.jpg"
    }
@@ -3436,7 +3436,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-74af19.png",
     "chip_context": "chips/s1c-20261027-74af19_ctx.jpg"
    }
@@ -3476,7 +3476,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-797c22.png",
     "chip_context": "chips/s1c-20261027-797c22_ctx.jpg"
    }
@@ -3516,7 +3516,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-805474.png",
     "chip_context": "chips/s1c-20261027-805474_ctx.jpg"
    }
@@ -3636,7 +3636,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-84a289.png",
     "chip_context": "chips/s1c-20261027-84a289_ctx.jpg"
    }
@@ -3676,7 +3676,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261027-86994c.png",
     "chip_context": "chips/s1c-20261027-86994c_ctx.jpg"
    }
@@ -3716,7 +3716,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261027-8b4ab8.png",
     "chip_context": "chips/s1c-20261027-8b4ab8_ctx.jpg"
    }
@@ -3756,7 +3756,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-8ce621.png",
     "chip_context": "chips/s1c-20261027-8ce621_ctx.jpg"
    }
@@ -3916,7 +3916,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261027-9f70c6.png",
     "chip_context": "chips/s1c-20261027-9f70c6_ctx.jpg"
    }
@@ -3956,7 +3956,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-a0268a.png",
     "chip_context": "chips/s1c-20261027-a0268a_ctx.jpg"
    }
@@ -4116,7 +4116,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1c-20261027-abd44f.png",
     "chip_context": "chips/s1c-20261027-abd44f_ctx.jpg"
    }
@@ -4196,7 +4196,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-b40aee.png",
     "chip_context": "chips/s1c-20261027-b40aee_ctx.jpg"
    }
@@ -4316,7 +4316,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-c0a686.png",
     "chip_context": "chips/s1c-20261027-c0a686_ctx.jpg"
    }
@@ -4396,7 +4396,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-cd0cbd.png",
     "chip_context": "chips/s1c-20261027-cd0cbd_ctx.jpg"
    }
@@ -4436,7 +4436,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-d39448.png",
     "chip_context": "chips/s1c-20261027-d39448_ctx.jpg"
    }
@@ -4556,7 +4556,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-d9c34d.png",
     "chip_context": "chips/s1c-20261027-d9c34d_ctx.jpg"
    }
@@ -4636,7 +4636,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1c-20261027-e344cb.png",
     "chip_context": "chips/s1c-20261027-e344cb_ctx.jpg"
    }
@@ -4796,7 +4796,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1c-20261027-faaef8.png",
     "chip_context": "chips/s1c-20261027-faaef8_ctx.jpg"
    }
@@ -4956,7 +4956,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-0a217b.png",
     "chip_context": "chips/s1d-20261030-0a217b_ctx.jpg"
    }
@@ -5116,7 +5116,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261030-1b6795.png",
     "chip_context": "chips/s1d-20261030-1b6795_ctx.jpg"
    }
@@ -5196,7 +5196,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261030-2b5962.png",
     "chip_context": "chips/s1d-20261030-2b5962_ctx.jpg"
    }
@@ -5236,7 +5236,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261030-323c0f.png",
     "chip_context": "chips/s1d-20261030-323c0f_ctx.jpg"
    }
@@ -5636,7 +5636,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-4d29c3.png",
     "chip_context": "chips/s1d-20261030-4d29c3_ctx.jpg"
    }
@@ -5676,7 +5676,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261030-4f330a.png",
     "chip_context": "chips/s1d-20261030-4f330a_ctx.jpg"
    }
@@ -5716,7 +5716,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-50d881.png",
     "chip_context": "chips/s1d-20261030-50d881_ctx.jpg"
    }
@@ -5756,7 +5756,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261030-59573c.png",
     "chip_context": "chips/s1d-20261030-59573c_ctx.jpg"
    }
@@ -5796,7 +5796,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261030-5b6dab.png",
     "chip_context": "chips/s1d-20261030-5b6dab_ctx.jpg"
    }
@@ -5916,7 +5916,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-620d61.png",
     "chip_context": "chips/s1d-20261030-620d61_ctx.jpg"
    }
@@ -5956,7 +5956,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261030-6c0f93.png",
     "chip_context": "chips/s1d-20261030-6c0f93_ctx.jpg"
    }
@@ -5996,7 +5996,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-6e96a6.png",
     "chip_context": "chips/s1d-20261030-6e96a6_ctx.jpg"
    }
@@ -6076,7 +6076,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261030-777509.png",
     "chip_context": "chips/s1d-20261030-777509_ctx.jpg"
    }
@@ -6156,7 +6156,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261030-7c2c9e.png",
     "chip_context": "chips/s1d-20261030-7c2c9e_ctx.jpg"
    }
@@ -6316,7 +6316,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261030-8bc463.png",
     "chip_context": "chips/s1d-20261030-8bc463_ctx.jpg"
    }
@@ -6436,7 +6436,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-98ae09.png",
     "chip_context": "chips/s1d-20261030-98ae09_ctx.jpg"
    }
@@ -6476,7 +6476,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-a7a0c4.png",
     "chip_context": "chips/s1d-20261030-a7a0c4_ctx.jpg"
    }
@@ -6516,7 +6516,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261030-b46006.png",
     "chip_context": "chips/s1d-20261030-b46006_ctx.jpg"
    }
@@ -6636,7 +6636,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-ba5b20.png",
     "chip_context": "chips/s1d-20261030-ba5b20_ctx.jpg"
    }
@@ -6756,7 +6756,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261030-c5cd5d.png",
     "chip_context": "chips/s1d-20261030-c5cd5d_ctx.jpg"
    }
@@ -6916,7 +6916,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261030-dbacd3.png",
     "chip_context": "chips/s1d-20261030-dbacd3_ctx.jpg"
    }
@@ -7036,7 +7036,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261030-e7bec2.png",
     "chip_context": "chips/s1d-20261030-e7bec2_ctx.jpg"
    }
@@ -7076,7 +7076,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261030-f77ac2.png",
     "chip_context": "chips/s1d-20261030-f77ac2_ctx.jpg"
    }
@@ -7156,7 +7156,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-02e951.png",
     "chip_context": "chips/s1d-20261102-02e951_ctx.jpg"
    }
@@ -7196,7 +7196,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261102-03459c.png",
     "chip_context": "chips/s1d-20261102-03459c_ctx.jpg"
    }
@@ -7236,7 +7236,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261102-0f42a5.png",
     "chip_context": "chips/s1d-20261102-0f42a5_ctx.jpg"
    }
@@ -7276,7 +7276,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-0f85f8.png",
     "chip_context": "chips/s1d-20261102-0f85f8_ctx.jpg"
    }
@@ -7316,7 +7316,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-128f21.png",
     "chip_context": "chips/s1d-20261102-128f21_ctx.jpg"
    }
@@ -7436,7 +7436,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-254911.png",
     "chip_context": "chips/s1d-20261102-254911_ctx.jpg"
    }
@@ -7516,7 +7516,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-2907fa.png",
     "chip_context": "chips/s1d-20261102-2907fa_ctx.jpg"
    }
@@ -7716,7 +7716,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261102-3ee7ce.png",
     "chip_context": "chips/s1d-20261102-3ee7ce_ctx.jpg"
    }
@@ -7796,7 +7796,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-41bd1a.png",
     "chip_context": "chips/s1d-20261102-41bd1a_ctx.jpg"
    }
@@ -7836,7 +7836,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-468b28.png",
     "chip_context": "chips/s1d-20261102-468b28_ctx.jpg"
    }
@@ -7916,7 +7916,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-5b846a.png",
     "chip_context": "chips/s1d-20261102-5b846a_ctx.jpg"
    }
@@ -7996,7 +7996,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-5e16a6.png",
     "chip_context": "chips/s1d-20261102-5e16a6_ctx.jpg"
    }
@@ -8116,7 +8116,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261102-64b47d.png",
     "chip_context": "chips/s1d-20261102-64b47d_ctx.jpg"
    }
@@ -8196,7 +8196,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-6911bc.png",
     "chip_context": "chips/s1d-20261102-6911bc_ctx.jpg"
    }
@@ -8316,7 +8316,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-7107b0.png",
     "chip_context": "chips/s1d-20261102-7107b0_ctx.jpg"
    }
@@ -8396,7 +8396,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261102-79dfe0.png",
     "chip_context": "chips/s1d-20261102-79dfe0_ctx.jpg"
    }
@@ -8476,7 +8476,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261102-7c09f4.png",
     "chip_context": "chips/s1d-20261102-7c09f4_ctx.jpg"
    }
@@ -8516,7 +8516,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-7d3f92.png",
     "chip_context": "chips/s1d-20261102-7d3f92_ctx.jpg"
    }
@@ -8556,7 +8556,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-88ad09.png",
     "chip_context": "chips/s1d-20261102-88ad09_ctx.jpg"
    }
@@ -8676,7 +8676,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-97eaa3.png",
     "chip_context": "chips/s1d-20261102-97eaa3_ctx.jpg"
    }
@@ -8796,7 +8796,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-a18fe2.png",
     "chip_context": "chips/s1d-20261102-a18fe2_ctx.jpg"
    }
@@ -8916,7 +8916,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261102-a75c01.png",
     "chip_context": "chips/s1d-20261102-a75c01_ctx.jpg"
    }
@@ -8956,7 +8956,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-af3fcb.png",
     "chip_context": "chips/s1d-20261102-af3fcb_ctx.jpg"
    }
@@ -8996,7 +8996,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-b07848.png",
     "chip_context": "chips/s1d-20261102-b07848_ctx.jpg"
    }
@@ -9076,7 +9076,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-b33744.png",
     "chip_context": "chips/s1d-20261102-b33744_ctx.jpg"
    }
@@ -9116,7 +9116,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-b595ae.png",
     "chip_context": "chips/s1d-20261102-b595ae_ctx.jpg"
    }
@@ -9236,7 +9236,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-bc260e.png",
     "chip_context": "chips/s1d-20261102-bc260e_ctx.jpg"
    }
@@ -9276,7 +9276,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-c06876.png",
     "chip_context": "chips/s1d-20261102-c06876_ctx.jpg"
    }
@@ -9356,7 +9356,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261102-ce4cb4.png",
     "chip_context": "chips/s1d-20261102-ce4cb4_ctx.jpg"
    }
@@ -9476,7 +9476,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-d54f28.png",
     "chip_context": "chips/s1d-20261102-d54f28_ctx.jpg"
    }
@@ -9636,7 +9636,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "rejected",
     "chip": "chips/s1d-20261102-db1ea6.png",
     "chip_context": "chips/s1d-20261102-db1ea6_ctx.jpg"
    }
@@ -9676,7 +9676,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "unsure",
     "chip": "chips/s1d-20261102-e4edbd.png",
     "chip_context": "chips/s1d-20261102-e4edbd_ctx.jpg"
    }
@@ -9756,7 +9756,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-e6dbc3.png",
     "chip_context": "chips/s1d-20261102-e6dbc3_ctx.jpg"
    }
@@ -9796,7 +9796,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-f024ee.png",
     "chip_context": "chips/s1d-20261102-f024ee_ctx.jpg"
    }
@@ -9916,7 +9916,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-f2a459.png",
     "chip_context": "chips/s1d-20261102-f2a459_ctx.jpg"
    }
@@ -9956,7 +9956,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-f4d140.png",
     "chip_context": "chips/s1d-20261102-f4d140_ctx.jpg"
    }
@@ -9996,7 +9996,7 @@
     "ais_source": "none",
     "status": "not_checked",
     "detector": "cfar-v1",
-    "review": "unreviewed",
+    "review": "confirmed",
     "chip": "chips/s1d-20261102-f77530.png",
     "chip_context": "chips/s1d-20261102-f77530_ctx.jpg"
    }

@@ -86,6 +86,21 @@ def scene_path(scenes_dir, scene_id):
     return hits[0] if hits else None
 
 
+def open_scene(scenes_dir, scene_id):
+    """(path-or-url, ESA product name). Uses the local Copernicus download if present, else the public Planetary Computer mirror."""
+    sp = scene_path(scenes_dir, scene_id)
+    if sp:
+        return str(sp), sp.name.removesuffix("_vv.tiff") + ".SAFE"
+    import fetch_pc
+    url, item = fetch_pc.signed_vv_url(scene_id)
+    prev = CONTRACTS / "manifest.json"
+    if prev.exists():
+        for sc in json.loads(prev.read_text())["scenes"]:
+            if sc["scene_id"] == scene_id:
+                return url, sc["product"]
+    return url, item + " (Planetary Computer item id)"
+
+
 def scene_window(ds):
     ov = ds.read(1, out_shape=(min(ds.height, 2000), min(ds.width, 2000))).astype("float32")
     v = 20 * np.log10(np.maximum(ov[ov > 0], 1.0))
@@ -155,11 +170,8 @@ def main():
     land = LandDistance()
     products = {}
     for scene_id, dets in per_scene:      # pass 1: ids, radar features, chips (needs the scene file)
-        sp = scene_path(args.scenes, scene_id)
-        if sp is None:
-            raise SystemExit(f"scene file for {scene_id} not found in {args.scenes}")
-        products[scene_id] = sp.name.removesuffix("_vv.tiff") + ".SAFE"
-        with rasterio.open(sp) as ds:
+        src, products[scene_id] = open_scene(args.scenes, scene_id)
+        with rasterio.open(src) as ds:
             lo, hi = scene_window(ds)
             for d in dets:
                 d["id"] = detection_id(scene_id, d["lon"], d["lat"])

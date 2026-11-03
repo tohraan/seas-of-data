@@ -14,7 +14,8 @@ ML = Path(os.environ.get("ML_DIR", "/Users/tohraan/space/ml"))  # folder holding
 sys.path.insert(0, str(ROOT / "ml"))
 from infer import scene_window, to_uint8, geo_sea
 
-TEAL, AMBER = (63, 184, 166), (240, 169, 59)
+TEAL, SLATE, WHITE = (63, 184, 166), (143, 163, 181), (238, 240, 234)
+COL = {"ship": TEAL, "uncertain": SLATE, "likely_fixed": WHITE}
 scene = next((ML / "data/scenes").glob("*20261102T021455*_vv.tiff"))
 fc = [f for f in json.loads((ROOT / "contracts/detections.geojson").read_text())["features"]
       if f["properties"]["scene_id"].endswith("20261102T021455")]
@@ -34,7 +35,7 @@ with rasterio.open(scene) as ds:
     tint = Image.new("RGB", raw.size, (52, 116, 150))
     masked = Image.composite(Image.blend(raw, tint, 0.55), raw, wm)
     masked.save(HERE / "radar_seamask.png")
-    # 3: zoom on an offshore group, rings coloured by AIS match
+    # 3: zoom on an offshore group, rings coloured by radar class (teal ship, slate uncertain, white likely fixed)
     cx, cy = 16300, 6950
     zx0, zy0, zs = cx - 450, cy - 350, 900
     z = ds.read(1, window=Window(zx0, zy0, zs, 700))
@@ -46,29 +47,29 @@ with rasterio.open(scene) as ds:
         r, c = tr.rowcol(lon, lat)
         x, y = (c - zx0) * 2, (r - zy0) * 2
         if 0 <= x < zi.width and 0 <= y < zi.height:
-            col = AMBER if f["properties"]["dark"] else TEAL
+            col = COL[f["properties"]["radar_class"]]
             d.ellipse([x - 34, y - 34, x + 34, y + 34], outline=col, width=5)
             n += 1
     zi.save(HERE / "radar_zoom.png")
-    # 4: ship chips (48 px = 480 m square, upscaled), 4 matched then 4 dark where available
+    # 4: chips (48 px = 480 m square, upscaled): top row ship class, bottom row uncertain class
     pts = []
-    for want_dark in (False, True):
+    for cls, pick in (("ship", lambda f: f["properties"]["port"] is None), ("uncertain", lambda f: True)):
         k = 0
-        for f in sorted(fc, key=lambda f: -f["properties"]["confidence"]):
-            if f["properties"]["dark"] != want_dark:
+        for f in sorted(fc, key=lambda f: -f["properties"]["snr_z"]):
+            if f["properties"]["radar_class"] != cls or not pick(f):
                 continue
             lon, lat = f["geometry"]["coordinates"]
             r, c = tr.rowcol(lon, lat)
-            if 24 < r < ds.height - 24 and 24 < c < ds.width - 24 and f["properties"]["port"] is None:
-                pts.append((int(r), int(c), want_dark)); k += 1
+            if 24 < r < ds.height - 24 and 24 < c < ds.width - 24:
+                pts.append((int(r), int(c), cls)); k += 1
             if k == 4:
                 break
     S = 240
     sheet = Image.new("RGB", (4 * S + 3 * 10, 2 * S + 10), (10, 23, 34))
-    for i, (r, c, dark) in enumerate(pts[:8]):
+    for i, (r, c, cls) in enumerate(pts[:8]):
         a = ds.read(1, window=Window(c - 24, r - 24, 48, 48))
         im = Image.fromarray(to_uint8(a, lo, hi)).convert("RGB").resize((S, S), Image.BICUBIC)
-        ImageDraw.Draw(im).rectangle([0, 0, S - 1, S - 1], outline=AMBER if dark else TEAL, width=5)
+        ImageDraw.Draw(im).rectangle([0, 0, S - 1, S - 1], outline=COL[cls], width=5)
         sheet.paste(im, ((i % 4) * (S + 10), (i // 4) * (S + 10)))
     sheet.save(HERE / "ship_chips.png")
 print("figures:", [p.name for p in HERE.glob("radar_*.png")], "chips", len(pts), "rings in zoom", n)

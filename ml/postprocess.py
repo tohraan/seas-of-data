@@ -1,4 +1,6 @@
-"""Raw detections -> contracts/detections.geojson + contracts/port_activity.json (validated against the schema).
+"""LEGACY (v1, simulated AIS): kept for reference and the AIS-simulation demo only. contracts/ are built by build_catalog.py (v2, no simulated AIS).
+
+Raw detections -> contracts/detections.geojson + contracts/port_activity.json (validated against the schema).
 
 Usage: .venv/bin/python postprocess.py runs/detections_raw_*.json [--seed 0]
 
@@ -67,6 +69,10 @@ def match(dets, ais):
 
 
 def main():
+    import sys
+    if "--legacy-simulated" not in sys.argv:
+        sys.exit("postprocess.py is LEGACY (simulated AIS) and would overwrite the v2 contracts. Use ml/build_catalog.py, or pass --legacy-simulated knowingly.")
+    sys.argv.remove("--legacy-simulated")
     ap = argparse.ArgumentParser()
     ap.add_argument("raw", nargs="+")
     ap.add_argument("--seed", type=int, default=0)
