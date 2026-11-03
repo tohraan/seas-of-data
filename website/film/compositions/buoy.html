@@ -1,0 +1,26 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    #buoy-shot { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; }
+    .lt { position: absolute; left: 128px; bottom: 120px; padding: 12px 20px; background: rgba(0, 0, 0, 0.6); color: #f4f1ea; font: 500 30px/1.25 "Inter", sans-serif; }
+    .lt span { color: rgba(244, 241, 234, 0.7); }
+    .lt b { color: #ff5a36; font-weight: 600; }
+    .lt small { display: block; margin-top: 4px; font: 400 20px/1.3 "Inter", sans-serif; color: rgba(244, 241, 234, 0.7); }
+    #buoy-id { position: absolute; left: 128px; top: 110px; padding: 8px 16px; background: rgba(0, 0, 0, 0.55); color: #f4f1ea; font: 500 24px "IBM Plex Mono", monospace; }
+  </style>
+  <div id="root" data-composition-id="buoy" data-width="1920" data-height="1080">
+    <video id="buoy-shot" class="clip" src="assets/shots/c2.mp4" data-start="0" data-duration="8" data-playback-rate="0.625" muted playsinline></video>
+    <div id="buoy-id" class="clip" data-start="0.3" data-duration="7.4">B-07 · 08:02 GST · 3.5 km from d0190</div>
+    <div id="buoy-lt1" class="lt clip" data-start="0.6" data-duration="3.6">AIS receiver: <b>0 reports</b> from 304° in 6 h<small>Simulated buoy reading</small></div>
+    <div id="buoy-lt2" class="lt clip" data-start="4.4" data-duration="3.4">Oil-sheen index <b>0.71</b> <span>· baseline 0.08</span><small>Simulated buoy reading</small></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#buoy-id", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.3)
+      .fromTo("#buoy-lt1", { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.6)
+      .to("#buoy-lt1", { opacity: 0, duration: 0.25 }, 3.9)
+      .fromTo("#buoy-lt2", { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 4.4)
+      .to(["#buoy-lt2", "#buoy-id"], { opacity: 0, duration: 0.3 }, 7.4);
+    window.__timelines["buoy"] = tl;
+  </script>
+</template>

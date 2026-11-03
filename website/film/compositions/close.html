@@ -1,0 +1,41 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #0d1d27; }
+    #close-map { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    #close-panel { position: absolute; left: 160px; right: 160px; bottom: 120px; padding: 28px 36px 24px; background: rgba(0, 0, 0, 0.66); color: #f4f1ea; }
+    .lane { position: relative; height: 64px; margin-top: 14px; }
+    .lane b { position: absolute; left: 0; top: 0; width: 420px; font: 500 26px/1.25 "Inter", sans-serif; }
+    .lane b span { display: block; font: 400 19px "Inter", sans-serif; color: rgba(244, 241, 234, 0.7); }
+    .track { position: absolute; left: 460px; right: 0; top: 18px; height: 22px; border-bottom: 1px solid rgba(244, 241, 234, 0.3); }
+    .tick { position: absolute; top: 0; width: 6px; height: 22px; margin-left: -3px; background: #f4f1ea; }
+    #close-bar { position: absolute; left: 0; top: 4px; width: 100%; height: 14px; background: #7fd1c8; transform-origin: 0 50%; }
+    #close-axis { position: relative; height: 26px; margin-left: 460px; font: 500 18px "IBM Plex Mono", monospace; color: rgba(244, 241, 234, 0.65); }
+    #close-axis span { position: absolute; top: 0; transform: translateX(-50%); }
+    .credit { position: absolute; right: 24px; bottom: 18px; padding: 3px 8px; background: rgba(0, 0, 0, 0.45); color: rgba(244, 241, 234, 0.75); font: 400 16px "Inter", sans-serif; }
+  </style>
+  <div id="root" data-composition-id="close" data-width="1920" data-height="1080">
+    <img id="close-map" class="clip" src="assets/map/gulf_end.jpg" alt="" data-start="0" data-duration="8" />
+    <div id="close-panel" class="clip" data-start="0.2" data-duration="7.6">
+      <div class="lane" id="close-sat"><b>Sentinel-1 radar<span>the whole sea, every few days</span></b><div class="track" id="close-ticks"></div></div>
+      <div class="lane" id="close-buoy"><b>Buoy B-07<span>its patch of sea, around the clock</span></b><div class="track"><div id="close-bar"></div></div></div>
+      <div id="close-axis"><span style="left:0%">2 Nov</span><span style="left:21.4%">5 Nov</span><span style="left:42.9%">8 Nov</span><span style="left:64.3%">11 Nov</span><span style="left:85.7%">14 Nov</span></div>
+    </div>
+    <div id="close-credit" class="credit clip" data-start="0" data-duration="8" data-layout-ignore>Imagery: Esri, Maxar, Earthstar Geographics</div>
+  </div>
+  <script>
+    // Passes over our scene: 2, 5, 8, 11 and 14 Nov, on a 2–16 Nov axis.
+    const ticks = [0, 3, 6, 9, 12].map((d) => {
+      const t = document.createElement("div");
+      t.className = "tick"; t.style.left = `${(d / 14) * 100}%`;
+      document.getElementById("close-ticks").append(t);
+      return t;
+    });
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#close-panel", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.2)
+      .fromTo("#close-buoy", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 2.6)
+      .fromTo("#close-bar", { scaleX: 0 }, { scaleX: 1, duration: 1.8, ease: "power1.inOut" }, 2.8)
+      .to("#close-panel", { opacity: 0, duration: 0.4 }, 7.4);
+    ticks.forEach((t, i) => tl.fromTo(t, { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.25, ease: "power2.out" }, 0.8 + i * 0.3));
+    window.__timelines["close"] = tl;
+  </script>
+</template>

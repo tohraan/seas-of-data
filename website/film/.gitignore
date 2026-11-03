@@ -1,0 +1,15 @@
+# Tools and caches
+.tools/venv/
+.tools/node_modules/
+.hyperframes/
+renders/
+node_modules/
+
+# Large or regenerable media (map bakes via .tools/bake-basemap.mjs, shots from website/blender)
+assets/map/frames-*/
+assets/map/*.mp4
+assets/map/*.log
+assets/shots/*.mp4
+assets/audio/src/*.wav
+assets/audio/src/*.flac
+assets/audio/src/*.ogg

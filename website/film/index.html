@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ground: #05090c;
+        --ink: #f4f1ea;
+        --accent: #ff5a36;
+        --real: #7fd1c8;
+        --font-display: "Inter", sans-serif;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; font-family: var(--font-display); }
+      #stage-ground { position: absolute; inset: 0; background: var(--ground); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="91" data-width="1920" data-height="1080">
+      <div id="stage-ground" data-layout-ignore></div>
+
+      <!-- Scenes: one per narration cue (SCRIPT.md). -->
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="9" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="gone" data-composition-id="gone" data-composition-src="compositions/gone.html" data-start="9" data-duration="5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="scale" data-composition-id="scale" data-composition-src="compositions/scale.html" data-start="14" data-duration="9.5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="orbit" data-composition-id="orbit" data-composition-src="compositions/orbit.html" data-start="23.5" data-duration="8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="radar" data-composition-id="radar" data-composition-src="compositions/radar.html" data-start="31.5" data-duration="23.5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="buoy" data-composition-id="buoy" data-composition-src="compositions/buoy.html" data-start="55" data-duration="8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="pov" data-composition-id="pov" data-composition-src="compositions/pov.html" data-start="63" data-duration="6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="alert" data-composition-id="alert" data-composition-src="compositions/alert.html" data-start="69" data-duration="9" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="close" data-composition-id="close" data-composition-src="compositions/close.html" data-start="78" data-duration="8" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+      <div id="endcard" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="86" data-duration="5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080"></div>
+
+      <!-- Narration (Kokoro af_heart). -->
+      <audio id="vo-hook" class="clip" src="assets/audio/vo/hook.wav" data-start="2.3" data-duration="6.06" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-gone" class="clip" src="assets/audio/vo/gone.wav" data-start="9.3" data-duration="3.16" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-scale" class="clip" src="assets/audio/vo/scale.wav" data-start="14.4" data-duration="8.19" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-orbit" class="clip" src="assets/audio/vo/orbit.wav" data-start="23.9" data-duration="6.66" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-detect" class="clip" src="assets/audio/vo/detect.wav" data-start="31.9" data-duration="7.70" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-lead" class="clip" src="assets/audio/vo/lead.wav" data-start="41" data-duration="4.54" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-task" class="clip" src="assets/audio/vo/task.wav" data-start="46.6" data-duration="6.49" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-buoy" class="clip" src="assets/audio/vo/buoy.wav" data-start="55.4" data-duration="7.17" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-pov" class="clip" src="assets/audio/vo/pov.wav" data-start="63.4" data-duration="4.39" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-alert" class="clip" src="assets/audio/vo/alert.wav" data-start="69.4" data-duration="7.30" data-track-index="2" data-volume="1"></audio>
+      <audio id="vo-close" class="clip" src="assets/audio/vo/close.wav" data-start="78.3" data-duration="7.21" data-track-index="2" data-volume="1"></audio>
+
+      <!-- Music: "Lightless Dawn", Kevin MacLeod (incompetech.com), CC BY 3.0, from 2:41. -->
+      <audio id="music" class="clip" src="assets/audio/src/lightless_dawn.mp3" data-start="0" data-duration="91" data-media-start="161.2" data-track-index="3" data-volume="0.55" data-fade-in="1.5" data-fade-out="4"></audio>
+
+      <!-- Effects: real recordings (assets/audio/CREDITS.md). -->
+      <audio id="sfx-sea" class="clip" src="assets/audio/sfx/sea_a.wav" data-start="0" data-duration="16.00" data-track-index="4" data-volume="0.5"></audio>
+      <audio id="sfx-engine" class="clip" src="assets/audio/sfx/engine.wav" data-start="0" data-duration="9.4" data-track-index="5" data-volume="0.6" data-fade-out="1.2"></audio>
+      <audio id="sfx-static" class="clip" src="assets/audio/sfx/static.wav" data-start="7.2" data-duration="0.90" data-track-index="6" data-volume="0.55"></audio>
+      <audio id="sfx-burst-up" class="clip" src="assets/audio/sfx/burst_a.wav" data-start="50.3" data-duration="1.10" data-track-index="6" data-volume="0.6"></audio>
+      <audio id="sfx-burst-down" class="clip" src="assets/audio/sfx/burst_b.wav" data-start="52" data-duration="0.80" data-track-index="6" data-volume="0.6"></audio>
+      <audio id="sfx-sea-buoy" class="clip" src="assets/audio/sfx/sea_b.wav" data-start="55" data-duration="14" data-track-index="4" data-volume="0.55" data-fade-out="1.5"></audio>
+      <audio id="sfx-motor" class="clip" src="assets/audio/sfx/motor.wav" data-start="63.1" data-duration="2.29" data-track-index="6" data-volume="0.7"></audio>
+      <audio id="sfx-shutter" class="clip" src="assets/audio/sfx/shutter.wav" data-start="66.03" data-duration="0.60" data-track-index="7" data-volume="0.9"></audio>
+      <audio id="sfx-burst-back" class="clip" src="assets/audio/sfx/burst_a.wav" data-start="67.3" data-duration="1.10" data-track-index="6" data-volume="0.5"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

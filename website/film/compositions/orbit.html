@@ -1,0 +1,79 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    #orbit-dive, #orbit-still { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    #orbit-svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+    #orbit-swath { fill: rgba(244, 241, 234, 0.3); stroke: rgba(244, 241, 234, 0.85); stroke-width: 2; }
+    #orbit-track { stroke: rgba(244, 241, 234, 0.7); stroke-width: 2; stroke-dasharray: 8 8; }
+    #orbit-sat { fill: #f4f1ea; stroke: #000; stroke-width: 2; }
+    #orbit-scene { fill: none; stroke: #ff5a36; stroke-width: 3; }
+    .tag { font: 500 26px "IBM Plex Mono", monospace; fill: #f4f1ea; paint-order: stroke; stroke: rgba(0, 0, 0, 0.9); stroke-width: 5px; }
+    .tag.sub { font-size: 22px; fill: rgba(244, 241, 234, 0.85); }
+    .lt { position: absolute; left: 128px; bottom: 120px; padding: 12px 20px; background: rgba(0, 0, 0, 0.6); color: #f4f1ea; font: 500 30px/1.25 "Inter", sans-serif; }
+    .lt span { color: rgba(244, 241, 234, 0.7); }
+    .credit { position: absolute; right: 24px; bottom: 18px; padding: 3px 8px; background: rgba(0, 0, 0, 0.45); color: rgba(244, 241, 234, 0.75); font: 400 16px "Inter", sans-serif; }
+  </style>
+  <div id="root" data-composition-id="orbit" data-width="1920" data-height="1080">
+    <video id="orbit-dive" class="clip" src="assets/map/globe.mp4" data-start="0" data-duration="5" muted playsinline></video>
+    <img id="orbit-still" class="clip" src="assets/map/globe_end.jpg" alt="" data-start="5" data-duration="3" />
+    <svg id="orbit-svg" class="clip" data-start="3.6" data-duration="4.4" viewBox="0 0 1920 1080" data-layout-allow-overflow>
+      <polygon id="orbit-swath" />
+      <line id="orbit-track" />
+      <rect id="orbit-scene" />
+      <g id="orbit-satg"><circle id="orbit-sat" r="10" /><text class="tag" x="22" y="-6">SENTINEL-1D</text><text class="tag sub" x="22" y="24">C-band radar · 693 km up</text></g>
+      <text id="orbit-wlabel" class="tag sub">IW swath · 250 km wide</text>
+    </svg>
+    <div id="orbit-lt" class="lt clip" data-start="0.5" data-duration="7.2">06:14 GST <span>·</span> Sentinel-1D passes overhead</div>
+    <div id="orbit-credit" class="credit clip" data-start="0" data-duration="8" data-layout-ignore>Imagery: Esri, Maxar, Earthstar Geographics</div>
+  </div>
+  <script>
+    const proj = (c, z) => {
+      const W = 512 * 2 ** z;
+      const mx = (lon) => ((lon + 180) / 360) * W;
+      const my = (lat) => { const s = Math.sin((lat * Math.PI) / 180); return (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W; };
+      const cx = mx(c[0]), cy = my(c[1]);
+      return (lon, lat) => [mx(lon) - cx + 960, my(lat) - cy + 540];
+    };
+    // The dive holds at zoom 5.6 over 54.2E 25.6N; at this scale the globe is close to flat Mercator.
+    const Z = 5.6;
+    const P = proj([54.2, 25.6], Z);
+    const pxPerKm = (512 * 2 ** Z) / 360 / (111.32 * Math.cos((25.4 * Math.PI) / 180));
+    const $ = (id) => document.getElementById(id);
+
+    // Descending pass, heading about 193°: the swath centre runs through the radar scene off Dubai.
+    const [ox, oy] = P(55.06, 25.0103);
+    const hd = (193 * Math.PI) / 180;
+    const dir = [Math.sin(hd), -Math.cos(hd)]; // screen x right, y down
+    const nrm = [-dir[1], dir[0]];
+    const half = (250 * pxPerKm) / 2;
+    const A = [ox - dir[0] * 900, oy - dir[1] * 900];
+    const along = (k) => [A[0] + dir[0] * 1800 * k, A[1] + dir[1] * 1800 * k];
+    const swath = { k: 0 };
+    const paint = () => {
+      const B = along(swath.k);
+      const pts = [[A[0] + nrm[0] * half, A[1] + nrm[1] * half], [B[0] + nrm[0] * half, B[1] + nrm[1] * half], [B[0] - nrm[0] * half, B[1] - nrm[1] * half], [A[0] - nrm[0] * half, A[1] - nrm[1] * half]];
+      $("orbit-swath").setAttribute("points", pts.map((p) => p.map((v) => v.toFixed(1)).join(",")).join(" "));
+      $("orbit-satg").setAttribute("transform", `translate(${B[0].toFixed(1)} ${B[1].toFixed(1)})`);
+    };
+    const E = along(1);
+    Object.entries({ x1: A[0], y1: A[1], x2: E[0], y2: E[1] }).forEach(([k, v]) => $("orbit-track").setAttribute(k, v.toFixed(1)));
+    // Our radar crop, at its true size (about 99 km × 56 km).
+    const [r0x, r0y] = P(54.56878, 25.2604), [r1x, r1y] = P(55.55122, 24.7596);
+    Object.entries({ x: r0x, y: r0y, width: r1x - r0x, height: r1y - r0y }).forEach(([k, v]) => $("orbit-scene").setAttribute(k, v.toFixed(1)));
+    const W0 = along(0.25);
+    $("orbit-wlabel").setAttribute("x", (W0[0] + half + 16).toFixed(1));
+    $("orbit-wlabel").setAttribute("y", W0[1].toFixed(1));
+    paint();
+
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#orbit-lt", { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.5)
+      .fromTo("#orbit-svg", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.6)
+      .fromTo("#orbit-track", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 3.6)
+      // The satellite crosses the frame at ground-track speed (about 7 km/s, sped up), laying its swath behind it.
+      .to(swath, { k: 1, duration: 3.8, ease: "none", onUpdate: paint }, 3.8)
+      .fromTo("#orbit-wlabel", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 4.6)
+      .fromTo("#orbit-scene", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 5.6)
+      .to("#orbit-lt", { opacity: 0, duration: 0.3 }, 7.4);
+    window.__timelines["orbit"] = tl;
+  </script>
+</template>
