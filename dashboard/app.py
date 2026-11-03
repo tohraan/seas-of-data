@@ -17,7 +17,7 @@ from data import (
     load_ship_history,
     summarise,
 )
-from views import explorer, history, methods, movement, playback, ports, review, siting
+from views import explorer, history, methods, movement, playback, ports, review, siting, tracker
 
 ALL_PASSES = "All passes"
 
@@ -89,9 +89,11 @@ else:
     product = f" Product {row['product']}." if isinstance(row["product"], str) else ""
     st.caption(f"Sentinel-1 pass {pass_time(row['timestamp'])}, scene {scene_id}.{product}")
 
-explorer_tab, movement_tab, history_tab, playback_tab, port_tab, review_tab, siting_tab, methods_tab = st.tabs(
-    ["Explorer", "Ship movement", "Ship history", "Radar playback", "Port watch", "Review queue", "Buoy siting", "Methods and data"]
+tracker_tab, explorer_tab, movement_tab, history_tab, playback_tab, port_tab, review_tab, siting_tab, methods_tab = st.tabs(
+    ["Ship tracker", "Explorer", "Ship movement", "Ship history", "Radar playback", "Port watch", "Review queue", "Buoy siting", "Methods and data"]
 )
+with tracker_tab:
+    tracker.render(frame)
 with explorer_tab:
     explorer.render(selected, frame, evidence, scene_id, directory, manifest, total_passes, gfw_checks, ship_history)
 with movement_tab:
