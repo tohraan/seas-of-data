@@ -5,7 +5,13 @@ from datetime import UTC, datetime
 import pandas as pd
 import streamlit as st
 
-from components import GFW_ATTRIBUTION, MAP_HEIGHT_PX, MAP_PAGE_JS, ship_type_label
+from components import (
+    GFW_ATTRIBUTION,
+    MAP_HEIGHT_PX,
+    MAP_PAGE_JS,
+    reported,
+    ship_type_label,
+)
 from data import ship_movement_text
 from views import live
 
@@ -126,7 +132,8 @@ let map;
 function draw() { if (map) map.setProps({ layers:layers() }); }
 function tick(time) {
   if (S.playing) {
-    const dt = Math.min(0.1, (time - S.last) / 1000);
+    // Keeps time on a slow machine, without a big jump after the tab has been hidden.
+    const dt = Math.min(0.5, (time - S.last) / 1000);
     S.T += dt * S.rate;
     if (S.T > LAST) S.T = 0;
     $("time").value = S.T;
@@ -181,6 +188,8 @@ def render_quiet_spells(spells: list[dict]) -> None:
         return
     table = pd.DataFrame(spells).sort_values("hours", ascending=False)
     table["type_label"] = table["type"].map(ship_type_label)
+    table["name"] = reported(table["name"], "Name not reported")
+    table["flag"] = reported(table["flag"])
     st.dataframe(
         table,
         hide_index=True,

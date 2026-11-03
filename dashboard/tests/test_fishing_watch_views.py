@@ -10,7 +10,7 @@ import pytest
 from streamlit.testing.v1 import AppTest
 
 from analysis import enrich, possible_dark
-from components import ship_type_label
+from components import reported, ship_type_label
 from data import (
     CONTRACTS_DIR,
     attach_evidence,
@@ -97,6 +97,11 @@ def test_only_a_ship_class_target_with_no_ais_can_be_possibly_dark(folders):
     assert possible_dark(frame).tolist() == [True, False, False, False, False]
 
 
+def test_blank_fields_are_said_in_plain_words():
+    assert reported(pd.Series(["PAN", None, ""])).tolist() == ["PAN", "Not reported", "Not reported"]
+    assert reported(pd.Series([None, None]), "Name not reported").tolist() == ["Name not reported", "Name not reported"]
+
+
 def test_ship_type_labels_are_plain_words():
     assert ship_type_label("OTHER_NON_FISHING") == "Other non fishing"
     assert ship_type_label("CARGO") == "Cargo"
@@ -135,7 +140,7 @@ def test_a_pass_not_published_yet_says_so(folders):
     write_checks(folders, {identifier: {"check": "not_available"} for identifier in detections["id"]})
     app = run_app()
     assert not app.exception
-    assert next(metric.value for metric in app.metric if metric.label == "AIS check") == "Not published yet"
+    assert next(metric.value for metric in app.metric if metric.label == "AIS check") == "Pending"
 
 
 def test_fishing_watch_only_targets_stay_off_the_map_until_asked_for(folders):
@@ -196,6 +201,7 @@ def test_movement_tab_shows_ships_quiet_spells_and_credit(folders):
     assert any("Recent movement" in header.value for header in app.subheader)
     quiet = next(df.value for df in app.dataframe if "speed_before" in df.value.columns)
     assert quiet["name"].tolist() == ["QUIET ONE"]
+    assert not any(column.isna().any() for column in (quiet["name"], quiet["flag"]))
     assert any("Powered by Global Fishing Watch" in item.value for item in app.markdown)
 
 

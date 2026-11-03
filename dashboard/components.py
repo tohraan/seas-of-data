@@ -56,7 +56,7 @@ _PORT_LABELS_JS = """const PORT_LABELS = window.deck ? new deck.TextLayer({ id:"
 MAP_PAGE_JS = f"{_SRCDOC_MAP_FIX_JS}\n{_PORT_LABELS_JS}"
 
 
-def map_view(points: pd.DataFrame) -> pdk.ViewState:
+def map_view(points: pd.DataFrame, fit_px: int = MAP_FIT_PX) -> pdk.ViewState:
     if points.empty:
         return pdk.ViewState(longitude=54.875, latitude=24.925, zoom=8)
     lon_span = points["lon"].max() - points["lon"].min()
@@ -65,7 +65,7 @@ def map_view(points: pd.DataFrame) -> pdk.ViewState:
     # Mercator stretches north-south distance by 1/cos(latitude).
     span = max(lon_span, lat_span / math.cos(math.radians(latitude)), 0.01)
     # deck.gl's world is 512px wide at zoom 0: fit the span inside the map height, with a margin.
-    zoom = math.log2(MAP_FIT_PX * 360 / (512 * span))
+    zoom = math.log2(fit_px * 360 / (512 * span))
     return pdk.ViewState(
         longitude=(points["lon"].max() + points["lon"].min()) / 2,
         latitude=latitude,
@@ -172,6 +172,11 @@ def ship_type_label(value: object) -> str:
     if not isinstance(value, str) or not value or value == "INSUFFICIENT_DATA":
         return "Unknown"
     return value.replace("_", " ").capitalize()
+
+
+def reported(values: pd.Series, missing: str = "Not reported") -> pd.Series:
+    """Blank fields in plain words, rather than a table full of None."""
+    return values.fillna("").replace("", missing)
 
 
 def pass_time(moment: pd.Timestamp) -> str:

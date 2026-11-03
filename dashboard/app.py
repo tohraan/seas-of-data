@@ -49,7 +49,8 @@ frame = enrich(attach_gfw(attach_evidence(detections.frame, evidence), gfw_check
 dark = possible_dark(frame)
 if gfw_checks:
     pending = [item for item in gfw_checks["passes"] if not item.get("available")]
-    note = f" {len(pending)} of {len(gfw_checks['passes'])} passes aren't published yet." if pending else ""
+    verb = "isn't" if len(pending) == 1 else "aren't"
+    note = f" {len(pending)} of {len(gfw_checks['passes'])} passes {verb} published yet." if pending else ""
     st.info(
         "AIS checks come from Global Fishing Watch's own radar and AIS matching. "
         f"Possibly dark means a ship-class target with no AIS match, which is a reason to look closer but doesn't prove a ship switched AIS off.{note}",
@@ -75,7 +76,7 @@ ship_tile.metric("Ship class", f"{stats['ship']:,}")
 uncertain_tile.metric("Uncertain", f"{stats['uncertain']:,}")
 fixed_tile.metric("Likely fixed", f"{stats['likely_fixed']:,}")
 if selected["gfw_check"].eq("not_available").all():
-    ais_tile.metric("AIS check", "Not published yet", help="Fishing Watch's radar and AIS matching runs about 5 days behind.")
+    ais_tile.metric("AIS check", "Pending", help="Not published yet: Fishing Watch's radar and AIS matching runs about 5 days behind.")
 elif dark.any():
     ais_tile.metric("Possibly dark", f"{int(possible_dark(selected).sum()):,}")
 else:

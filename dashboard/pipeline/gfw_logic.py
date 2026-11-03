@@ -293,7 +293,7 @@ def ship_reasons(ship: dict, calls: list[dict], loiter_hours: float, spells: lis
         here = [call for call in calls if call["country"] == code and call["confidence"] >= MIN_PORT_CONFIDENCE]
         if here:
             latest = max(here, key=lambda call: call["start"])
-            add("check", "port_country", f"{len(here)} port call(s) in {country} in the last 12 months, most recently {latest['port']} on {latest['start'][:10]}.", "Fishing Watch port visits")
+            add("check", "port_country", f"{len(here)} port call{'' if len(here) == 1 else 's'} in {country} in the last 12 months, most recently {latest['port']} on {latest['start'][:10]}.", "Fishing Watch port visits")
 
     quiet_level = "check" if length and length >= QUIET_CHECK_MIN_LENGTH_M else "note"
     for spell in spells:

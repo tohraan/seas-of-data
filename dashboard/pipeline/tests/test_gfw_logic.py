@@ -202,7 +202,7 @@ def test_mmsi_only_sanctions_match_is_weaker_and_says_why():
 def test_listed_port_needs_reasonable_confidence_and_names_the_latest_call():
     assert reasons(calls=[call("IRN", confidence=2)]) == []
     result = reasons(calls=[call("IRN", "2026-08-01T00:00", port="OLD"), call("IRN", "2026-09-01T00:00", port="NEW")])
-    assert "2 port call(s) in Iran" in result[0]["text"]
+    assert "2 port calls in Iran" in result[0]["text"]
     assert "NEW" in result[0]["text"]
 
 

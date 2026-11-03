@@ -14,6 +14,7 @@ from components import (
     deck,
     legend,
     point_layer,
+    reported,
 )
 from live_ais import (
     ESTIMATE_LIMIT_S,
@@ -124,7 +125,8 @@ def show_feed() -> None:
         f"A ship that goes quiet may just be out of range of the shore receivers, so that alone doesn't mean it switched its AIS off. "
         f"The free feed has very few receivers on this coast, so this shows only a small share of the ships really here. Base map: OpenStreetMap, CARTO."
     )
-    table = states.sort_values(["status", "age_s"]).assign(heard=[describe_age(value) for value in states.sort_values(["status", "age_s"])["age_s"]])
+    table = states.sort_values(["status", "age_s"])
+    table = table.assign(heard=table["age_s"].map(describe_age), name=reported(table["name"], "Name not reported"))
     st.dataframe(
         table,
         hide_index=True,

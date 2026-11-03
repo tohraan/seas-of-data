@@ -13,6 +13,7 @@ from components import (
     legend,
     map_view,
     point_layer,
+    reported,
     ship_type_label,
 )
 
@@ -21,6 +22,7 @@ WITH_NOTES = "With notes too"
 ALL_SHIPS = "All ships"
 LEVEL_LABELS = {"strong": "🔴 Strong", "check": "🟠 Check", "note": "🟡 Note", "none": "–"}
 LEVEL_ORDER = {"strong": 0, "check": 1, "note": 2, "none": 3}
+ROUTE_MAP_PX = MAP_HEIGHT_PX - 100
 
 
 def ships_frame(history: dict) -> pd.DataFrame:
@@ -32,7 +34,9 @@ def ships_frame(history: dict) -> pd.DataFrame:
     frame["type_label"] = frame["type"].map(ship_type_label)
     frame["near_label"] = [", ".join(near) if near else "Elsewhere in the area" for near in frame["near"]]
     frame["country_label"] = [", ".join(countries) for countries in frame["countries"]]
-    frame["name_label"] = frame["name"].fillna("Name not reported")
+    frame["name_label"] = reported(frame["name"], "Name not reported")
+    frame["flag_label"] = reported(frame["flag"])
+    frame["imo_label"] = reported(frame["imo"])
     frame["order"] = frame["level"].map(LEVEL_ORDER)
     return frame.sort_values(["order", "reason_count", "port_calls_12m"], ascending=[True, False, False])
 
@@ -64,7 +68,7 @@ def route_map(row: pd.Series) -> None:
     points = [{"lat": call["lat"], "lon": call["lon"], "tooltip": f"<b>{call['port']}</b> ({call['country']})<br/>{call['start'][:10]} to {call['end'][:10]}"} for call in calls]
     last_seen = pd.DataFrame([{"lat": row["lat"], "lon": row["lon"], "tooltip": f"<b>Last seen here</b><br/>{row['last_seen']} UTC"}])
     if not points:
-        st.pydeck_chart(deck([point_layer(last_seen, RING_RGB, 6)], map_view(last_seen)), height=MAP_HEIGHT_PX - 100, key="hist_map")
+        st.pydeck_chart(deck([point_layer(last_seen, RING_RGB, 6)], map_view(last_seen)), height=ROUTE_MAP_PX, key="hist_map")
         return
     stops = pd.DataFrame(points)
     path = pd.DataFrame([{"path": [[call["lon"], call["lat"]] for call in calls] + [[row["lon"], row["lat"]]]}])
@@ -73,7 +77,8 @@ def route_map(row: pd.Series) -> None:
         point_layer(stops, SHIP_RGB, 5),
         point_layer(last_seen, RING_RGB, 6),
     ]
-    st.pydeck_chart(deck(layers, map_view(pd.concat([stops, last_seen]))), height=MAP_HEIGHT_PX - 100, key="hist_map")
+    # Leave a margin, so ports at the edge of the route aren't cut off.
+    st.pydeck_chart(deck(layers, map_view(pd.concat([stops, last_seen]), fit_px=ROUTE_MAP_PX - 110)), height=ROUTE_MAP_PX, key="hist_map")
     legend([(SHIP_HEX, "Port call", False), ("#f0efec", "Last seen", False)])
     st.caption("Straight lines between port calls, not the route it actually sailed.")
 
@@ -149,18 +154,18 @@ def render(history: dict | None) -> None:
         on_select="rerun",
         selection_mode="single-row",
         key="hist_table",
-        column_order=["level_label", "name_label", "flag", "type_label", "length_m", "near_label", "top_reason", "reason_count", "port_calls_12m", "imo"],
+        column_order=["level_label", "name_label", "flag_label", "type_label", "length_m", "near_label", "top_reason", "reason_count", "port_calls_12m", "imo_label"],
         column_config={
             "level_label": "Level",
             "name_label": st.column_config.TextColumn("Ship", width="medium"),
-            "flag": "Flag",
+            "flag_label": "Flag",
             "type_label": "Type",
             "length_m": st.column_config.NumberColumn("Length (m)", format="%d"),
             "near_label": "Near",
             "top_reason": st.column_config.TextColumn("Main reason", width="large"),
             "reason_count": st.column_config.NumberColumn("Reasons", format="%d"),
             "port_calls_12m": st.column_config.NumberColumn("Port calls, 12 months", format="%d"),
-            "imo": "IMO",
+            "imo_label": "IMO",
         },
     )
     rows = event.selection.rows if event and event.selection else []
