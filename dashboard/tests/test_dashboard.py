@@ -352,6 +352,20 @@ def test_buoy_site_covers_the_most_spots_and_avoids_the_shore():
     assert site["lon"] != 54.710
 
 
+def test_balanced_site_gives_up_some_ais_range_for_camera_coverage():
+    # Five spots tightly clustered, and a sixth site between them and a far group that reaches more of everything by AIS.
+    frame = make_frame([
+        {"lat": 25.0, "lon": 54.700 + i * 0.002} for i in range(5)
+    ] + [
+        {"lat": 25.0, "lon": 54.760},
+        {"lat": 25.0, "lon": 54.800},
+    ])
+    most = rank_sites(frame, primary_km=7.0, secondary_km=1.0, count=1, primary_share=1.0)[0]
+    balanced = rank_sites(frame, primary_km=7.0, secondary_km=1.0, count=1, primary_share=0.5)[0]
+    assert most["primary_total"] >= balanced["primary_total"]
+    assert balanced["secondary_total"] > most["secondary_total"]
+
+
 def test_second_buoy_only_counts_new_spots():
     frame = make_frame([{"lat": 25.0, "lon": 54.700}, {"lat": 25.0, "lon": 54.705}, {"lat": 25.5, "lon": 55.100}])
     first, second = rank_sites(frame, primary_km=3.0, secondary_km=1.0, count=2)

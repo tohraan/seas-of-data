@@ -22,6 +22,10 @@ from components import (
 DEFAULT_ANTENNA_M = 3.8
 DEFAULT_CAMERA_KM = 5.0
 DEFAULT_SHIP_ANTENNA_M = 15
+BALANCED = "Balance AIS and camera"
+MOST_AIS = "Most AIS coverage"
+# The balanced site may give up this share of the best AIS coverage to get more ships in camera view.
+PRIMARY_SHARE = {BALANCED: 0.8, MOST_AIS: 1.0}
 
 
 def render(frame: pd.DataFrame, specs: dict | None) -> None:
@@ -44,8 +48,9 @@ def render(frame: pd.DataFrame, specs: dict | None) -> None:
         "Camera range (km)", 1.0, 15.0, camera_default, 0.5, key="site_camera",
         help="Range for recognising a 60 m ship in clear air, from cad/buoy/DATASHEET.md." if specs else "Placeholder until the buoy's numbers are calculated.",
     )
+    goal = st.radio("Choose sites for", list(PRIMARY_SHARE), horizontal=True, key="site_goal")
     ais_km = radio_horizon_km(antenna_m, ship_antenna)
-    sites = rank_sites(spots, ais_km, camera_km, buoys)
+    sites = rank_sites(spots, ais_km, camera_km, buoys, PRIMARY_SHARE[goal])
     if not sites:
         st.info("No usable site.")
         return
@@ -97,7 +102,8 @@ def render(frame: pd.DataFrame, specs: dict | None) -> None:
         width="stretch",
     )
     st.caption(
-        "Each site is picked in turn for the most new spots in AIS range, then in camera range. Candidates are detected spots at least 1 km from land, "
+        "AIS reaches far but the camera doesn't, so the two goals pull apart: the site with the most AIS coverage can sit in a gap between ships. "
+        "The balanced choice accepts 80% of the best AIS coverage to put more ships in camera view. Candidates are detected spots at least 1 km from land, "
         "because those are known to be water. A spot seen in several passes counts once. Water depth, shipping lanes and permits aren't checked, so this is a starting point for a real survey. "
         "Ship-class detections from all passes. Buoy heights and ranges come from the design calculation in cad/buoy/DATASHEET.md: the buoy is a design and hasn't been built."
     )

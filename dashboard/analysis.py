@@ -176,9 +176,10 @@ def unique_spots(frame: pd.DataFrame, gate_m: float = SAME_SPOT_M) -> pd.DataFra
     return frame.iloc[kept]
 
 
-def rank_sites(spots: pd.DataFrame, primary_km: float, secondary_km: float, count: int = 1) -> list[dict]:
-    """Pick buoy sites greedily: most spots newly in primary range, then in secondary range.
+def rank_sites(spots: pd.DataFrame, primary_km: float, secondary_km: float, count: int = 1, primary_share: float = 1.0) -> list[dict]:
+    """Pick buoy sites one at a time: the most spots newly in secondary range, among sites close to the best for primary range.
 
+    primary_share is how close: 1.0 always takes the best primary coverage, and 0.8 accepts 80% of it to gain secondary coverage.
     Candidates are the detected spots themselves, because those are known to be water, kept away from the shore.
     Water depth isn't known here, so a real site would still need checking against a chart.
     """
@@ -199,7 +200,8 @@ def rank_sites(spots: pd.DataFrame, primary_km: float, secondary_km: float, coun
     for _ in range(count):
         gain = (in_primary & ~covered).sum(axis=1)
         gain_close = (in_secondary & ~covered_close).sum(axis=1)
-        best = int(np.lexsort((-gain_close, -gain))[0])
+        eligible = np.flatnonzero(gain >= primary_share * gain.max())
+        best = int(eligible[np.lexsort((-gain[eligible], -gain_close[eligible]))[0]])
         covered |= in_primary[best]
         covered_close |= in_secondary[best]
         sites.append({
