@@ -374,6 +374,7 @@ def test_playback_page_cannot_be_broken_by_its_data():
     page = build_page(json.dumps([{"id": "</script><b>"}]), json.dumps([]))
     assert "</script><b>" not in page
     assert "__DATA__" not in page and "__MAP__" not in page
+    assert "esc(object.id)" in page
 
 
 # The running app

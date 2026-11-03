@@ -6,7 +6,6 @@ import json
 
 import pandas as pd
 import streamlit as st
-import streamlit.components.v1 as components
 
 from analysis import CLASS_LABELS
 from components import MAP_HEIGHT_PX, cached_radar_image, pass_time
@@ -54,6 +53,7 @@ const DATA = __DATA__;
 const COLORS = { ship:[57,135,229], uncertain:[137,135,129], likely_fixed:[201,133,0] };
 const NAMES = { ship:"Ship", uncertain:"Uncertain", likely_fixed:"Likely fixed" };
 const $ = id => document.getElementById(id);
+const esc = text => String(text).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
 const S = { i:DATA.passes.length-1, playing:false, radar:true, uncertain:false, speed:12, hours:0, pop:1, chosen:null };
 let timer = null, raf = null;
 function setHud(p, points) {
@@ -93,7 +93,7 @@ function boot() {
   map = new deck.DeckGL({ container:"map", initialViewState:view, controller:true, layers:[],
     onClick: info => { S.chosen = info.object ? info.object.id : null; draw(); },
     mapStyle:"https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json", map:maplibregl, attributionControl:false,
-    getTooltip:({object}) => object && { html:`<b>${NAMES[object.c]||object.c}</b> · ${object.id}<br>about ${object.l} m · brightness ${object.b} dB<br>seen at this spot in ${object.n} pass(es)`,
+    getTooltip:({object}) => object && { html:`<b>${esc(NAMES[object.c]||object.c)}</b> · ${esc(object.id)}<br>about ${esc(object.l)} m · brightness ${esc(object.b)} dB<br>seen at this spot in ${esc(object.n)} pass(es)`,
       style:{ background:"#1a1a19", color:"#f0efec", fontSize:"13px" } } });
   draw();
 }
@@ -164,4 +164,4 @@ def render(frame: pd.DataFrame, evidence: Evidence | None, manifest: dict | None
         for row in frame.to_dict("records")
     ]
     st.markdown(f"The {len(passes)} real radar passes over this water, played in order. {CLASS_LABELS['ship']}-class dots are shown first; add the uncertain ones with the button below the map.")
-    components.html(build_page(json.dumps(points), json.dumps(passes)), height=HEIGHT_PX, scrolling=False)
+    st.iframe(build_page(json.dumps(points), json.dumps(passes)), height=HEIGHT_PX)
