@@ -19,7 +19,7 @@ from data import (
     load_gfw_checks,
     load_ship_history,
 )
-from views.history import ships_frame
+from views.history import identity_lines, ships_frame
 from views.movement import build_page, days_old
 
 APP = Path(__file__).resolve().parent.parent / "app.py"
@@ -264,15 +264,27 @@ def test_history_tab_filters_and_warns_these_are_not_accusations(folders):
     assert tiles["Strong reason to check"] == "1"
     assert tiles["Other reasons to check"] == "1"
     assert tiles["Sanctions list matches"] == "1"
-    assert set(history_table(app)["name"]) == {"A", "B"}
+    assert set(history_table(app)["name_label"]) == {"A", "B"}
     app.radio(key="hist_show").set_value("All ships").run()
-    assert set(history_table(app)["name"]) == {"A", "B", "C", "D"}
+    assert set(history_table(app)["name_label"]) == {"A", "B", "C", "D"}
     app.multiselect(key="hist_near").set_value(["Khalifa Port"]).run()
-    assert set(history_table(app)["name"]) == {"B"}
+    assert set(history_table(app)["name_label"]) == {"B"}
     app.multiselect(key="hist_near").set_value([]).run()
     app.text_input(key="hist_search").set_value("c").run()
     assert not app.exception
-    assert set(history_table(app)["name"]) == {"C"}
+    assert set(history_table(app)["name_label"]) == {"C"}
+
+
+def test_a_ship_with_blank_fields_says_so_in_words():
+    # A blank column holds NaN, which would otherwise print as "Flag: nan" because NaN counts as true.
+    blank = {**ship("A"), "flag": None, "imo": None, "mmsi": None}
+    frame = ships_frame({"ships": [blank, ship("B")]})
+    row = frame[frame["name"] == "A"].iloc[0]
+    text = " ".join(identity_lines(row))
+    assert "nan" not in text.lower()
+    assert "None" not in text
+    assert "Flag: Not reported" in text
+    assert "IMO Not reported · MMSI Not reported" in text
 
 
 def test_history_tab_without_data_says_so(folders):

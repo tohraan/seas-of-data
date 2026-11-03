@@ -6,6 +6,7 @@ import pandas as pd
 import streamlit as st
 
 from components import (
+    FLAG_COLUMN_PX,
     GFW_ATTRIBUTION,
     MAP_HEIGHT_PX,
     MAP_PAGE_JS,
@@ -175,18 +176,17 @@ function layers() {
   who();
   updateChips();
   return [
-    ...WATERWAYS,
+    WATERWAYS,
     new deck.TripsLayer({ id:"trails", data:TRIPS, getPath:d=>d.path, getTimestamps:d=>d.times, getColor:d=>d.color, currentTime:S.T, trailLength:6, fadeTrail:true, widthMinPixels:2, opacity:0.75, jointRounded:true, capRounded:true }),
     new deck.ScatterplotLayer({ id:"quiet", data:rings, getPosition:a=>[a.x,a.y], getRadius:a=>reachKm(a)*1000, radiusUnits:"meters", filled:false, stroked:true, getLineColor:[201,133,0,190], lineWidthUnits:"pixels", getLineWidth:1.5, updateTriggers:{getRadius:S.T} }),
     new deck.ScatterplotLayer({ id:"ships", data:now, getPosition:a=>[a.x,a.y], getRadius:a=>a.kn>=1?5:3, radiusUnits:"pixels", getFillColor:a=>a.kn>=1?a.ship.color:[...a.ship.color,150], stroked:true, lineWidthUnits:"pixels",
       getLineWidth:a=>a.ship===chosen?2:isQuiet(a)?1.5:0, getLineColor:a=>a.ship===chosen?[240,239,236]:[201,133,0], pickable:true, updateTriggers:{getPosition:S.T, getLineWidth:[S.chosen,S.T], getLineColor:S.chosen} }),
+    WATERWAY_NAMES,
     PORT_LABELS,
   ];
 }
-const WATERWAYS = window.deck ? [
-  new deck.PathLayer({ id:"waterways", data:D.waterways, getPath:d=>d.path, getColor:[96,150,210,200], getWidth:2, widthUnits:"pixels", jointRounded:true, capRounded:true }),
-  new deck.TextLayer({ id:"waterway-names", data:D.waterways, getPosition:d=>d.path[Math.floor(d.path.length/4)], getText:d=>d.name, getSize:11, getColor:[150,190,235], fontFamily:"system-ui, sans-serif", getPixelOffset:[0,11] }),
-] : [];
+const WATERWAYS = window.deck ? new deck.PathLayer({ id:"waterways", data:D.waterways, getPath:d=>d.path, getColor:[96,150,210,200], getWidth:2, widthUnits:"pixels", jointRounded:true, capRounded:true }) : null;
+const WATERWAY_NAMES = window.deck ? new deck.TextLayer({ id:"waterway-names", data:D.waterways, getPosition:d=>d.path[Math.floor(d.path.length/4)], getText:d=>d.name, getSize:11, getColor:[150,190,235], fontFamily:"system-ui, sans-serif", getPixelOffset:[0,11] }) : null;
 let map;
 function draw() { if (map) map.setProps({ layers:layers() }); }
 function tick(time) {
@@ -280,7 +280,7 @@ def render_quiet_spells(spells: list[dict]) -> None:
         column_order=["name", "flag", "type_label", "from", "to", "hours", "km", "speed_before"],
         column_config={
             "name": st.column_config.TextColumn("Ship", width="medium"),
-            "flag": "Flag",
+            "flag": st.column_config.TextColumn("Flag", width=FLAG_COLUMN_PX),
             "type_label": "Type",
             "from": "Last heard (UTC)",
             "to": "Heard again (UTC)",

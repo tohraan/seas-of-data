@@ -34,6 +34,7 @@ from live_ais import (
 
 REFRESH_S = 5
 RING_KEY = "live_rings"
+LIVE_COLUMNS = ["name", "mmsi", "status", "sog", "cog", "heard", "estimated"]
 # The box that ml/ais/capture.py listens to.
 VIEW = pdk.ViewState(longitude=54.9, latitude=24.95, zoom=8.2)
 CAPTURE_COMMAND = (
@@ -152,17 +153,18 @@ def show_feed() -> None:
     table = states.sort_values(["status", "age_s"])
     table = table.assign(heard=table["age_s"].map(describe_age), name=reported(table["name"], "Name not reported"))
     st.dataframe(
-        table,
+        # A styler, because a blank number otherwise shows as "None".
+        table[LIVE_COLUMNS].style.format({"sog": "{:.1f}", "cog": "{:.0f}"}, na_rep="–"),
         hide_index=True,
         width="stretch",
         height=320,
-        column_order=["name", "mmsi", "status", "sog", "cog", "heard", "estimated"],
+        column_order=LIVE_COLUMNS,
         column_config={
             "name": st.column_config.TextColumn("Name", width="medium"),
             "mmsi": "MMSI",
             "status": "Status",
-            "sog": st.column_config.NumberColumn("Speed (knots)", format="%.1f"),
-            "cog": st.column_config.NumberColumn("Course (°)", format="%.0f"),
+            "sog": "Speed (knots)",
+            "cog": "Course (°)",
             "heard": "Last heard",
             "estimated": st.column_config.CheckboxColumn("Position estimated"),
         },

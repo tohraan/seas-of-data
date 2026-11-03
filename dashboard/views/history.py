@@ -4,6 +4,7 @@ import pydeck as pdk
 import streamlit as st
 
 from components import (
+    FLAG_COLUMN_PX,
     GFW_ATTRIBUTION,
     MAP_HEIGHT_PX,
     RING_RGB,
@@ -23,6 +24,7 @@ ALL_SHIPS = "All ships"
 LEVEL_LABELS = {"strong": "🔴 Strong", "check": "🟠 Check", "note": "🟡 Note", "none": "–"}
 LEVEL_ORDER = {"strong": 0, "check": 1, "note": 2, "none": 3}
 ROUTE_MAP_PX = MAP_HEIGHT_PX - 100
+TABLE_COLUMNS = ["level_label", "name_label", "flag_label", "type_label", "length_m", "near_label", "top_reason", "reason_count", "port_calls_12m", "imo_label"]
 
 
 def ships_frame(history: dict) -> pd.DataFrame:
@@ -37,6 +39,7 @@ def ships_frame(history: dict) -> pd.DataFrame:
     frame["name_label"] = reported(frame["name"], "Name not reported")
     frame["flag_label"] = reported(frame["flag"])
     frame["imo_label"] = reported(frame["imo"])
+    frame["mmsi_label"] = reported(frame["mmsi"])
     frame["order"] = frame["level"].map(LEVEL_ORDER)
     return frame.sort_values(["order", "reason_count", "port_calls_12m"], ascending=[True, False, False])
 
@@ -83,14 +86,21 @@ def route_map(row: pd.Series) -> None:
     st.caption("Straight lines between port calls, not the route it actually sailed.")
 
 
+def identity_lines(row: pd.Series) -> list[str]:
+    length = "" if pd.isna(row["length_m"]) else f", about {row['length_m']:.0f} m"
+    return [
+        f"**{row['type_label']}**{length}. Flag: {row['flag_label']}.",
+        f"IMO {row['imo_label']} · MMSI {row['mmsi_label']}",
+        f"Near: {row['near_label']}. Last seen in this area {row['last_seen']} UTC.",
+    ]
+
+
 def render_detail(row: pd.Series) -> None:
     st.subheader(row["name_label"])
     info_column, map_column = st.columns([2, 3], gap="large")
     with info_column:
-        length = "" if pd.isna(row["length_m"]) else f", about {row['length_m']:.0f} m"
-        st.markdown(f"**{row['type_label']}**{length}. Flag: {row['flag'] or 'not reported'}.")
-        st.markdown(f"IMO {row['imo'] or 'not reported'} · MMSI {row['mmsi'] or 'unknown'}")
-        st.markdown(f"Near: {row['near_label']}. Last seen in this area {row['last_seen']} UTC.")
+        for line in identity_lines(row):
+            st.markdown(line)
         st.markdown(f"**{row['port_calls_12m']} port calls** in the last 12 months" + (f", in {row['country_label']}." if row["country_label"] else "."))
         if row["loitering_hours_12m"]:
             st.markdown(f"About {row['loitering_hours_12m'] / 24:.0f} days loitering at sea in that time.")
@@ -147,20 +157,21 @@ def render(history: dict | None) -> None:
     shown = filtered(frame)
     st.caption(f"{len(shown):,} of {len(frame):,} ships.")
     event = st.dataframe(
-        shown,
+        # A styler, because a blank number otherwise shows as "None".
+        shown[TABLE_COLUMNS].style.format("{:.0f}", subset=["length_m"], na_rep="–"),
         hide_index=True,
         width="stretch",
         height=420,
         on_select="rerun",
         selection_mode="single-row",
         key="hist_table",
-        column_order=["level_label", "name_label", "flag_label", "type_label", "length_m", "near_label", "top_reason", "reason_count", "port_calls_12m", "imo_label"],
+        column_order=TABLE_COLUMNS,
         column_config={
             "level_label": "Level",
             "name_label": st.column_config.TextColumn("Ship", width="medium"),
-            "flag_label": "Flag",
+            "flag_label": st.column_config.TextColumn("Flag", width=FLAG_COLUMN_PX),
             "type_label": "Type",
-            "length_m": st.column_config.NumberColumn("Length (m)", format="%d"),
+            "length_m": "Length (m)",
             "near_label": "Near",
             "top_reason": st.column_config.TextColumn("Main reason", width="large"),
             "reason_count": st.column_config.NumberColumn("Reasons", format="%d"),

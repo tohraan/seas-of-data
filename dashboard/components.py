@@ -32,6 +32,7 @@ SIZE_RAMP = {"tiny": "#184f95", "small": "#256abf", "medium": "#3987e5", "large"
 
 MAP_HEIGHT_PX = 500
 MAP_FIT_PX = 400
+FLAG_COLUMN_PX = 100  # wide enough for "Not reported"
 TOOLTIP_STYLE = {"backgroundColor": SURFACE, "color": INK, "fontSize": "13px"}
 ATTRIBUTION = "Contains modified Copernicus Sentinel data (2026). Base map: OpenStreetMap, CARTO."
 GFW_ATTRIBUTION = "[Powered by Global Fishing Watch.](https://globalfishingwatch.org)"
