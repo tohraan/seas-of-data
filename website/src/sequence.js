@@ -19,7 +19,7 @@ export class Sequence {
   }
 
   url(i) {
-    return `/frames/${this.name}/${this.width}/${this.name}_${pad(i + 1)}.webp`;
+    return `${import.meta.env.BASE_URL}frames/${this.name}/${this.width}/${this.name}_${pad(i + 1)}.webp`;
   }
 
   // Resolves once the first frame is on screen; the rest keep streaming in.

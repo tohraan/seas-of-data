@@ -12,7 +12,7 @@ const el = (tag, attrs = {}, parent) => {
 };
 
 export async function initDetect({ reduced, scrub, focusId }) {
-  const data = await fetch('/data/sar_points.json').then((r) => r.json());
+  const data = await fetch(import.meta.env.BASE_URL + 'data/sar_points.json').then((r) => r.json());
   const section = document.querySelector('.detect');
   const sar = section.querySelector('.sar');
   const svg = section.querySelector('.sar-svg');

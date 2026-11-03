@@ -49,7 +49,7 @@ const FALLBACK = { a: 180, b: 150, c2: 150, d: 120 };
 async function manifest() {
   let m = {};
   try {
-    const r = await fetch('/frames/manifest.json', { cache: 'no-cache' });
+    const r = await fetch(import.meta.env.BASE_URL + 'frames/manifest.json', { cache: 'no-cache' });
     if (r.ok) m = await r.json();
   } catch { /* fall through */ }
   for (const [k, count] of Object.entries(FALLBACK)) m[k] ??= { count, widths: [960] };
@@ -170,8 +170,8 @@ function marks() {
 async function main() {
   const [m, story, sar] = await Promise.all([
     manifest(),
-    fetch('/data/story.json').then((r) => r.json()),
-    fetch('/data/sar_points.json').then((r) => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/story.json').then((r) => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/sar_points.json').then((r) => r.json()),
   ]);
   const sections = { a: '#top', b: '#orbit', c2: '#buoy', d: '#pov' };
   const seqs = {};

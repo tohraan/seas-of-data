@@ -25,7 +25,7 @@ export function initLive({ reduced }) {
 async function initMap(container, reduced) {
   const [{ default: maplibregl }, data] = await Promise.all([
     import('maplibre-gl'),
-    fetch('/data/detections.geojson').then((r) => r.json()),
+    fetch(import.meta.env.BASE_URL + 'data/detections.geojson').then((r) => r.json()),
     import('maplibre-gl/dist/maplibre-gl.css'),
   ]);
   const map = new maplibregl.Map({
