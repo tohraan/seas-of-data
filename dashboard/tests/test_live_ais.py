@@ -1,5 +1,6 @@
 """Live positions, tested on made-up reports in temporary folders. Nothing here ships to the dashboard."""
 import json
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from live_ais import (
     SILENT_AFTER_S,
     feed_summary,
     key_present,
+    last_write_age,
     project,
     read_reports,
     ship_states,
@@ -169,6 +171,30 @@ def test_app_shows_no_ships_and_says_why_without_a_feed(app_env):
     app = AppTest.from_file(str(APP), default_timeout=60).run()
     assert not app.exception
     assert any("No live data is connected" in item.value or "nothing is collecting" in item.value for item in app.info)
+    assert not any(metric.label == "Ships in the last hour" for metric in app.metric)
+
+
+def test_last_write_age_uses_the_newest_file(tmp_path):
+    assert last_write_age(tmp_path / "missing", NOW) is None
+    assert last_write_age(tmp_path, NOW) is None
+    older, newer = tmp_path / "2026-11-02.jsonl", tmp_path / "2026-11-03.jsonl"
+    older.write_text("")
+    newer.write_text("")
+    os.utime(older, (NOW - 7200, NOW - 7200))
+    os.utime(newer, (NOW - 600, NOW - 600))
+    assert last_write_age(tmp_path, NOW) == pytest.approx(600)
+
+
+def test_a_quiet_feed_is_not_reported_as_nothing_connected(app_env):
+    now = datetime.now(UTC).timestamp()
+    write_feed(app_env / "ais", [report(age=7200, now=now)], now=now)
+    day_file = next((app_env / "ais").glob("*.jsonl"))
+    os.utime(day_file, (now - 7200, now - 7200))
+    app = AppTest.from_file(str(APP), default_timeout=60).run()
+    assert not app.exception
+    messages = [item.value for item in app.info]
+    assert any("No ships heard here in the last hour" in message and "2.0 h ago" in message for message in messages)
+    assert not any("nothing is collecting" in message or "No live data is connected" in message for message in messages)
     assert not any(metric.label == "Ships in the last hour" for metric in app.metric)
 
 

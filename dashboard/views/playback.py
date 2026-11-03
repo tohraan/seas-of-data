@@ -8,10 +8,9 @@ import pandas as pd
 import streamlit as st
 
 from analysis import CLASS_LABELS
-from components import MAP_HEIGHT_PX, cached_radar_image, pass_time
+from components import MAP_HEIGHT_PX, MAP_PAGE_JS, cached_radar_image, pass_time
 from data import Evidence, load_wide_radar
 
-HEIGHT_PX = MAP_HEIGHT_PX + 190
 PAGE = """<!doctype html>
 <html><head><meta charset="utf-8">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
@@ -20,6 +19,8 @@ PAGE = """<!doctype html>
 <style>
   :root { --ink:#f0efec; --ink2:#c3c2b7; --muted:#898781; --surface:#1a1a19; --line:#383835; --ship:#3987e5; --fixed:#c98500; --unc:#898781; }
   html,body { margin:0; background:#0d0d0d; color:var(--ink); font:14px system-ui,-apple-system,"Segoe UI",sans-serif; }
+  /* The same credits are in #attr, which matches the page. */
+  .maplibregl-ctrl-bottom-right { display:none; }
   #map { position:relative; height:__MAP__px; border-radius:8px; overflow:hidden; background:#0d0d0d; }
   #bar { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; padding:12px 2px 6px; }
   button { background:var(--surface); color:var(--ink); border:1px solid var(--line); border-radius:6px; padding:7px 14px; font:inherit; cursor:pointer; }
@@ -36,7 +37,7 @@ PAGE = """<!doctype html>
   #attr { position:absolute; left:8px; bottom:6px; color:#c3c2b7; font-size:11px; background:rgba(13,13,13,.6); padding:1px 6px; border-radius:4px; z-index:2; }
   #error { padding:20px; color:var(--ink2); }
 </style></head><body>
-<div id="map"><div id="hud"></div><div id="attr">Contains modified Copernicus Sentinel data (2026) · OpenStreetMap · CARTO</div></div>
+<div id="map"><div id="hud"></div><div id="attr">Contains modified Copernicus Sentinel data (2026) · © OpenStreetMap contributors · © CARTO</div></div>
 <div id="bar">
   <button id="play">▶ Play</button>
   <div id="ticks"></div>
@@ -49,6 +50,7 @@ PAGE = """<!doctype html>
 <div id="note">Each frame is a real satellite snapshot, and passes are days apart, so a dot that disappears has left the area or wasn't detected. Rings show how far a ship could have gone at the speed you set: an estimate, because radar measures neither speed nor heading.
   <span class="key" style="background:var(--ship)"></span>Ship <span class="key" style="background:var(--unc)"></span>Uncertain <span class="key" style="background:var(--fixed)"></span>Likely fixed</div>
 <script>
+__MAP_JS__
 const DATA = __DATA__;
 const COLORS = { ship:[57,135,229], uncertain:[137,135,129], likely_fixed:[201,133,0] };
 const NAMES = { ship:"Ship", uncertain:"Uncertain", likely_fixed:"Likely fixed" };
@@ -87,6 +89,7 @@ function layers() {
   out.push(new deck.ScatterplotLayer({ id:"now", data:points, getPosition:d=>[d.x,d.y], radiusUnits:"pixels", radiusScale:S.pop,
     getRadius:d=>d.c==="ship"?6:d.c==="likely_fixed"?7:4, getFillColor:d=>COLORS[d.c]||COLORS.ship, stroked:true, lineWidthUnits:"pixels",
     getLineWidth:d=>d.c==="likely_fixed"?2:0, getLineColor:[240,239,236], pickable:true }));
+  out.push(PORT_LABELS);
   return out;
 }
 const view = { longitude:55.1, latitude:25.0, zoom:7.6, pitch:0, bearing:0 };
@@ -137,7 +140,8 @@ if (!window.deck || !window.maplibregl) {
 def build_page(points_json: str, passes_json: str) -> str:
     data = json.dumps({"points": json.loads(points_json), "passes": json.loads(passes_json)}, separators=(",", ":"))
     # Inside a <script> block, so "</" must not end it early.
-    return PAGE.replace("__DATA__", data.replace("</", "<\\/")).replace("__MAP__", str(MAP_HEIGHT_PX))
+    page = PAGE.replace("__MAP_JS__", MAP_PAGE_JS).replace("__MAP__", str(MAP_HEIGHT_PX))
+    return page.replace("__DATA__", data.replace("</", "<\\/"))
 
 
 def render(frame: pd.DataFrame, evidence: Evidence | None, manifest: dict | None) -> None:
@@ -170,4 +174,4 @@ def render(frame: pd.DataFrame, evidence: Evidence | None, manifest: dict | None
         for row in frame.to_dict("records")
     ]
     st.markdown(f"The {len(passes)} real radar passes over this water, played in order. {CLASS_LABELS['ship']}-class dots are shown first; add the uncertain ones with the button below the map.")
-    st.iframe(build_page(json.dumps(points), json.dumps(passes)), height=HEIGHT_PX)
+    st.iframe(build_page(json.dumps(points), json.dumps(passes)))

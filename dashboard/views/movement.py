@@ -5,11 +5,11 @@ from datetime import UTC, datetime
 import pandas as pd
 import streamlit as st
 
-from components import GFW_ATTRIBUTION, MAP_HEIGHT_PX, ship_type_label
+from components import GFW_ATTRIBUTION, MAP_HEIGHT_PX, MAP_PAGE_JS, ship_type_label
 from data import ship_movement_text
 from views import live
 
-HEIGHT_PX = MAP_HEIGHT_PX + 170
+MAX_RING_KM = 40
 PAGE = """<!doctype html>
 <html><head><meta charset="utf-8">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
@@ -18,6 +18,8 @@ PAGE = """<!doctype html>
 <style>
   :root { --ink:#f0efec; --ink2:#c3c2b7; --muted:#898781; --surface:#1a1a19; --line:#383835; --blue:#3987e5; --amber:#c98500; }
   html,body { margin:0; background:#0d0d0d; color:var(--ink); font:14px system-ui,-apple-system,"Segoe UI",sans-serif; }
+  /* The same credits are in #attr, which matches the page. */
+  .maplibregl-ctrl-bottom-right { display:none; }
   #map { position:relative; height:__MAP__px; border-radius:8px; overflow:hidden; background:#0d0d0d; }
   #hud { position:absolute; left:12px; top:12px; background:rgba(13,13,13,.8); border-radius:6px; padding:8px 12px; pointer-events:none; line-height:1.5; z-index:2; }
   #who { position:absolute; right:12px; top:12px; width:290px; background:rgba(13,13,13,.88); border-radius:6px; padding:10px 12px; line-height:1.45; z-index:2; display:none; }
@@ -35,7 +37,7 @@ PAGE = """<!doctype html>
   .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin:0 5px 0 12px; }
   #note { color:var(--muted); font-size:13px; line-height:1.45; }
 </style></head><body>
-<div id="map"><div id="hud"></div><div id="who"></div><div id="attr"><a href="https://globalfishingwatch.org" target="_blank" rel="noopener">Powered by Global Fishing Watch</a> · OpenStreetMap · CARTO</div></div>
+<div id="map"><div id="hud"></div><div id="who"></div><div id="attr"><a href="https://globalfishingwatch.org" target="_blank" rel="noopener">Powered by Global Fishing Watch</a> · © OpenStreetMap contributors · © CARTO</div></div>
 <div id="bar">
   <button id="play">▶ Play</button>
   <input id="time" type="range" min="0" step="0.05">
@@ -45,15 +47,20 @@ PAGE = """<!doctype html>
   <datalist id="names"></datalist>
 </div>
 <div id="note">Real AIS positions, one per hour per ship, rounded to about 1 km. Lines between hours are straight, not the exact path.
-  An amber ring means the ship stopped appearing: it shows how far the ship could have gone at its last reported speed, and it may just be out of receiver range.
+  An amber outline means the ship stopped appearing, and it may just be out of receiver range. Its amber ring shows how far it could have gone at its last reported speed; rings over __RING__ km only show when you click the ship.
   <span class="dot" style="background:#3987e5"></span>Cargo <span class="dot" style="background:#d95926"></span>Passenger <span class="dot" style="background:#199e70"></span>Other</div>
 <script>
+__MAP_JS__
 const D = __DATA__;
 const $ = id => document.getElementById(id);
 const esc = text => String(text ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
 const COLORS = { CARGO:[57,135,229], PASSENGER:[217,89,38] };
 const OTHER = [25,158,112];
 const MAX_LINE_HOURS = 3;
+// A long silence at speed can mean a ring wider than the whole map, so the big ones wait for a click.
+const MAX_RING_KM = __RING__;
+const reachKm = a => a.kn * 1.852 * a.quietHours;
+const isQuiet = a => a.quietHours >= 1 && a.kn >= 1;
 const SHIPS = D.ships.map(s => ({ ...s, t:[], x:[], y:[], k:[], color:COLORS[s.type] || OTHER }));
 for (const [s, h, lat, lon, kn] of D.fixes) { const ship = SHIPS[s]; ship.t.push(h); ship.x.push(lon); ship.y.push(lat); ship.k.push(kn); }
 const LAST = D.hours.length - 1;
@@ -86,7 +93,7 @@ function who() {
   else {
     html += `<br>${at.kn.toFixed(1)} knots`;
     if (at.quietHours >= 1 && at.reappear) {
-      const reach = at.kn * 1.852 * at.quietHours;
+      const reach = reachKm(at);
       const moved = km(at.x, at.y, at.reappear.x, at.reappear.y);
       html += `<div class="quiet">Not heard for ${at.quietHours.toFixed(0)} h. At its last speed it could be up to ${reach.toFixed(0)} km away (estimate). It reappears after ${at.reappear.hours} h, ${moved.toFixed(0)} km from here.</div>`;
     }
@@ -100,16 +107,19 @@ function layers() {
     const at = locate(ship, S.T);
     if (at && (!S.movingOnly || at.kn >= 1)) now.push(at);
   }
-  const quiet = now.filter(a => a.quietHours >= 1 && a.kn >= 1);
+  const chosen = S.chosen === null ? null : SHIPS[S.chosen];
+  const quiet = now.filter(isQuiet);
+  const rings = quiet.filter(a => reachKm(a) <= MAX_RING_KM || a.ship === chosen);
   const moving = now.filter(a => a.kn >= 1).length;
   const hour = D.hours[Math.min(LAST, Math.floor(S.T))];
   $("hud").innerHTML = `<b>${esc(hour)} UTC</b><br>${now.length} ships shown, ${moving} moving, ${quiet.length} quiet<br>This replay is ${esc(D.age_label)}`;
   who();
   return [
-    new deck.TripsLayer({ id:"trails", data:TRIPS, getPath:d=>d.path, getTimestamps:d=>d.times, getColor:d=>d.color, currentTime:S.T, trailLength:6, fadeTrail:true, widthMinPixels:2, opacity:0.75, rounded:true }),
-    new deck.ScatterplotLayer({ id:"quiet", data:quiet, getPosition:a=>[a.x,a.y], getRadius:a=>a.kn*1852*a.quietHours, radiusUnits:"meters", filled:false, stroked:true, getLineColor:[201,133,0,190], lineWidthUnits:"pixels", getLineWidth:1.5, updateTriggers:{getRadius:S.T} }),
+    new deck.TripsLayer({ id:"trails", data:TRIPS, getPath:d=>d.path, getTimestamps:d=>d.times, getColor:d=>d.color, currentTime:S.T, trailLength:6, fadeTrail:true, widthMinPixels:2, opacity:0.75, jointRounded:true, capRounded:true }),
+    new deck.ScatterplotLayer({ id:"quiet", data:rings, getPosition:a=>[a.x,a.y], getRadius:a=>reachKm(a)*1000, radiusUnits:"meters", filled:false, stroked:true, getLineColor:[201,133,0,190], lineWidthUnits:"pixels", getLineWidth:1.5, updateTriggers:{getRadius:S.T} }),
     new deck.ScatterplotLayer({ id:"ships", data:now, getPosition:a=>[a.x,a.y], getRadius:a=>a.kn>=1?5:3, radiusUnits:"pixels", getFillColor:a=>a.kn>=1?a.ship.color:[...a.ship.color,150], stroked:true, lineWidthUnits:"pixels",
-      getLineWidth:a=>a.ship===SHIPS[S.chosen]?2:0, getLineColor:[240,239,236], pickable:true, updateTriggers:{getPosition:S.T, getLineWidth:S.chosen} }),
+      getLineWidth:a=>a.ship===chosen?2:isQuiet(a)?1.5:0, getLineColor:a=>a.ship===chosen?[240,239,236]:[201,133,0], pickable:true, updateTriggers:{getPosition:S.T, getLineWidth:[S.chosen,S.T], getLineColor:S.chosen} }),
+    PORT_LABELS,
   ];
 }
 let map;
@@ -160,7 +170,8 @@ def build_page(movement_json: str, age_label: str) -> str:
     payload["age_label"] = age_label
     # Inside a <script> block, so "</" must not end it early.
     text = json.dumps(payload, separators=(",", ":")).replace("</", "<\\/")
-    return PAGE.replace("__DATA__", text).replace("__MAP__", str(MAP_HEIGHT_PX))
+    page = PAGE.replace("__MAP_JS__", MAP_PAGE_JS).replace("__MAP__", str(MAP_HEIGHT_PX)).replace("__RING__", str(MAX_RING_KM))
+    return page.replace("__DATA__", text)
 
 
 def render_quiet_spells(spells: list[dict]) -> None:
@@ -205,7 +216,7 @@ def render() -> None:
             f"**{len(movement['ships']):,} real ships** in this area over {len(movement['hours']) // 24} days, from AIS. "
             "Press Play, or click a ship to see who it is."
         )
-        st.iframe(build_page(text, f"{age:.1f} days old."), height=HEIGHT_PX)
+        st.iframe(build_page(text, f"{age:.1f} days old."))
         st.markdown(GFW_ATTRIBUTION)
         render_quiet_spells(movement.get("quiet_spells", []))
     st.subheader("Right now: live AIS")

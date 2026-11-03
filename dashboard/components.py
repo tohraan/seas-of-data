@@ -1,4 +1,5 @@
 """Shared pieces of the dashboard: colours, map layers, chart styling and cached images."""
+import json
 import math
 
 import pandas as pd
@@ -6,6 +7,7 @@ import plotly.graph_objects as go
 import pydeck as pdk
 import streamlit as st
 
+from analysis import PORT_POSITIONS
 from data import radar_image_uri, thumbnail_uri
 
 SURFACE = "#1a1a19"
@@ -33,6 +35,25 @@ MAP_FIT_PX = 400
 TOOLTIP_STYLE = {"backgroundColor": SURFACE, "color": INK, "fontSize": "13px"}
 ATTRIBUTION = "Contains modified Copernicus Sentinel data (2026). Base map: OpenStreetMap, CARTO."
 GFW_ATTRIBUTION = "[Powered by Global Fishing Watch.](https://globalfishingwatch.org)"
+# For the pages shown with st.iframe. Streamlit embeds those through srcdoc, where location.origin is "null" but a worker's is
+# the real origin. MapLibre drops worker messages whose origin doesn't match its own, leaving a blank map, so translate them.
+_SRCDOC_MAP_FIX_JS = """(() => {
+  const post = Worker.prototype.postMessage;
+  Worker.prototype.postMessage = function (message, options) {
+    return post.call(this, message && message.origin === location.origin ? { ...message, origin:window.origin } : message, options);
+  };
+  const listen = Worker.prototype.addEventListener;
+  Worker.prototype.addEventListener = function (type, listener, options) {
+    const translated = event => { if (event.data && event.data.origin === window.origin) event.data.origin = location.origin; listener(event); };
+    return listen.call(this, type, type === "message" ? translated : listener, options);
+  };
+})();"""
+# The radar image hides the base map's own place names. These sit to the right of each port, over land, to stay clear of ships at sea.
+_PORT_LABELS_JS = """const PORT_LABELS = window.deck ? new deck.TextLayer({ id:"port-labels", data:__PORTS__, getPosition:d=>d.at, getText:d=>d.name, getSize:13, getColor:[240,239,236],
+  fontFamily:"system-ui, sans-serif", getTextAnchor:"start", getPixelOffset:[12,0], background:true, getBackgroundColor:[13,13,13,200], backgroundPadding:[5,2] }) : null;""".replace(
+    "__PORTS__", json.dumps([{"name": name, "at": [lon, lat]} for name, (lat, lon) in PORT_POSITIONS.items()])
+)
+MAP_PAGE_JS = f"{_SRCDOC_MAP_FIX_JS}\n{_PORT_LABELS_JS}"
 
 
 def map_view(points: pd.DataFrame) -> pdk.ViewState:

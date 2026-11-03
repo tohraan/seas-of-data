@@ -104,7 +104,7 @@ def render_detail(row: pd.Series) -> None:
     calls = row["recent_calls"]
     if calls:
         st.dataframe(
-            pd.DataFrame(calls).iloc[::-1],
+            pd.DataFrame(calls).iloc[::-1].assign(start=lambda table: table["start"].str.replace("T", " "), end=lambda table: table["end"].str.replace("T", " ")),
             hide_index=True,
             width="stretch",
             column_order=["port", "country", "start", "end", "hours"],

@@ -1,6 +1,7 @@
 """The dashboard's use of Fishing Watch data, on small made-up files. Real data is covered at the end."""
 import hashlib
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -168,8 +169,13 @@ MOVEMENT = {
 def test_replay_page_cannot_be_broken_by_a_ship_name():
     page = build_page(json.dumps(MOVEMENT), "1.0 days old.")
     assert "</script><b>" not in page
-    assert "__DATA__" not in page and "__MAP__" not in page
+    assert re.findall(r"__[A-Z_]+__", page) == []
     assert "Powered by Global Fishing Watch" in page
+
+
+def test_replay_page_carries_the_fix_that_lets_its_base_map_load():
+    page = build_page(json.dumps(MOVEMENT), "1.0 days old.")
+    assert page.index("Worker.prototype.postMessage") < page.index("new deck.DeckGL")
 
 
 def test_replay_page_escapes_ship_data_before_showing_it():

@@ -36,6 +36,12 @@ def key_present(path: Path = ENV_FILE) -> bool:
         return False
 
 
+def last_write_age(directory: Path, now: float) -> float | None:
+    """Seconds since the collector last saved a report, or None if it never has. It saves only when it hears a ship."""
+    ages = [now - path.stat().st_mtime for path in directory.glob("*.jsonl")]
+    return max(0.0, min(ages)) if ages else None
+
+
 def _clean(report: dict) -> dict | None:
     """Keep one report if it has a usable position. AIS uses out-of-range values to mean 'not available'."""
     lat, lon, moment = report.get("lat"), report.get("lon"), report.get("t_recv")

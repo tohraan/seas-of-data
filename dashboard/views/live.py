@@ -22,6 +22,7 @@ from live_ais import (
     ais_dir,
     feed_summary,
     key_present,
+    last_write_age,
     read_reports,
     ship_states,
 )
@@ -43,8 +44,17 @@ def describe_age(seconds: float) -> str:
     return f"{seconds / 3600:.1f} h ago"
 
 
-def show_not_connected() -> None:
-    if key_present():
+def show_no_reports(now: float) -> None:
+    """Nothing heard in the last hour. Reports can stop because the feed is quiet, not only because nothing is connected."""
+    last_write = last_write_age(ais_dir(), now)
+    if last_write is not None:
+        st.info(
+            f"No ships heard here in the last hour. The last report came in {describe_age(last_write)}. The free AIS feed has very few receivers "
+            "on this coast, so quiet hours are normal. This page can't tell that apart from a stopped collector, so if it stays quiet for hours, restart it:",
+            icon="📡",
+        )
+        st.code(CAPTURE_COMMAND, language="bash")
+    elif key_present():
         st.info("The live AIS key is saved, but nothing is collecting reports yet. Start the collector and leave it running:", icon="📡")
         st.code(CAPTURE_COMMAND, language="bash")
     else:
@@ -93,7 +103,7 @@ def show_feed() -> None:
     now = pd.Timestamp.now(tz="UTC").timestamp()
     reports = read_reports(ais_dir(), now)
     if reports.empty:
-        show_not_connected()
+        show_no_reports(now)
         return
     states = ship_states(reports, now)
     summary = feed_summary(states, reports, now)
@@ -140,7 +150,8 @@ def live_panel() -> None:
 
 def render() -> None:
     now = pd.Timestamp.now(tz="UTC").timestamp()
-    if read_reports(ais_dir(), now).empty:
-        show_not_connected()
+    # Without a key no report can arrive, so there's nothing to keep checking for.
+    if not key_present() and read_reports(ais_dir(), now).empty:
+        show_no_reports(now)
     else:
         live_panel()

@@ -3,6 +3,7 @@ import hashlib
 import io
 import json
 import math
+import re
 import shutil
 from pathlib import Path
 
@@ -387,8 +388,10 @@ def test_downloads_are_valid_and_nulls_stay_null():
 def test_playback_page_cannot_be_broken_by_its_data():
     page = build_page(json.dumps([{"id": "</script><b>"}]), json.dumps([]))
     assert "</script><b>" not in page
-    assert "__DATA__" not in page and "__MAP__" not in page
+    assert re.findall(r"__[A-Z_]+__", page) == []
     assert "esc(object.id)" in page
+    # Without this the base map stays blank, because the page is embedded through srcdoc.
+    assert page.index("Worker.prototype.postMessage") < page.index("new deck.DeckGL")
 
 
 # The running app
