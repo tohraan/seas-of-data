@@ -409,7 +409,7 @@ def test_no_ais_means_no_dark_tile(contracts):
     labels = [m.label for m in app.metric][:5]
     assert labels[4] == "AIS check"
     assert app.metric[4].value == "Not yet"
-    assert any("No AIS has been joined" in info.value for info in app.info)
+    assert any("haven't been checked against AIS" in info.value for info in app.info)
 
 
 def test_map_payload_uses_literal_pixel_units_and_valid_json(contracts):

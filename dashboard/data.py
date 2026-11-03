@@ -193,6 +193,12 @@ def load_model_metrics() -> dict | None:
     return _read_optional_json(_derived_dir() / "model_metrics.json")
 
 
+def load_wide_radar() -> dict:
+    """Whole-scene radar images by scene ID. These are real scenes, so they don't depend on the detections file."""
+    document = _read_optional_json(_derived_dir() / "wide_radar.json")
+    return document.get("scenes", {}) if isinstance(document, dict) else {}
+
+
 def load_buoy_specs() -> dict | None:
     return _read_optional_json(BUOY_SPECS)
 

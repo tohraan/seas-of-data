@@ -9,7 +9,7 @@ import streamlit as st
 
 from analysis import CLASS_LABELS
 from components import MAP_HEIGHT_PX, cached_radar_image, pass_time
-from data import Evidence
+from data import Evidence, load_wide_radar
 
 HEIGHT_PX = MAP_HEIGHT_PX + 190
 PAGE = """<!doctype html>
@@ -74,7 +74,9 @@ function layers() {
   setHud(p, DATA.points.filter(d => d.p === S.i));
   const out = [];
   if (S.radar) {
-    DATA.passes.forEach((q, n) => { if (q.image && n === S.i) out.push(new deck.BitmapLayer({ id:"radar"+n, image:q.image, bounds:q.corners, opacity:0.92 })); });
+    const q = DATA.passes[S.i];
+    if (q.wide) out.push(new deck.BitmapLayer({ id:"wide"+S.i, image:q.wide, bounds:q.wide_corners, opacity:0.7 }));
+    if (q.image) out.push(new deck.BitmapLayer({ id:"radar"+S.i, image:q.image, bounds:q.corners, opacity:0.92 }));
   }
   // Thin outlines only: filled rings stack into a fog that hides the radar.
   out.push(new deck.ScatterplotLayer({ id:"rings", data:rings, getPosition:d=>[d.x,d.y], getRadius:S.speed*1852*S.hours, radiusUnits:"meters",
@@ -87,7 +89,7 @@ function layers() {
     getLineWidth:d=>d.c==="likely_fixed"?2:0, getLineColor:[240,239,236], pickable:true }));
   return out;
 }
-const view = { longitude:54.875, latitude:24.925, zoom:8.25, pitch:0, bearing:0 };
+const view = { longitude:55.1, latitude:25.0, zoom:7.6, pitch:0, bearing:0 };
 let map;
 function boot() {
   map = new deck.DeckGL({ container:"map", initialViewState:view, controller:true, layers:[],
@@ -139,12 +141,14 @@ def build_page(points_json: str, passes_json: str) -> str:
 
 
 def render(frame: pd.DataFrame, evidence: Evidence | None, manifest: dict | None) -> None:
+    wide_radar = load_wide_radar()
     moments = frame.groupby("scene_id")["timestamp"].first().sort_values()
     order = {scene: index for index, scene in enumerate(moments.index)}
     gaps = moments.diff().shift(-1).dt.total_seconds() / 3600
     passes = []
     for scene, moment in moments.items():
         info = evidence.pass_info(scene) if evidence else None
+        wide = wide_radar.get(scene) if info else None
         gap = gaps[scene]
         passes.append({
             "label": pass_time(moment),
@@ -153,6 +157,8 @@ def render(frame: pd.DataFrame, evidence: Evidence | None, manifest: dict | None
             "orbit": info.get("orbit") if info else None,
             "image": cached_radar_image(info["image"]) if info else None,
             "corners": info["corners"] if info else None,
+            "wide": cached_radar_image(wide["image"]) if wide else None,
+            "wide_corners": wide["corners"] if wide else None,
             "gap_hours": None if pd.isna(gap) else round(gap),
         })
     points = [

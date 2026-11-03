@@ -14,7 +14,7 @@ from data import (
     load_manifest,
     summarise,
 )
-from views import explorer, methods, playback, ports, review, siting
+from views import explorer, live, methods, playback, ports, review, siting
 
 ALL_PASSES = "All passes"
 
@@ -43,7 +43,7 @@ if evidence_state == "stale" and not detections.is_sample:
 frame = enrich(attach_evidence(detections.frame, evidence))
 dark = possible_dark(frame)
 if not dark.any():
-    st.info("No AIS has been joined yet, so nothing here says a ship is dark. Each detection is a real radar target.", icon="ℹ️")
+    st.info("These radar detections haven't been checked against AIS yet, so nothing here says a ship is dark. Each one is a real radar target.", icon="ℹ️")
 
 passes = frame.groupby("scene_id").agg(time=("timestamp", "first"), detections=("id", "size")).sort_values("time")
 total_passes = len(passes)
@@ -73,11 +73,13 @@ else:
     product = f" Product {row['product']}." if isinstance(row["product"], str) else ""
     st.caption(f"Sentinel-1 pass {pass_time(row['timestamp'])}, scene {scene_id}.{product}")
 
-explorer_tab, playback_tab, port_tab, review_tab, siting_tab, methods_tab = st.tabs(
-    ["Explorer", "Playback", "Port watch", "Review queue", "Buoy siting", "Methods and data"]
+explorer_tab, live_tab, playback_tab, port_tab, review_tab, siting_tab, methods_tab = st.tabs(
+    ["Explorer", "Live ships", "Playback", "Port watch", "Review queue", "Buoy siting", "Methods and data"]
 )
 with explorer_tab:
     explorer.render(selected, frame, evidence, scene_id, directory, manifest, total_passes)
+with live_tab:
+    live.render()
 with playback_tab:
     playback.render(frame, evidence, manifest)
 with port_tab:

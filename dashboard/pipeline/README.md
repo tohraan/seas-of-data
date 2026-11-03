@@ -20,6 +20,12 @@ uv run python yolo_scan.py --weights ../../data/model/best.pt --out ../../data/y
 uv run python build_evidence.py --weights ../../data/model/best.pt --runs ../../data/yolo_runs
 ```
 
+To refresh the coarse whole-scene radar images on the map, which needs neither the model nor a login:
+
+```bash
+uv run python build_wide_radar.py
+```
+
 ## What gets measured
 | Measurement | How |
 |---|---|

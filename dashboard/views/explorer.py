@@ -35,7 +35,7 @@ from components import (
     point_layer,
     radar_layer,
 )
-from data import Evidence, resolve_chip
+from data import Evidence, load_wide_radar, resolve_chip
 
 TABLE_COLUMNS = [
     "thumb", "id", "class_label", "size_label", "length_m", "contrast_db", "location", "seen",
@@ -90,6 +90,10 @@ def render_map(shown: pd.DataFrame, evidence: Evidence | None, scene_id: str | N
     latest_pass = evidence.passes[-1] if evidence and evidence.passes else None
     info = (evidence.pass_info(scene_id) if evidence and scene_id else latest_pass) if show_radar else None
     if info:
+        wide = load_wide_radar().get(info["scene_id"])
+        wide_image = cached_radar_image(wide["image"]) if wide else None
+        if wide_image:
+            layers.append(radar_layer(wide_image, wide["corners"], opacity=0.75))
         image = cached_radar_image(info["image"])
         if image:
             layers.append(radar_layer(image, info["corners"]))
@@ -111,7 +115,7 @@ def render_map(shown: pd.DataFrame, evidence: Evidence | None, scene_id: str | N
         items.append((DARK_HEX, "Possibly dark (real AIS check)", True))
     legend(items)
     if info:
-        st.caption(f"Radar image: Sentinel-1 VV, {info['scene_id']}. {ATTRIBUTION}")
+        st.caption(f"Radar image: Sentinel-1 VV, {info['scene_id']}. Sharp near the ports, where ships are detected, and coarser across the rest of the scene. {ATTRIBUTION}")
     else:
         st.caption(ATTRIBUTION)
 
