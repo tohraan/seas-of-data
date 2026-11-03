@@ -9,7 +9,7 @@ From the repo root. [uv](https://docs.astral.sh/uv/) installs Python 3.12 and th
 uv run --project dashboard streamlit run dashboard/app.py
 ```
 
-Then open http://localhost:8501. The map backgrounds and Playback need internet access.
+Then open http://localhost:8501. The base maps, Ship movement and Radar playback need internet access.
 
 To deploy on Streamlit Community Cloud, set the main file to `dashboard/app.py` and Python to 3.12. Dependencies are in `dashboard/requirements.txt`.
 
@@ -66,6 +66,7 @@ A hosted copy of the dashboard shows no live ships unless a collector runs along
 - Global Fishing Watch data is for non-commercial use only, under CC BY-NC 4.0, and pages using it must credit them. A commercial product would need a separate licence.
 - The sanctions list comes from the US Treasury's OFAC.
 - Radar images contain modified Copernicus Sentinel data.
+- Base maps are © OpenStreetMap contributors, © CARTO. CARTO now asks for a free API key: its raster tiles already show an "API key required" watermark without one. The vector tiles used here still work without a key as of 3 Nov 2026, but [its key page](https://carto.com/basemaps/apikey) says the key covers them too.
 
 ## Test
 ```bash
