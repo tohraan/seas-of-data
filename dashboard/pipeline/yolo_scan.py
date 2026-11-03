@@ -13,6 +13,8 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image
+from ultralytics import YOLO
+
 from sentinel import (
     SeaMask,
     contract_scene_ids,
@@ -21,7 +23,6 @@ from sentinel import (
     signed_url,
     to_uint8,
 )
-from ultralytics import YOLO
 
 TILE_PX, STRIDE_PX = 800, 640
 UPSCALE = 3.0

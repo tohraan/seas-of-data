@@ -19,6 +19,7 @@ SIZE_RANGES = {"tiny": "under 30 m", "small": "30-60 m", "medium": "60-120 m", "
 REVIEW_LABELS = {"confirmed": "Looks like a ship", "rejected": "Not a ship", "unsure": "Unsure", "unreviewed": "Not reviewed"}
 CHECK_LABELS = {"both": "Both", "cfar": "CFAR only", "yolo": "YOLO only"}
 REAL_AIS_SOURCES = {"gfw", "aisstream"}
+AIS_CHECK_OPTIONS = ["Matched to a ship", "No AIS match", "Fishing Watch didn't detect it", "Not published yet", "Not checked"]
 
 
 def haversine_km(lat1, lon1, lat2, lon2):
@@ -28,11 +29,43 @@ def haversine_km(lat1, lon1, lat2, lon2):
 
 
 def possible_dark(frame: pd.DataFrame) -> pd.Series:
-    """A detection may only be called possibly dark after a real AIS check. Simulated flags never count."""
-    return (frame["status"] == "no_ais_match") & ~frame["ais_source"].isin(["simulated", "none"])
+    """A detection may only be called possibly dark after a real AIS check. Simulated flags never count.
+
+    Fishing Watch's check counts only for the ship class: a likely fixed structure has no AIS because it isn't a ship.
+    """
+    contract = (frame["status"] == "no_ais_match") & ~frame["ais_source"].isin(["simulated", "none"])
+    if "gfw_check" not in frame:
+        return contract
+    return contract | ((frame["gfw_check"] == "no_ais") & (frame["radar_class"] == "ship"))
 
 
-def _ais_label(status: str, source: object, mmsi: object) -> str:
+def _ais_check_group(check: object, status: str, source: object) -> str:
+    """The filter group for a detection's AIS check. A Fishing Watch result comes before any flag in the file."""
+    groups = {
+        "ais_match": "Matched to a ship",
+        "no_ais": "No AIS match",
+        "no_detection": "Fishing Watch didn't detect it",
+        "not_available": "Not published yet",
+    }
+    if check in groups:
+        return groups[check]
+    if source in ("simulated", "none"):
+        return "Not checked"
+    if status == "matched":
+        return "Matched to a ship"
+    return "No AIS match" if status == "no_ais_match" else "Not checked"
+
+
+def _ais_label(status: str, source: object, mmsi: object, check: object = None, name: object = None, flag: object = None) -> str:
+    if check == "ais_match":
+        ship = name if isinstance(name, str) and name else "name not reported"
+        return f"{ship} ({flag})" if isinstance(flag, str) and flag else ship
+    if check == "no_ais":
+        return "No AIS match"
+    if check == "no_detection":
+        return "Fishing Watch didn't detect it"
+    if check == "not_available":
+        return "Not published yet"
     if status == "matched" and source != "simulated":
         return f"Matched, MMSI {mmsi}" if pd.notna(mmsi) else "Matched"
     if status == "no_ais_match" and source not in ("simulated", "none"):
@@ -42,11 +75,14 @@ def _ais_label(status: str, source: object, mmsi: object) -> str:
 
 def enrich(detections: pd.DataFrame) -> pd.DataFrame:
     frame = detections.copy()
+    for column in ("gfw_check", "ais_name", "ais_flag", "ais_type", "ais_imo", "ais_mmsi", "gfw_vessel_id", "nearest_ais_km"):
+        if column not in frame:
+            frame[column] = None
     if frame.empty:
         return frame.assign(**{
             column: pd.Series(dtype=object)
             for column in ("zone", "nearest_port", "nearest_port_km", "location", "class_label", "size_label",
-                           "review_label", "ais_label", "check_label", "vh_label", "map_url")
+                           "review_label", "ais_label", "ais_group", "check_label", "vh_label", "map_url")
         })
     lat = frame["lat"].to_numpy(float)
     lon = frame["lon"].to_numpy(float)
@@ -63,8 +99,12 @@ def enrich(detections: pd.DataFrame) -> pd.DataFrame:
     frame["size_label"] = frame["size_class"].map(SIZE_LABELS).fillna("Unknown")
     frame["review_label"] = frame["review"].map(REVIEW_LABELS).fillna("Not reviewed")
     frame["ais_label"] = [
-        _ais_label(status, source, mmsi)
-        for status, source, mmsi in zip(frame["status"], frame["ais_source"], frame["mmsi"])
+        _ais_label(status, source, mmsi, check, name, flag)
+        for status, source, mmsi, check, name, flag in zip(frame["status"], frame["ais_source"], frame["mmsi"], frame["gfw_check"], frame["ais_name"], frame["ais_flag"])
+    ]
+    frame["ais_group"] = [
+        _ais_check_group(check, status, source)
+        for check, status, source in zip(frame["gfw_check"], frame["status"], frame["ais_source"])
     ]
     frame["check_label"] = frame["detector_check"].map(CHECK_LABELS).fillna("Not run").astype(object)
     frame["vh_label"] = [
@@ -129,7 +169,8 @@ def expected_next_passes(timestamps: pd.Series, now: pd.Timestamp, count: int = 
 def to_geojson(frame: pd.DataFrame) -> str:
     columns = [
         "id", "scene_id", "timestamp", "product", "confidence", "snr_z", "contrast_db", "length_m", "size_class",
-        "radar_class", "persistence", "review", "status", "ais_source", "port", "land_distance_m", "chip", "chip_context",
+        "radar_class", "persistence", "review", "status", "ais_source", "gfw_check", "ais_name", "ais_flag", "ais_type", "ais_imo",
+        "port", "land_distance_m", "chip", "chip_context",
     ]
     features = []
     for row in frame.to_dict("records"):
@@ -155,7 +196,7 @@ def to_csv(frame: pd.DataFrame) -> str:
     columns = [
         "id", "radar_class", "size_class", "length_m", "contrast_db", "snr_z", "confidence", "persistence", "review",
         "status", "ais_source", "port", "location", "lat", "lon", "timestamp", "scene_id", "product",
-        "detector_check", "yolo_confidence", "vh_confirmed",
+        "detector_check", "yolo_confidence", "vh_confirmed", "gfw_check", "ais_name", "ais_flag", "ais_type", "ais_imo", "ais_mmsi",
     ]
     return frame[columns].to_csv(index=False)
 

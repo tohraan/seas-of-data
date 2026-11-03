@@ -6,15 +6,18 @@ from components import pass_time
 from data import (
     ContractError,
     attach_evidence,
+    attach_gfw,
     contracts_dir,
     load_buoy_specs,
     load_detections,
     load_evidence,
+    load_gfw_checks,
     load_gulf_metrics,
     load_manifest,
+    load_ship_history,
     summarise,
 )
-from views import explorer, live, methods, playback, ports, review, siting
+from views import explorer, history, methods, movement, playback, ports, review, siting
 
 ALL_PASSES = "All passes"
 
@@ -40,9 +43,19 @@ evidence, evidence_state = load_evidence(detections.path)
 if evidence_state == "stale" and not detections.is_sample:
     st.warning("The radar images and second opinion were built from an older data release, so they're hidden. Run dashboard/pipeline to rebuild them.", icon="⚠️")
 
-frame = enrich(attach_evidence(detections.frame, evidence))
+gfw_checks = load_gfw_checks(detections.path)
+ship_history = load_ship_history()
+frame = enrich(attach_gfw(attach_evidence(detections.frame, evidence), gfw_checks))
 dark = possible_dark(frame)
-if not dark.any():
+if gfw_checks:
+    pending = [item for item in gfw_checks["passes"] if not item.get("available")]
+    note = f" {len(pending)} of {len(gfw_checks['passes'])} passes aren't published yet." if pending else ""
+    st.info(
+        "AIS checks come from Global Fishing Watch's own radar and AIS matching. "
+        f"Possibly dark means a ship-class target with no AIS match, which is a reason to look closer but doesn't prove a ship switched AIS off.{note}",
+        icon="ℹ️",
+    )
+elif not dark.any():
     st.info("These radar detections haven't been checked against AIS yet, so nothing here says a ship is dark. Each one is a real radar target.", icon="ℹ️")
 
 passes = frame.groupby("scene_id").agg(time=("timestamp", "first"), detections=("id", "size")).sort_values("time")
@@ -61,7 +74,9 @@ total_tile.metric("Detections", f"{stats['total']:,}")
 ship_tile.metric("Ship class", f"{stats['ship']:,}")
 uncertain_tile.metric("Uncertain", f"{stats['uncertain']:,}")
 fixed_tile.metric("Likely fixed", f"{stats['likely_fixed']:,}")
-if dark.any():
+if selected["gfw_check"].eq("not_available").all():
+    ais_tile.metric("AIS check", "Not published yet", help="Fishing Watch's radar and AIS matching runs about 5 days behind.")
+elif dark.any():
     ais_tile.metric("Possibly dark", f"{int(possible_dark(selected).sum()):,}")
 else:
     ais_tile.metric("AIS check", "Not yet")
@@ -73,13 +88,15 @@ else:
     product = f" Product {row['product']}." if isinstance(row["product"], str) else ""
     st.caption(f"Sentinel-1 pass {pass_time(row['timestamp'])}, scene {scene_id}.{product}")
 
-explorer_tab, live_tab, playback_tab, port_tab, review_tab, siting_tab, methods_tab = st.tabs(
-    ["Explorer", "Live ships", "Playback", "Port watch", "Review queue", "Buoy siting", "Methods and data"]
+explorer_tab, movement_tab, history_tab, playback_tab, port_tab, review_tab, siting_tab, methods_tab = st.tabs(
+    ["Explorer", "Ship movement", "Ship history", "Radar playback", "Port watch", "Review queue", "Buoy siting", "Methods and data"]
 )
 with explorer_tab:
-    explorer.render(selected, frame, evidence, scene_id, directory, manifest, total_passes)
-with live_tab:
-    live.render()
+    explorer.render(selected, frame, evidence, scene_id, directory, manifest, total_passes, gfw_checks, ship_history)
+with movement_tab:
+    movement.render()
+with history_tab:
+    history.render(ship_history)
 with playback_tab:
     playback.render(frame, evidence, manifest)
 with port_tab:
@@ -89,4 +106,4 @@ with review_tab:
 with siting_tab:
     siting.render(frame, load_buoy_specs())
 with methods_tab:
-    methods.render(frame, manifest, gulf_metrics, evidence)
+    methods.render(frame, manifest, gulf_metrics, evidence, gfw_checks)

@@ -53,7 +53,7 @@ def show_not_connected() -> None:
             "with no speed or heading. Live positions need AIS, so add a free key from aisstream.io to `ml/.env` as `AISSTREAM_KEY=...`.",
             icon="📡",
         )
-    st.caption("Global Fishing Watch can't drive this view, because its AIS data runs about 3-5 days behind.")
+    st.caption("Global Fishing Watch can't drive this live view, because its AIS data runs about 3-5 days behind.")
 
 
 def tooltip(row: pd.Series) -> str:
@@ -111,7 +111,8 @@ def show_feed() -> None:
     legend([(SHIP_HEX, "Moving", False), (MUTED, "Stopped", False), ("#c98500", "Not heard lately, with how far it could have gone", True)])
     st.caption(
         f"Real AIS reports. Between reports, a moving ship's position is estimated from its last speed and course, for up to {ESTIMATE_LIMIT_S // 60} minutes. "
-        f"A ship that goes quiet may just be out of range of the shore receivers, so that alone doesn't mean it switched its AIS off. Base map: OpenStreetMap, CARTO."
+        f"A ship that goes quiet may just be out of range of the shore receivers, so that alone doesn't mean it switched its AIS off. "
+        f"The free feed has very few receivers on this coast, so this shows only a small share of the ships really here. Base map: OpenStreetMap, CARTO."
     )
     table = states.sort_values(["status", "age_s"]).assign(heard=[describe_age(value) for value in states.sort_values(["status", "age_s"])["age_s"]])
     st.dataframe(

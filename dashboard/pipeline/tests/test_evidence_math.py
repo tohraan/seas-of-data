@@ -3,6 +3,7 @@ import math
 
 import numpy as np
 import pytest
+
 from evidence_math import (
     CHIP_PX,
     bearing_deg,

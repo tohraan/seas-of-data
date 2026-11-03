@@ -14,6 +14,7 @@ import rasterio
 from PIL import Image
 from rasterio.enums import Resampling
 from rasterio.transform import GCPTransformer
+
 from sentinel import (
     amplitude_db,
     contract_scene_ids,

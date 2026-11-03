@@ -25,6 +25,7 @@ EVIDENCE_COLUMNS = [
     "detector_check", "yolo_confidence", "vv_contrast_db", "vh_contrast_db", "vh_confirmed",
     "radar_length_m", "axis_deg", "chip_vh", "passes_bright", "passes_measured", "fixed_likely",
 ]
+GFW_COLUMNS = ["gfw_check", "ais_name", "ais_flag", "ais_type", "ais_imo", "ais_mmsi", "gfw_vessel_id", "nearest_ais_km"]
 # The same bands as ml/build_catalog.py.
 SIZE_BANDS = [(30, "tiny"), (60, "small"), (120, "medium"), (200, "large")]
 
@@ -197,6 +198,47 @@ def load_wide_radar() -> dict:
     """Whole-scene radar images by scene ID. These are real scenes, so they don't depend on the detections file."""
     document = _read_optional_json(_derived_dir() / "wide_radar.json")
     return document.get("scenes", {}) if isinstance(document, dict) else {}
+
+
+def load_gfw_checks(contract_path: Path) -> dict | None:
+    """Fishing Watch's AIS check for each detection, if it was built from this exact detections file."""
+    document = _read_optional_json(_derived_dir() / "gfw_checks.json")
+    if not isinstance(document, dict) or document.get("contract_sha256") != hashlib.sha256(contract_path.read_bytes()).hexdigest():
+        return None
+    return document
+
+
+def attach_gfw(detections: pd.DataFrame, checks: dict | None) -> pd.DataFrame:
+    """Add the AIS check to the detections. Rows with no check stay empty."""
+    if not checks:
+        return detections.reindex(columns=[*detections.columns, *GFW_COLUMNS])
+    rows = [
+        {
+            "id": identifier,
+            "gfw_check": check.get("check"),
+            "ais_name": check.get("name"),
+            "ais_flag": check.get("flag"),
+            "ais_type": check.get("type"),
+            "ais_imo": check.get("imo"),
+            "ais_mmsi": check.get("mmsi"),
+            "gfw_vessel_id": check.get("vessel_id"),
+            "nearest_ais_km": check.get("nearest_ais_km"),
+        }
+        for identifier, check in checks.get("detections", {}).items()
+    ]
+    return detections.merge(pd.DataFrame(rows, columns=["id", *GFW_COLUMNS]), on="id", how="left")
+
+
+def ship_movement_text() -> str | None:
+    try:
+        return (_derived_dir() / "ship_movement.json").read_text()
+    except OSError:
+        return None
+
+
+def load_ship_history() -> dict | None:
+    document = _read_optional_json(_derived_dir() / "ship_history.json")
+    return document if isinstance(document, dict) and document.get("ships") else None
 
 
 def load_buoy_specs() -> dict | None:

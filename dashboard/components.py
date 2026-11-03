@@ -32,6 +32,7 @@ MAP_HEIGHT_PX = 500
 MAP_FIT_PX = 400
 TOOLTIP_STYLE = {"backgroundColor": SURFACE, "color": INK, "fontSize": "13px"}
 ATTRIBUTION = "Contains modified Copernicus Sentinel data (2026). Base map: OpenStreetMap, CARTO."
+GFW_ATTRIBUTION = "[Powered by Global Fishing Watch.](https://globalfishingwatch.org)"
 
 
 def map_view(points: pd.DataFrame) -> pdk.ViewState:
@@ -143,6 +144,13 @@ def cached_thumbnail(relative: object, directory: str) -> str | None:
 @st.cache_data(show_spinner=False)
 def cached_radar_image(relative: str) -> str | None:
     return radar_image_uri(relative)
+
+
+def ship_type_label(value: object) -> str:
+    """Fishing Watch's ship types, such as OTHER_NON_FISHING, in plain words."""
+    if not isinstance(value, str) or not value or value == "INSUFFICIENT_DATA":
+        return "Unknown"
+    return value.replace("_", " ").capitalize()
 
 
 def pass_time(moment: pd.Timestamp) -> str:

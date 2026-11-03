@@ -15,6 +15,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
+from PIL import Image
+
 from evidence_math import (
     MATCH_GATE_M,
     MIN_ELONGATION,
@@ -25,7 +27,6 @@ from evidence_math import (
     match_detections,
     ship_shape,
 )
-from PIL import Image
 from sentinel import Scene, SeaMask, amplitude_db, find_product, read_scene, signed_url
 
 ROOT = Path(__file__).resolve().parents[2]
