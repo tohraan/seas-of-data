@@ -13,4 +13,9 @@ dependencies = [
   "pillow",
   "matplotlib",
   "scipy",
+  "websockets",
+  "pandas",
 ]
+
+[dependency-groups]
+dev = ["pytest"]

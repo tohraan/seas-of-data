@@ -1,0 +1,3 @@
+{"reviewer": "claude (visual, chip + context crop)",
+ "note": "S = ship-like compact bright target, N = not a ship (land/structure/artefact), U = unsure. First pass by the ML agent; not independent ground truth; to be spot-checked by Tohraan.",
+ "sheets": ["UNUSSSSSU","SSNSSSSUU","NSNUUNSSS","SSNUNSSSS","SSSSSSSUS","NSUSSSSUU","SUUUUSNSN","NUUUSSNSS","SUNNSSNNU","UNSSSSSNU","SUSSSSSNS","SSUUSUSNS","SSSNSUSSS","SSS"]}

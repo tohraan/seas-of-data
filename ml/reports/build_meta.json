@@ -1,0 +1,94 @@
+{
+ "detector": "cfar-v1",
+ "rule": {
+  "min_contrast_db": 18.0,
+  "min_snr_z": 9.0,
+  "coast_m": 600.0,
+  "coast_contrast_db": 32.0
+ },
+ "persist_gate_m": 150,
+ "products": {
+  "S1C_20261024T142351": "S1C_IW_GRDH_1SDV_20261024T142351_20261024T142421_010028_014031_F91A.SAFE",
+  "S1C_20261027T021440": "S1C_IW_GRDH_1SDV_20261027T021440_20261027T021505_010064_01416D_E83E.SAFE",
+  "S1D_20261030T142416": "S1D_IW_GRDH_1SDV_20261030T142416_20261030T142441_005246_009F7A_C2FB.SAFE",
+  "S1D_20261102T021455": "S1D_IW_GRDH_1SDV_20261102T021455_20261102T021520_005282_00A0C3_F7F9.SAFE"
+ },
+ "scenes": {
+  "S1C_20261024T142351": {
+   "params": {
+    "k": 8.0,
+    "win": 61,
+    "min_px": 3,
+    "max_m": 450,
+    "center": [
+     54.86,
+     24.91
+    ],
+    "radius_km": 40.0
+   },
+   "stages": {
+    "blobs_above_threshold": 84,
+    "after_size_filter": 57,
+    "after_sea_mask": 49,
+    "after_merge": 40
+   }
+  },
+  "S1C_20261027T021440": {
+   "params": {
+    "k": 8.0,
+    "win": 61,
+    "min_px": 3,
+    "max_m": 450,
+    "center": [
+     54.86,
+     24.91
+    ],
+    "radius_km": 40.0
+   },
+   "stages": {
+    "blobs_above_threshold": 229,
+    "after_size_filter": 130,
+    "after_sea_mask": 95,
+    "after_merge": 80
+   }
+  },
+  "S1D_20261030T142416": {
+   "params": {
+    "k": 8.0,
+    "win": 61,
+    "min_px": 3,
+    "max_m": 450,
+    "center": [
+     54.86,
+     24.91
+    ],
+    "radius_km": 40.0
+   },
+   "stages": {
+    "blobs_above_threshold": 134,
+    "after_size_filter": 80,
+    "after_sea_mask": 71,
+    "after_merge": 57
+   }
+  },
+  "S1D_20261102T021455": {
+   "params": {
+    "k": 8.0,
+    "win": 61,
+    "min_px": 3,
+    "max_m": 450,
+    "center": [
+     54.86,
+     24.91
+    ],
+    "radius_km": 40.0
+   },
+   "stages": {
+    "blobs_above_threshold": 187,
+    "after_size_filter": 108,
+    "after_sea_mask": 77,
+    "after_merge": 73
+   }
+  }
+ }
+}

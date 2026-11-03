@@ -6,13 +6,19 @@ import json, sys
 from pathlib import Path
 
 ASSETS = {
-    "/_blob/b65252db3b927d8ee32cdc1605a493b6": "demo_20261102.png",
+    "/_blob/adb82bf74282eaea42eccb1be8daa644": "demo_20261102.png",
     "/_blob/461591161f07ae74e670f49ec2a33949": "radar_raw.png",
     "/_blob/df4c273b6b8c45b1eeb5a62f57038304": "radar_seamask.png",
-    "/_blob/68c2ae49e2455da8f63f537faa398e62": "radar_zoom.png",
-    "/_blob/cad11cd05cf8579dcca29cec4ddbb73f": "ship_chips.png",
+    "/_blob/86709873c8d0b3cc58d2410d1c9d0ef2": "radar_zoom.png",
+    "/_blob/da5ee27cbf8b3b6983211c1e980ffef6": "ship_chips.png",
     "/_blob/20f19d6291c317ab6c264c862b72c922": "buoy_hero.png",
     "/_blob/72b5585bd0c87bb94d98e04e08eed6d7": "dashboard.png",
+    "/_blob/9ab8e505597d2810e899f9152626d7a3": "blueprint_side.png",
+    "/_blob/41bce21f1d2fcd895fe161d874638ee5": "blueprint_plan.png",
+    "/_blob/036701b207465f474ed552a1f0bdfcfc": "buoy_hero_wide.png",
+    "/_blob/d711313db388f7f733cef3153d33d8b6": "buoy_side.png",
+    "/_blob/b67f285bec7f3237a333b0f9f851174a": "buoy_top.png",
+    "/_blob/f7ee8bd1c9be9029ce33c789ca45d321": "buoy_closeup.png",
 }
 deck, out = Path(sys.argv[1]), Path(sys.argv[2]); out.mkdir(parents=True, exist_ok=True)
 fig = Path(__file__).resolve().parent / "figures"
