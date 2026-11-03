@@ -1,11 +1,9 @@
 {
- "what": "Additive hysteresis CFAR (cfar.py --k 8 --k-grow 6) vs the shipped k=8 detector, scored against Global Fishing Watch SAR targets (public-global-sar-presence) inside the 40 km circle, 1 km match gate. GFW is an independent detector on the same scenes, not ground truth.",
- "passes_scored": ["S1C_20261024T142351", "S1C_20261027T021440", "S1D_20261030T142416"],
- "gfw_targets": 88,
- "k8": {"found": 66, "recall_vs_gfw": 0.75, "detections_3_passes": 177},
- "k8_grow6_additive": {"found": 70, "recall_vs_gfw": 0.795, "new_detections_3_passes": 79, "new_detections_on_a_gfw_target": 4},
- "plain_hysteresis_k8_grow6": {"note": "grows every blob, not only new ones: about 81% recall in scratch runs, but it fused 26 of the 250 v2 detections into oversized blobs (dropped by the 450 m cap or moved >100 m), so it loses targets the shipped detector finds"},
- "gate": "recall vs GFW >= 0.80 and held-out ship-class precision >= v2",
- "verdict": "not adopted: recall 0.795 is under the gate, and 75 of the 79 added detections match no GFW target (mostly clutter). Shipped detector stays k=8; --k-grow is kept as an opt-in flag (default off, output identical to v2).",
- "remaining_misses": "about 12 of the 18 still-missed GFW targets are ships at berth in Khalifa Port, where the static sea mask marks the basin as land; about 5 are very faint (z < 6.5)."
+ "what": "Additive hysteresis CFAR (cfar.py --k 8 --k-grow 6) vs the shipped k=8 detector. Scored by eval_gfw.py against Global Fishing Watch SAR targets inside the 40 km circle, 1 km one-to-one gate (3 passes; GFW has not published 2 Nov). GFW is an independent detector on the same scenes, not ground truth. Full table: reports/eval_gfw.json.",
+ "shipped_k8": {"recall_vs_gfw": "59/81 = 72.8%", "on_sea_mask": "57/72 = 79.2%", "detections": 177, "with_no_gfw_target": 111},
+ "hysteresis_k8_grow6": {"recall_vs_gfw": "63/81 = 77.8%", "on_sea_mask": "61/72 = 84.7%", "detections": 256, "with_no_gfw_target": 185},
+ "plain_hysteresis_k8_grow6": "grows every blob, not only new ones: slightly higher recall in scratch runs, but it fused 26 of the 250 v2 detections into oversized blobs (dropped by the 450 m cap or moved >100 m), so it loses targets the shipped detector finds",
+ "gate": "recall vs GFW >= 80% and held-out ship-class precision >= v2",
+ "verdict": "not adopted: recall 77.8% is under the gate, and 74 of the 79 added detections have no GFW target (mostly clutter). Shipped detector stays k=8; --k-grow is kept as an opt-in flag (default off, output identical to v2).",
+ "remaining_misses": "9 of the 22 missed GFW targets lie where the static sea mask says land (ships at berth in the Khalifa Port and Jebel Ali basins), so the detector cannot see them by design; most of the rest are faint (z < 6.5)."
 }

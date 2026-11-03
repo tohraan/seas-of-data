@@ -1,0 +1,92 @@
+{
+ "what": "Recall vs Global Fishing Watch SAR targets inside the 40 km search circle, 1 km one-to-one gate. GFW is an independent detector on the same scenes (weak near quays, drops small boats), not ground truth.",
+ "passes_scored": [
+  "S1C_20261024T142351",
+  "S1C_20261027T021440",
+  "S1D_20261030T142416"
+ ],
+ "runs": {
+  "shipped_k8": {
+   "passes": [
+    {
+     "scene_id": "S1C_20261024T142351",
+     "targets": 27,
+     "found": 20,
+     "sea_targets": 25,
+     "sea_found": 20,
+     "detections": 40,
+     "unpaired_detections": 18
+    },
+    {
+     "scene_id": "S1C_20261027T021440",
+     "targets": 30,
+     "found": 23,
+     "sea_targets": 27,
+     "sea_found": 22,
+     "detections": 80,
+     "unpaired_detections": 53
+    },
+    {
+     "scene_id": "S1D_20261030T142416",
+     "targets": 24,
+     "found": 16,
+     "sea_targets": 20,
+     "sea_found": 15,
+     "detections": 57,
+     "unpaired_detections": 40
+    }
+   ],
+   "total": {
+    "targets": 81,
+    "found": 59,
+    "sea_targets": 72,
+    "sea_found": 57,
+    "detections": 177,
+    "unpaired_detections": 111,
+    "recall": 0.728,
+    "recall_on_sea_mask": 0.792
+   }
+  },
+  "hysteresis_k8_grow6": {
+   "passes": [
+    {
+     "scene_id": "S1C_20261024T142351",
+     "targets": 27,
+     "found": 22,
+     "sea_targets": 25,
+     "sea_found": 22,
+     "detections": 52,
+     "unpaired_detections": 27
+    },
+    {
+     "scene_id": "S1C_20261027T021440",
+     "targets": 30,
+     "found": 23,
+     "sea_targets": 27,
+     "sea_found": 22,
+     "detections": 118,
+     "unpaired_detections": 91
+    },
+    {
+     "scene_id": "S1D_20261030T142416",
+     "targets": 24,
+     "found": 18,
+     "sea_targets": 20,
+     "sea_found": 17,
+     "detections": 86,
+     "unpaired_detections": 67
+    }
+   ],
+   "total": {
+    "targets": 81,
+    "found": 63,
+    "sea_targets": 72,
+    "sea_found": 61,
+    "detections": 256,
+    "unpaired_detections": 185,
+    "recall": 0.778,
+    "recall_on_sea_mask": 0.847
+   }
+  }
+ }
+}
