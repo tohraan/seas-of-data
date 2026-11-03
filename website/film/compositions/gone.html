@@ -1,0 +1,95 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #0d1d27; }
+    #gone-world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    #gone-world img { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    #gone-svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+    .ship { fill: #f4f1ea; stroke: rgba(0, 0, 0, 0.6); stroke-width: 1.5; }
+    .ping { fill: none; stroke: #f4f1ea; stroke-width: 1.5; }
+    #gone-corvane .ship { fill: #ff5a36; }
+    #gone-corvane .ping { stroke: #ff5a36; stroke-width: 2.5; }
+    .tag { font: 500 26px "IBM Plex Mono", monospace; fill: #f4f1ea; paint-order: stroke; stroke: rgba(0, 0, 0, 0.85); stroke-width: 5px; }
+    .tag.sub { font-size: 22px; fill: rgba(244, 241, 234, 0.85); }
+    .tag.lost { fill: #ff5a36; }
+    .lt { position: absolute; left: 128px; bottom: 120px; padding: 12px 20px; background: rgba(0, 0, 0, 0.55); color: #f4f1ea; font: 500 30px/1.25 "Inter", sans-serif; }
+    .lt span { color: rgba(244, 241, 234, 0.7); }
+    .credit { position: absolute; right: 24px; bottom: 18px; padding: 3px 8px; background: rgba(0, 0, 0, 0.45); color: rgba(244, 241, 234, 0.75); font: 400 16px "Inter", sans-serif; }
+  </style>
+  <div id="root" data-composition-id="gone" data-width="1920" data-height="1080">
+    <div id="gone-world" class="clip" data-start="0" data-duration="5" data-layout-allow-overflow>
+      <img id="gone-map" src="assets/map/coast.jpg" alt="" />
+      <svg id="gone-svg" viewBox="0 0 1920 1080">
+        <g id="gone-ships"></g>
+        <g id="gone-corvane">
+          <circle id="gone-cping" class="ping" r="10" />
+          <path id="gone-ctri" class="ship" d="M0 -13L8 10L0 5L-8 10Z" />
+          <text id="gone-cname" class="tag" x="26" y="-6">MT CORVANE</text>
+          <text id="gone-cspeed" class="tag sub" x="26" y="24">AIS · 9.6 kn · 05:29</text>
+          <text id="gone-clost" class="tag sub lost" x="26" y="24">signal lost</text>
+        </g>
+      </svg>
+    </div>
+    <div id="gone-lt" class="lt clip" data-start="0.3" data-duration="4.5">Public AIS ship tracking <span>· simulated traffic</span></div>
+    <div id="gone-credit" class="credit clip" data-start="0" data-duration="5" data-layout-ignore>Imagery: Esri, Maxar, Earthstar Geographics</div>
+  </div>
+  <script>
+    // Web Mercator at the bake's camera: centre 55.06E 25.0103N, zoom 10.45, 512 px tiles.
+    const proj = (c, z) => {
+      const W = 512 * 2 ** z;
+      const mx = (lon) => ((lon + 180) / 360) * W;
+      const my = (lat) => { const s = Math.sin((lat * Math.PI) / 180); return (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W; };
+      const cx = mx(c[0]), cy = my(c[1]);
+      return (lon, lat) => [mx(lon) - cx + 960, my(lat) - cy + 540];
+    };
+    const P = proj([55.06, 25.0103], 10.45);
+    // Ships the radar later matched to AIS (real positions from our 2 Nov detections), drawn as AIS reports.
+    const SHIPS = [[54.901031,25.116787],[54.989676,25.069456],[54.854256,25.129114],[54.825706,25.076032],[54.849277,25.147223],[54.737767,25.248584],[54.594686,25.208762],[54.74566,25.230521],[54.890714,25.118827],[54.87303,25.216661],[54.636083,25.25183],[54.643138,24.94796],[54.797883,25.163505],[54.573213,25.19059],[54.885056,24.967954],[54.749291,25.20664],[54.77538,25.201686],[54.595721,25.211897],[54.602685,24.847026],[55.028062,25.104302],[54.85788,24.899457],[54.835765,24.886876],[54.864654,25.094591],[54.569885,25.213195],[54.907514,24.957688],[55.056218,25.095729],[54.671774,24.846595]];
+    const NS = "http://www.w3.org/2000/svg";
+    const g = document.getElementById("gone-ships");
+    let seed = 7;
+    const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const pings = [];
+    SHIPS.forEach(([lon, lat], i) => {
+      const [x, y] = P(lon, lat);
+      const s = document.createElementNS(NS, "g");
+      s.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+      const ping = document.createElementNS(NS, "circle");
+      ping.setAttribute("class", "ping"); ping.setAttribute("r", "8");
+      const tri = document.createElementNS(NS, "path");
+      tri.setAttribute("class", "ship"); tri.setAttribute("d", "M0 -11L7 9L0 4L-7 9Z");
+      tri.setAttribute("transform", `rotate(${Math.round(rnd() * 360)})`);
+      s.append(ping, tri); g.append(s);
+      pings.push({ ping, off: rnd() });
+    });
+    const [cx, cy] = P(54.792, 25.161);
+    document.getElementById("gone-corvane").setAttribute("transform", `translate(${cx.toFixed(1)} ${cy.toFixed(1)})`);
+    document.getElementById("gone-ctri").setAttribute("transform", "rotate(112)");
+
+    const tl = gsap.timeline({ paused: true });
+    // A slow push on the whole map, markers included.
+    tl.fromTo("#gone-world", { scale: 1, transformOrigin: "40% 40%" }, { scale: 1.05, duration: 5, ease: "none" }, 0);
+    // Every AIS ship pings on its own 1.6 s cycle.
+    const clock = { t: 0 };
+    tl.to(clock, {
+      t: 5, duration: 5, ease: "none",
+      onUpdate: () => {
+        for (const p of pings) {
+          const ph = (clock.t / 1.6 + p.off) % 1;
+          p.ping.setAttribute("r", (8 + ph * 34).toFixed(1));
+          p.ping.style.opacity = ((1 - ph) * 0.75).toFixed(3);
+        }
+      },
+    }, 0);
+    // Corvane pings twice more, then goes silent: it stops, the triangle empties and the label changes.
+    tl.fromTo("#gone-cping", { attr: { r: 10 }, opacity: 0.9 }, { attr: { r: 52 }, opacity: 0, duration: 1.1, ease: "power1.out" }, 0.2)
+      .fromTo("#gone-cping", { attr: { r: 10 }, opacity: 0.9 }, { attr: { r: 52 }, opacity: 0, duration: 1.1, ease: "power1.out", immediateRender: false }, 1.4)
+      .fromTo(["#gone-cname", "#gone-cspeed"], { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.2)
+      .set("#gone-clost", { opacity: 0 }, 0)
+      .to("#gone-ctri", { fill: "rgba(255,90,54,0)", stroke: "#ff5a36", strokeWidth: 2, duration: 0.25 }, 2.7)
+      .to("#gone-cspeed", { opacity: 0, duration: 0.2 }, 2.7)
+      .to("#gone-clost", { opacity: 1, duration: 0.2 }, 2.8)
+      .to("#gone-corvane", { opacity: 0, duration: 0.9, ease: "power2.in" }, 3.8)
+      .fromTo("#gone-lt", { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 0.3);
+    window.__timelines["gone"] = tl;
+  </script>
+</template>

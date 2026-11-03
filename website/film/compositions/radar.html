@@ -1,0 +1,154 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #0d1d27; }
+    #radar-zoom { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+    #radar-world { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+    #radar-world img { position: absolute; }
+    #radar-coast { left: 0; top: 0; width: 1920px; height: 1080px; }
+    #radar-svg { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+    .det { fill: none; stroke: #f4f1ea; stroke-width: 2.5; }
+    .det.dark { stroke: #ff5a36; stroke-width: 3; }
+    #radar-ghost circle { fill: none; stroke: rgba(244, 241, 234, 0.85); stroke-width: 2; stroke-dasharray: 5 5; }
+    #radar-range { stroke: #f4f1ea; stroke-width: 2.5; stroke-dasharray: 10 8; }
+    #radar-uplink { fill: none; stroke: rgba(244, 241, 234, 0.6); stroke-width: 2; stroke-dasharray: 3 9; }
+    #radar-packet { fill: #f4f1ea; }
+    #radar-buoy circle { fill: #f4f1ea; stroke: #000; stroke-width: 2; }
+    #radar-buoy .halo { fill: none; stroke: #f4f1ea; stroke-width: 2.5; }
+    .tag { font: 500 26px "IBM Plex Mono", monospace; fill: #f4f1ea; paint-order: stroke; stroke: rgba(0, 0, 0, 0.9); stroke-width: 5px; }
+    .tag.sub { font-size: 22px; fill: rgba(244, 241, 234, 0.85); }
+    .tag.hot { fill: #ff5a36; }
+    .lt { position: absolute; left: 128px; bottom: 120px; padding: 12px 20px; background: rgba(0, 0, 0, 0.6); color: #f4f1ea; font: 500 30px/1.25 "Inter", sans-serif; }
+    .lt b { color: #ff5a36; font-weight: 600; }
+    .real { display: inline-block; margin-left: 14px; padding: 2px 10px; border: 1.5px solid #7fd1c8; color: #7fd1c8; font: 600 18px/1.5 "Inter", sans-serif; letter-spacing: 0.06em; vertical-align: 4px; }
+    #radar-json { position: absolute; right: 120px; top: 150px; width: 520px; padding: 20px 24px; background: rgba(0, 0, 0, 0.72); color: #f4f1ea; font: 500 22px/1.5 "IBM Plex Mono", monospace; white-space: pre; }
+    #radar-json i { display: block; margin-bottom: 8px; font: 500 18px "Inter", sans-serif; font-style: normal; color: rgba(244, 241, 234, 0.7); }
+    .credit { position: absolute; right: 24px; bottom: 18px; padding: 3px 8px; background: rgba(0, 0, 0, 0.45); color: rgba(244, 241, 234, 0.75); font: 400 16px "Inter", sans-serif; }
+  </style>
+  <div id="root" data-composition-id="radar" data-width="1920" data-height="1080">
+    <!-- Zoom from the Gulf into the coast: the Gulf pull-back, reversed. -->
+    <video id="radar-zoom" class="clip" src="assets/map/gulf_in.mp4" data-start="0" data-duration="4.2" data-media-start="3.6" data-playback-rate="1.4" muted playsinline></video>
+    <div id="radar-stage" class="clip" data-start="4" data-duration="19.5" data-layout-allow-overflow>
+      <div id="radar-world">
+        <img id="radar-coast" src="assets/map/coast.jpg" alt="" />
+        <img id="radar-sar" src="assets/sar.webp" alt="" />
+      </div>
+      <svg id="radar-svg" viewBox="0 0 1920 1080">
+        <g id="radar-dets"></g>
+        <g id="radar-ghost"><circle r="12" /><text class="tag sub" x="22" y="-14">MT Corvane, last AIS 05:29</text></g>
+        <line id="radar-range" />
+        <text id="radar-dist" class="tag">3.5 km</text>
+        <path id="radar-uplink" />
+        <circle id="radar-packet" r="7" />
+        <g id="radar-buoy"><circle class="halo" r="12" /><circle r="9" /><text id="radar-btag" class="tag" x="22" y="9">B-07</text><text id="radar-bsub" class="tag sub" x="22" y="40">task received</text></g>
+        <g id="radar-lead"><text class="tag hot" x="34" y="-10">d0190 · 189 m</text><text class="tag sub" x="34" y="22">no AIS within 500 m</text></g>
+      </svg>
+    </div>
+    <div id="radar-lt1" class="lt clip" data-start="5.4" data-duration="3.8">35 ships detected <span>·</span> <b>8 with no AIS</b><span class="real">REAL DATA</span></div>
+    <div id="radar-lt2" class="lt clip" data-start="10.6" data-duration="4.4">Sentinel-1D · 2 Nov 2026 · 06:14 GST<span class="real">REAL DETECTION</span></div>
+    <div id="radar-lt3" class="lt clip" data-start="15.2" data-duration="2.8">Radar shows a ship is there. Not who it is.</div>
+    <div id="radar-json" class="clip" data-start="18.6" data-duration="4.6"><i>Task · pipeline → buoy, via satellite IoT · 212 bytes</i><span id="radar-code"></span></div>
+    <div id="radar-credit" class="credit clip" data-start="0" data-duration="23.5" data-layout-ignore>Radar: Copernicus Sentinel-1 (ESA) · Imagery: Esri, Maxar, Earthstar Geographics</div>
+  </div>
+  <script>
+    const proj = (c, z) => {
+      const W = 512 * 2 ** z;
+      const mx = (lon) => ((lon + 180) / 360) * W;
+      const my = (lat) => { const s = Math.sin((lat * Math.PI) / 180); return (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * W; };
+      const cx = mx(c[0]), cy = my(c[1]);
+      return (lon, lat) => [mx(lon) - cx + 960, my(lat) - cy + 540];
+    };
+    const P = proj([55.06, 25.0103], 10.45);
+    const NS = "http://www.w3.org/2000/svg";
+    const $ = (id) => document.getElementById(id);
+
+    // The radar crop, laid on the map at its true bounds (54.56878–55.55122 E, 24.7596–25.2604 N).
+    const [sx0, sy0] = P(54.56878, 25.2604);
+    const [sx1, sy1] = P(55.55122, 24.7596);
+    Object.assign($("radar-sar").style, { left: `${sx0}px`, top: `${sy0}px`, width: `${sx1 - sx0}px`, height: `${sy1 - sy0}px` });
+
+    // All 35 detections from the 2 Nov pass: [lon, lat, dark].
+    const DETS = [[54.901031,25.116787,0],[54.989676,25.069456,0],[54.854256,25.129114,0],[54.825706,25.076032,0],[54.849277,25.147223,0],[54.737767,25.248584,0],[54.594686,25.208762,0],[54.614662,24.922717,1],[54.867461,25.138992,1],[54.74566,25.230521,0],[54.816732,25.152796,1],[54.890714,25.118827,0],[54.87303,25.216661,0],[54.636083,25.25183,0],[54.643138,24.94796,0],[54.797883,25.163505,0],[54.573213,25.19059,0],[54.885056,24.967954,0],[54.749291,25.20664,0],[54.77538,25.201686,0],[54.902911,25.106504,1],[54.684526,24.90764,1],[54.595721,25.211897,0],[54.602685,24.847026,0],[55.028062,25.104302,0],[54.823692,25.07604,1],[55.124124,25.21571,1],[54.607066,25.240898,1],[54.85788,24.899457,0],[54.835765,24.886876,0],[54.864654,25.094591,0],[54.569885,25.213195,0],[54.907514,24.957688,0],[55.056218,25.095729,0],[54.671774,24.846595,0]];
+    const LEAD = P(54.816732, 25.152796);
+    const BUOY = P(54.8456, 25.1352);
+    const GHOST = P(54.792, 25.161);
+    const dets = DETS.map(([lon, lat, dark]) => {
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("class", "det"); c.setAttribute("r", "16");
+      $("radar-dets").append(c);
+      return { c, p: P(lon, lat), dark: !!dark, lead: Math.abs(lon - 54.816732) < 1e-6 };
+    });
+
+    // One camera for the world and every marker: screen = s * world + t.
+    const cam = { s: 1, tx: 0, ty: 0 };
+    let link = [[0, 0], [0, 0], [0, 0]]; // the uplink curve: start, control, end
+    const at = ([x, y]) => [cam.s * x + cam.tx, cam.s * y + cam.ty];
+    const place = (el, p) => { const [x, y] = at(p); el.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)})`); };
+    const apply = () => {
+      $("radar-world").style.transform = `translate(${cam.tx}px, ${cam.ty}px) scale(${cam.s})`;
+      for (const d of dets) { const [x, y] = at(d.p); d.c.setAttribute("cx", x.toFixed(1)); d.c.setAttribute("cy", y.toFixed(1)); }
+      place($("radar-ghost"), GHOST); place($("radar-buoy"), BUOY); place($("radar-lead"), LEAD);
+      const [lx, ly] = at(LEAD), [bx, by] = at(BUOY);
+      Object.entries({ x1: lx, y1: ly, x2: bx, y2: by }).forEach(([k, v]) => $("radar-range").setAttribute(k, v.toFixed(1)));
+      $("radar-dist").setAttribute("x", ((lx + bx) / 2 + 18).toFixed(1));
+      $("radar-dist").setAttribute("y", ((ly + by) / 2 + 30).toFixed(1));
+      link = [[bx - 520, -40], [bx - 200, by - 520], [bx, by - 14]];
+      $("radar-uplink").setAttribute("d", `M${link[0].map((v) => v.toFixed(1)).join(" ")} Q${link[1].map((v) => v.toFixed(1)).join(" ")} ${link[2].map((v) => v.toFixed(1)).join(" ")}`);
+    };
+    // Frame a world point at a screen point with a given scale.
+    const frameOn = ([wx, wy], [sx, sy], s) => ({ s, tx: sx - s * wx, ty: sy - s * wy });
+    apply();
+
+    const code = `{\n  "task": "verify",\n  "target": "d0190",\n  "lat": 25.1528, "lon": 54.8167,\n  "bearing_deg": 304,\n  "range_km": 3.5,\n  "ask": ["ais_log_6h", "camera", "sheen"]\n}`;
+    const typed = { n: 0 };
+
+    const tl = gsap.timeline({ paused: true });
+    // Stage time: everything below runs from the radar stage's start, 4 s into the scene.
+    const st = gsap.timeline();
+    // Map to radar on identical pixels.
+    st.fromTo("#radar-sar", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power1.inOut" }, 0.3)
+      .set([...dets.map((d) => d.c), "#radar-ghost", "#radar-range", "#radar-dist", "#radar-uplink", "#radar-packet", "#radar-buoy", "#radar-lead", "#radar-bsub"], { opacity: 0 }, 0);
+    // "Thirty-five ships": every detection rings up.
+    dets.forEach((d, i) => st.fromTo(d.c, { opacity: 0, attr: { r: 40 } }, { opacity: 1, attr: { r: 16 }, duration: 0.3, ease: "power2.out" }, 1.6 + i * 0.03));
+    // "Eight are dark": the eight with no AIS match turn orange, the rest dim.
+    dets.forEach((d) => st.to(d.c, d.dark ? { stroke: "#ff5a36", strokeWidth: 3.5, duration: 0.2 } : { opacity: 0.45, duration: 0.3 }, 3.2));
+    st.fromTo("#radar-lt1", { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 1.4);
+
+    // "One is a hundred and eighty-nine metres long": push in on d0190.
+    const lead = frameOn(LEAD, [820, 520], 3.4);
+    st.to(cam, { ...lead, duration: 2.6, ease: "power2.inOut", onUpdate: apply }, 5.2);
+    dets.forEach((d) => { if (!d.lead) st.to(d.c, { opacity: 0, duration: 0.5 }, 5.4); });
+    st.to(dets.find((d) => d.lead).c, { attr: { r: 26 }, duration: 0.4, ease: "power2.out" }, 7.6)
+      .fromTo("#radar-lead", { opacity: 0 }, { opacity: 1, duration: 0.35 }, 7.8)
+      .fromTo("#radar-lt2", { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 6.6)
+      // "right where the tanker went silent": its last AIS report, 2.6 km away.
+      .fromTo("#radar-ghost", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 8.7);
+
+    // "So the system tasks the nearest buoy, by satellite."
+    const mid = [(LEAD[0] + BUOY[0]) / 2, (LEAD[1] + BUOY[1]) / 2];
+    st.to(cam, { ...frameOn(mid, [700, 600], 2.7), duration: 2.2, ease: "power2.inOut", onUpdate: apply }, 13.4)
+      .to(["#radar-ghost", "#radar-lead"], { opacity: 0, duration: 0.4 }, 13.4)
+      .fromTo("#radar-lt3", { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 11.2)
+      .fromTo("#radar-buoy", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 14.4)
+      .fromTo("#radar-range", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 14.8)
+      .fromTo("#radar-dist", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 15.0)
+      .fromTo("#radar-uplink", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 14.8)
+      .fromTo("#radar-json", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 14.6)
+      .to(typed, { n: code.length, duration: 1.4, ease: "none", onUpdate: () => { $("radar-code").textContent = code.slice(0, Math.round(typed.n)); } }, 14.7);
+    // The packet comes down the link to the buoy (data bursts on the soundtrack at 18.8 and 20.5 s scene time).
+    const pk = { k: 0 };
+    st.fromTo("#radar-packet", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 15.0)
+      .to(pk, {
+        k: 1, duration: 1.5, ease: "power1.inOut",
+        onUpdate: () => {
+          const k = pk.k, [a, b, c] = link;
+          const q = (i) => (1 - k) ** 2 * a[i] + 2 * (1 - k) * k * b[i] + k * k * c[i];
+          $("radar-packet").setAttribute("cx", q(0).toFixed(1)); $("radar-packet").setAttribute("cy", q(1).toFixed(1));
+        },
+      }, 15.0)
+      .to("#radar-packet", { opacity: 0, duration: 0.15 }, 16.5)
+      .fromTo("#radar-buoy .halo", { attr: { r: 12 }, opacity: 1 }, { attr: { r: 60 }, opacity: 0, duration: 0.9, ease: "power2.out" }, 16.5)
+      .fromTo("#radar-bsub", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 16.6);
+    tl.add(st, 4);
+    window.__timelines["radar"] = tl;
+  </script>
+</template>

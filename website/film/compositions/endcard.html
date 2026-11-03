@@ -1,0 +1,24 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #05090c; color: #f4f1ea; }
+    #end-body { position: absolute; left: 160px; top: 300px; width: 1600px; }
+    #end-body h1 { font: 600 96px/1 "Inter", sans-serif; letter-spacing: -0.02em; }
+    #end-team { margin-top: 24px; font: 500 30px/1.4 "Inter", sans-serif; }
+    #end-credits { margin-top: 56px; font: 400 20px/1.6 "Inter", sans-serif; color: rgba(244, 241, 234, 0.7); }
+    #end-credits b { color: #ff5a36; font-weight: 500; }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1920" data-height="1080">
+    <div id="end-body" class="clip" data-start="0" data-duration="5">
+      <h1 id="end-title">Seas of Data</h1>
+      <p id="end-team">Team Interstellar · Tohraan Ahmad Khan · Ayush Khale · Aryan Khale · Mayank · BITS Pilani Dubai</p>
+      <p id="end-credits">Radar: Copernicus Sentinel-1 (ESA) · Imagery: Esri, Maxar, Earthstar Geographics<br />Music: "Lightless Dawn", Kevin MacLeod (incompetech.com), CC BY 3.0 · Sound effects: Wikimedia Commons contributors<br /><b>MT Corvane and buoy B-07 are fictional; the scenario is dramatized.</b></p>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#end-title", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.2)
+      .fromTo("#end-team", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.7)
+      .fromTo("#end-credits", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 1.2);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

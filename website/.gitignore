@@ -1,0 +1,11 @@
+# Render inputs and raw output stay local; only the WebP frames in public/frames are committed.
+blender/assets/
+blender/out/
+*.blend
+*.blend1
+node_modules/
+dist/
+.vercel/
+__pycache__/
+.vercel
+.env*
