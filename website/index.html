@@ -130,19 +130,20 @@
             <li><b>Sea mask</b><span>Keep only the sea. The coast is mapped once from a calm pass.</span></li>
             <li><b>CFAR</b><span>Keep points far brighter than the sea around them.</span></li>
             <li><b>Merge &amp; geocode</b><span>Returns within 150 m become one ship, placed on the map.</span></li>
-            <li><b>AIS match</b><span>An AIS report within 500 m: <i class="t">matched</i>. None: <i class="a">dark</i>.</span></li>
+            <li><b>AIS check</b><span>A ship broadcasting AIS within 1 km: <i class="t">matched</i>. None: <i class="a">a lead</i>, not a verdict.</span></li>
           </ol>
         </div>
         <div class="lead-card">
-          <p class="kicker a">Dark lead · real detection</p>
+          <p class="kicker a">Real detection · simulated AIS</p>
           <p class="lead-id">d0190</p>
           <dl>
             <div><dt>Length</dt><dd>189 m</dd></div>
             <div><dt>Position</dt><dd>25.153°N 54.817°E</dd></div>
             <div><dt>Confidence</dt><dd>0.67</dd></div>
-            <div><dt>AIS in 500 m</dt><dd class="a">none</dd></div>
+            <div><dt>Simulated AIS</dt><dd class="a">none in 500 m</dd></div>
+            <div><dt>Real AIS</dt><dd>2 Nov not published yet</dd></div>
           </dl>
-          <p class="fineprint">Matched against our simulated AIS feed. With a live feed the same step runs unchanged.</p>
+          <p class="fineprint">The radar detection is real (s1d-20261102-02053f in our catalogue). Its "no AIS" comes from our simulated feed: Global Fishing Watch has not published AIS for the 2 Nov pass yet. Our real check of the other three passes is on the map below.</p>
         </div>
         <p class="sar-credit">Contains modified Copernicus Sentinel data 2026 · Sentinel-1 VV, north up · <span class="sar-n">35</span> ships in view</p>
       </div>
@@ -237,7 +238,7 @@
             </figure>
           </div>
           <dl class="alert-rows">
-            <div><dt>Radar</dt><dd>189 m return, no AIS within 500 m <i class="pill pill--real">real</i></dd></div>
+            <div><dt>Radar</dt><dd>189 m return <i class="pill pill--real">real</i>, no AIS within 500 m <i class="pill">simulated</i></dd></div>
             <div><dt>Buoy B-07</dt><dd>No AIS heard on 304° in 6 h · tanker in view · sheen index 0.71 <i class="pill">dramatized</i></dd></div>
             <div><dt>Position</dt><dd>25.153°N 54.817°E · 29 km NW of Jebel Ali</dd></div>
             <div><dt>Suggest</dt><dd>Nearest patrol to identify; sample the slick</dd></div>
@@ -293,14 +294,15 @@
             <ul>
               <li>The Sentinel-1D pass over Dubai, 2 Nov 2026 at 02:14:55 UTC (06:14:55 GST).</li>
               <li>The radar image, and detection d0190: a 189 m return at 25.153°N 54.817°E.</li>
-              <li>Our pipeline: sea mask, CFAR, merge and geocode, AIS match. 250 ships over four passes.</li>
+              <li>Our pipeline: sea mask, CFAR, merge and geocode. 250 detections over four passes.</li>
+              <li>An AIS check against Global Fishing Watch for 24, 27 and 30 Oct: 48 detections match a ship broadcasting AIS, 18 have none (leads, not verdicts).</li>
               <li>The buoy design, from our CAD model.</li>
             </ul>
           </article>
           <article class="real-col">
             <h3 class="a">Simulated or dramatized</h3>
             <ul>
-              <li>AIS. Our feed is simulated, so "dark" means no match in that feed.</li>
+              <li>AIS in the story. d0190's "no AIS" comes from a simulated feed, because the real 2 Nov AIS is not published yet.</li>
               <li>The tanker, its name, and the oil. The ship is a rendered model.</li>
               <li>Buoy B-07, where it is moored, its readings and its photo.</li>
               <li>The timings after the pass, the alert and who receives it.</li>
@@ -316,6 +318,7 @@
         <p class="kicker">The film</p>
         <h2 class="display">Dark at Dawn, <em>start to finish.</em></h2>
         <video class="film-video" controls playsinline preload="none" poster="/film/dark-at-dawn.jpg" src="/film/dark-at-dawn.mp4"></video>
+        <p class="fineprint">Dramatized. The film's "no AIS" flags come from a simulated feed. Our real AIS check, against Global Fishing Watch, is on the map below.</p>
       </div>
     </section>
 
@@ -323,7 +326,7 @@
       <div class="wrap">
         <p class="kicker">Explore the real data</p>
         <h2 class="display">Every ship our pipeline found, <em>four passes.</em></h2>
-        <p class="body measure">250 detections from four Sentinel-1 passes, 24 Oct to 2 Nov 2026. Pick a pass, click a ring. d0190 is in the 2 Nov pass.</p>
+        <p class="body measure">250 detections from four Sentinel-1 passes, 24 Oct to 2 Nov 2026, each checked against Global Fishing Watch AIS. Pick a pass, click a ring. d0190 is in the 2 Nov pass, which GFW has not published yet.</p>
       </div>
       <div class="wrap map-block">
         <div class="map-head">
@@ -336,13 +339,14 @@
           </div>
           <div class="map-stats">
             <span><b class="ms-total">250</b> ships</span>
-            <span class="t"><b class="ms-matched">205</b> matched</span>
-            <span class="a"><b class="ms-dark">45</b> dark</span>
+            <span class="t"><b class="ms-matched">48</b> AIS match</span>
+            <span class="a"><b class="ms-noais">18</b> no AIS</span>
+            <span class="s"><b class="ms-unchecked">184</b> not checked</span>
           </div>
         </div>
         <div class="map-frame">
           <div id="map" aria-label="Interactive map of ship detections off Dubai and Abu Dhabi"></div>
-          <div class="map-legend"><span><i class="ring-t"></i>Matched to simulated AIS</span><span><i class="ring-a"></i>Dark: no AIS within 500 m</span></div>
+          <div class="map-legend"><span><i class="ring-t"></i>AIS match within 1 km</span><span><i class="ring-a"></i>No AIS: a lead, not a verdict</span><span><i class="ring-s"></i>Not checked (no GFW target, or 2 Nov)</span><span>AIS: Powered by Global Fishing Watch</span></div>
         </div>
       </div>
     </section>
@@ -359,7 +363,7 @@
         <p>Contains modified Copernicus Sentinel data 2026.</p>
         <p>Earth imagery: NASA Blue Marble and Black Marble (NASA Earth Observatory); Sentinel-2 cloudless by EOX IT Services GmbH (contains modified Copernicus Sentinel data 2016), CC BY 4.0.</p>
         <p>Map tiles © OpenStreetMap contributors © CARTO.</p>
-        <p>Ships, satellite and buoy are rendered models, not photographs. AIS in this prototype is simulated. MT Corvane and buoy B-07 are fictional.</p>
+        <p>Ships, satellite and buoy are rendered models, not photographs. AIS in the story is simulated; the map's AIS check is real, from Global Fishing Watch. MT Corvane and buoy B-07 are fictional.</p>
       </div>
     </div>
   </footer>

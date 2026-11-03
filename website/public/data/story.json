@@ -44,8 +44,8 @@
       "log": [
         { "at": 0.02, "t": "08:00:02", "src": "ESA", "msg": "S1D GRD scene published" },
         { "at": 0.3, "t": "08:00:31", "src": "PIPE", "msg": "sea mask + CFAR · 35 ships in view", "real": true },
-        { "at": 0.66, "t": "08:00:58", "src": "PIPE", "msg": "AIS match · 8 dark", "real": true },
-        { "at": 0.8, "t": "08:01:04", "src": "PIPE", "msg": "d0190 DARK · 189 m · 25.153N 54.817E", "tone": "a", "real": true }
+        { "at": 0.66, "t": "08:00:58", "src": "PIPE", "msg": "AIS match · 8 dark (simulated feed)" },
+        { "at": 0.8, "t": "08:01:04", "src": "PIPE", "msg": "d0190 DARK · 189 m · 25.153N 54.817E", "tone": "a" }
       ],
       "pulses": [{ "from": "ground", "to": "pipe", "a": 0.0, "b": 0.12 }]
     },
