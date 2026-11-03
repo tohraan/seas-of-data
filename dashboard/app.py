@@ -1,6 +1,7 @@
 """Seas of Data: a directory of real Sentinel-1 ship detections in the Gulf. Run with: streamlit run dashboard/app.py"""
 import streamlit as st
 
+import brand
 from analysis import enrich, possible_dark
 from components import pass_time
 from data import (
@@ -17,12 +18,12 @@ from data import (
     load_ship_history,
     summarise,
 )
-from views import explorer, history, methods, movement, playback, ports, review, siting
+from views import explorer, history, methods, movement, playback, ports, review, siting, tracker
 
 ALL_PASSES = "All passes"
 
-st.set_page_config(page_title="Seas of Data", page_icon="🛰️", layout="wide")
-st.title("Seas of Data: Gulf ship radar directory")
+st.set_page_config(page_title="Seas of Data · Gulf dark-ship radar", page_icon="🛰️", layout="wide")
+brand.apply_style()
 
 try:
     detections = load_detections()
@@ -47,6 +48,14 @@ gfw_checks = load_gfw_checks(detections.path)
 ship_history = load_ship_history()
 frame = enrich(attach_gfw(attach_evidence(detections.frame, evidence), gfw_checks))
 dark = possible_dark(frame)
+brand.hero(
+    passes=frame["scene_id"].nunique(),
+    detections=len(frame),
+    ships=int(frame["radar_class"].eq("ship").sum()),
+    leads=int(dark.sum()),
+    latest=pass_time(frame["timestamp"].max()),
+    checked=bool(gfw_checks) or bool(dark.any()),
+)
 if gfw_checks:
     pending = [item for item in gfw_checks["passes"] if not item.get("available")]
     verb = "isn't" if len(pending) == 1 else "aren't"
@@ -89,9 +98,21 @@ else:
     product = f" Product {row['product']}." if isinstance(row["product"], str) else ""
     st.caption(f"Sentinel-1 pass {pass_time(row['timestamp'])}, scene {scene_id}.{product}")
 
-explorer_tab, movement_tab, history_tab, playback_tab, port_tab, review_tab, siting_tab, methods_tab = st.tabs(
-    ["Explorer", "Ship movement", "Ship history", "Radar playback", "Port watch", "Review queue", "Buoy siting", "Methods and data"]
+tracker_tab, explorer_tab, movement_tab, history_tab, playback_tab, port_tab, review_tab, siting_tab, methods_tab = st.tabs(
+    [
+        ":material/radar: Ship tracker",
+        ":material/travel_explore: Explorer",
+        ":material/route: Ship movement",
+        ":material/history: Ship history",
+        ":material/play_circle: Radar playback",
+        ":material/anchor: Port watch",
+        ":material/fact_check: Review queue",
+        ":material/sensors: Buoy siting",
+        ":material/menu_book: Methods and data",
+    ]
 )
+with tracker_tab:
+    tracker.render(frame)
 with explorer_tab:
     explorer.render(selected, frame, evidence, scene_id, directory, manifest, total_passes, gfw_checks, ship_history)
 with movement_tab:
@@ -108,3 +129,5 @@ with siting_tab:
     siting.render(frame, load_buoy_specs())
 with methods_tab:
     methods.render(frame, manifest, gulf_metrics, evidence, gfw_checks)
+
+brand.footer()
