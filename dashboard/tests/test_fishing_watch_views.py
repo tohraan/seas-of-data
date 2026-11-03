@@ -264,15 +264,15 @@ def test_history_tab_filters_and_warns_these_are_not_accusations(folders):
     assert tiles["Strong reason to check"] == "1"
     assert tiles["Other reasons to check"] == "1"
     assert tiles["Sanctions list matches"] == "1"
-    assert set(history_table(app)["name_label"]) == {"A", "B"}
+    assert set(history_table(app)["name"]) == {"A", "B"}
     app.radio(key="hist_show").set_value("All ships").run()
-    assert set(history_table(app)["name_label"]) == {"A", "B", "C", "D"}
+    assert set(history_table(app)["name"]) == {"A", "B", "C", "D"}
     app.multiselect(key="hist_near").set_value(["Khalifa Port"]).run()
-    assert set(history_table(app)["name_label"]) == {"B"}
+    assert set(history_table(app)["name"]) == {"B"}
     app.multiselect(key="hist_near").set_value([]).run()
     app.text_input(key="hist_search").set_value("c").run()
     assert not app.exception
-    assert set(history_table(app)["name_label"]) == {"C"}
+    assert set(history_table(app)["name"]) == {"C"}
 
 
 def test_a_ship_with_blank_fields_says_so_in_words():

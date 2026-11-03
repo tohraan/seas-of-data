@@ -24,7 +24,6 @@ ALL_SHIPS = "All ships"
 LEVEL_LABELS = {"strong": "🔴 Strong", "check": "🟠 Check", "note": "🟡 Note", "none": "–"}
 LEVEL_ORDER = {"strong": 0, "check": 1, "note": 2, "none": 3}
 ROUTE_MAP_PX = MAP_HEIGHT_PX - 100
-TABLE_COLUMNS = ["level_label", "name_label", "flag_label", "type_label", "length_m", "near_label", "top_reason", "reason_count", "port_calls_12m", "imo_label"]
 
 
 def ships_frame(history: dict) -> pd.DataFrame:
@@ -157,21 +156,21 @@ def render(history: dict | None) -> None:
     shown = filtered(frame)
     st.caption(f"{len(shown):,} of {len(frame):,} ships.")
     event = st.dataframe(
-        # A styler, because a blank number otherwise shows as "None".
-        shown[TABLE_COLUMNS].style.format("{:.0f}", subset=["length_m"], na_rep="–"),
+        shown,
         hide_index=True,
         width="stretch",
         height=420,
         on_select="rerun",
         selection_mode="single-row",
         key="hist_table",
-        column_order=TABLE_COLUMNS,
+        column_order=["level_label", "name_label", "flag_label", "type_label", "length_m", "near_label", "top_reason", "reason_count", "port_calls_12m", "imo_label"],
         column_config={
             "level_label": "Level",
             "name_label": st.column_config.TextColumn("Ship", width="medium"),
             "flag_label": st.column_config.TextColumn("Flag", width=FLAG_COLUMN_PX),
             "type_label": "Type",
-            "length_m": "Length (m)",
+            # A plain number column would show a blank length as "None".
+            "length_m": st.column_config.ProgressColumn("Length", min_value=0, max_value=int(frame["length_m"].max()), format="%d m"),
             "near_label": "Near",
             "top_reason": st.column_config.TextColumn("Main reason", width="large"),
             "reason_count": st.column_config.NumberColumn("Reasons", format="%d"),

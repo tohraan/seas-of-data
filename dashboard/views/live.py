@@ -34,7 +34,6 @@ from live_ais import (
 
 REFRESH_S = 5
 RING_KEY = "live_rings"
-LIVE_COLUMNS = ["name", "mmsi", "status", "sog", "cog", "heard", "estimated"]
 # The box that ml/ais/capture.py listens to.
 VIEW = pdk.ViewState(longitude=54.9, latitude=24.95, zoom=8.2)
 CAPTURE_COMMAND = (
@@ -151,20 +150,25 @@ def show_feed() -> None:
         f"The free feed has very few receivers on this coast, so this shows only a small share of the ships really here. Base map: OpenStreetMap, CARTO."
     )
     table = states.sort_values(["status", "age_s"])
-    table = table.assign(heard=table["age_s"].map(describe_age), name=reported(table["name"], "Name not reported"))
+    # Text, because a blank number column would show "None". With this few ships, sorting them as text doesn't matter.
+    table = table.assign(
+        heard=table["age_s"].map(describe_age),
+        name=reported(table["name"], "Name not reported"),
+        speed=table["sog"].map(lambda value: "–" if pd.isna(value) else f"{value:.1f}"),
+        course=table["cog"].map(lambda value: "–" if pd.isna(value) else f"{value:.0f}"),
+    )
     st.dataframe(
-        # A styler, because a blank number otherwise shows as "None".
-        table[LIVE_COLUMNS].style.format({"sog": "{:.1f}", "cog": "{:.0f}"}, na_rep="–"),
+        table,
         hide_index=True,
         width="stretch",
         height=320,
-        column_order=LIVE_COLUMNS,
+        column_order=["name", "mmsi", "status", "speed", "course", "heard", "estimated"],
         column_config={
             "name": st.column_config.TextColumn("Name", width="medium"),
             "mmsi": "MMSI",
             "status": "Status",
-            "sog": "Speed (knots)",
-            "cog": "Course (°)",
+            "speed": "Speed (knots)",
+            "course": "Course (°)",
             "heard": "Last heard",
             "estimated": st.column_config.CheckboxColumn("Position estimated"),
         },
