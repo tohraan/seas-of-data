@@ -2,7 +2,7 @@
 
 A floating, solar-powered buoy that checks satellite ship detections on site. Sentinel-1 radar covers a wide area but only at each pass. The buoy watches one spot of interest all the time.
 
-This is a concept design. No structural, stability or mooring analysis has been done.
+This is a design only: it hasn't been built or tested. The numbers below are calculated from the CAD model and stated assumptions, and [DATASHEET.md](DATASHEET.md) shows the working. No structural or mooring analysis has been done.
 
 ## Files
 | File | Use |
@@ -12,6 +12,8 @@ This is a concept design. No structural, stability or mooring analysis has been 
 | `buoy.stl` | Whole buoy as one watertight mesh |
 | `parts/*.stl` | One mesh per part, used for the renders |
 | `build_buoy.py` | Generates all of the above |
+| `geometry.json`, `measure_buoy.py` | Volumes, areas and heights measured from the model |
+| `specs.json`, `DATASHEET.md`, `calc_buoy.py` | The calculated numbers and their assumptions |
 | `../render_buoy.py` | Renders the images in `../renders/`: `hero`, `side`, `top` and `closeup`, plus 1920 px `deck_hero` and `deck_masthead` for slides |
 
 ## Rebuild
@@ -19,14 +21,24 @@ Run from the repo root. Dimensions are named constants at the top of `build_buoy
 ```bash
 flatpak run --command=FreeCADCmd org.freecad.FreeCAD cad/buoy/build_buoy.py
 flatpak run org.blender.Blender -b -P "$PWD/cad/render_buoy.py"
+flatpak run --command=FreeCADCmd org.freecad.FreeCAD cad/buoy/measure_buoy.py
+python3 cad/buoy/calc_buoy.py
 ```
 
-The build stops with an error if a part is invalid, a part isn't connected to the rest, or the STL isn't watertight.
+The build stops with an error if a part is invalid, a part isn't connected to the rest, or the STL isn't watertight. The calculation stops with an error if the buoy is too heavy for its waterline or unstable.
 
-## Size
+## Size and calculated numbers
 - **Hull:** 1.8 m diameter, 0.7 m high.
 - **Overall height:** about 4.5 m, from the mooring eye to the antenna tip.
-- **Waterline:** set 320 mm above the hull's underside. At that level the model displaces about 0.52 m³, or about 530 kg of seawater, so the finished buoy would need to weigh about that. The weight hasn't been estimated, so the waterline is a design target, not a calculated result.
+
+| | |
+|---|---|
+| Total mass, including chain load | 532 kg, with 142 kg of keel ballast |
+| Waterline | 320 mm above the hull's underside, with 380 mm of freeboard |
+| Stability | Metacentric height 0.83 m, about 9° of heel in a 25 m/s wind |
+| Power | 790 Wh a day of solar in the worst month, against a 174 Wh load, and 12 days on battery |
+| AIS range | About 24 km for large ships and 15 km for small craft, at most |
+| Camera range | About 9 km to recognise a 60 m ship, in clear air |
 
 ## Parts
 | Part | Purpose |

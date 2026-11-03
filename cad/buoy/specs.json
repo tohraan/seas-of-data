@@ -1,0 +1,205 @@
+{
+ "status": "Design only. Not built or tested.",
+ "mass_budget": [
+  {
+   "item": "Hull shell",
+   "detail": "Polyethylene, 12 mm",
+   "kg": 83.5,
+   "z_mm": 393
+  },
+  {
+   "item": "Hull foam",
+   "detail": "Closed-cell, keeps it afloat if holed",
+   "kg": 53.7,
+   "z_mm": 393
+  },
+  {
+   "item": "Solar panels",
+   "detail": "1.57 m2",
+   "kg": 18.8,
+   "z_mm": 960
+  },
+  {
+   "item": "Battery",
+   "detail": "LiFePO4 battery, 2.56 kWh",
+   "kg": 24.0,
+   "z_mm": 800
+  },
+  {
+   "item": "Electronics",
+   "detail": "Processor, radios, charger, wiring",
+   "kg": 6.0,
+   "z_mm": 1000
+  },
+  {
+   "item": "Fender",
+   "detail": "EVA foam",
+   "kg": 16.0,
+   "z_mm": 470
+  },
+  {
+   "item": "ElectronicsBay",
+   "detail": "Aluminium, 5 mm wall",
+   "kg": 22.1,
+   "z_mm": 908
+  },
+  {
+   "item": "Hatch",
+   "detail": "Aluminium",
+   "kg": 34.1,
+   "z_mm": 1135
+  },
+  {
+   "item": "PanelPosts",
+   "detail": "Aluminium tube, 3 mm wall",
+   "kg": 1.8,
+   "z_mm": 827
+  },
+  {
+   "item": "Mast",
+   "detail": "Aluminium tube, 4 mm wall",
+   "kg": 12.3,
+   "z_mm": 1864
+  },
+  {
+   "item": "RadarReflector",
+   "detail": "Aluminium sheet, 3 mm",
+   "kg": 3.9,
+   "z_mm": 2250
+  },
+  {
+   "item": "CameraMount",
+   "detail": "Aluminium, 3 mm wall",
+   "kg": 1.3,
+   "z_mm": 3081
+  },
+  {
+   "item": "CameraDome",
+   "detail": "Camera and dome",
+   "kg": 3.5,
+   "z_mm": 3130
+  },
+  {
+   "item": "AISAntenna",
+   "detail": "Fibreglass whip and base",
+   "kg": 1.5,
+   "z_mm": 3357
+  },
+  {
+   "item": "OilSheenSensor",
+   "detail": "Sensor in stainless housing",
+   "kg": 6.0,
+   "z_mm": -56
+  },
+  {
+   "item": "SensorWindow",
+   "detail": "Sapphire window",
+   "kg": 0.5,
+   "z_mm": -114
+  },
+  {
+   "item": "MooringEye",
+   "detail": "Stainless steel",
+   "kg": 18.5,
+   "z_mm": -186
+  },
+  {
+   "item": "Mooring chain load",
+   "detail": "25 m of chain, weight in water",
+   "kg": 82.5,
+   "z_mm": -421
+  },
+  {
+   "item": "Keel ballast",
+   "detail": "Set so the buoy floats at the design waterline",
+   "kg": 141.9,
+   "z_mm": 60
+  }
+ ],
+ "total_mass_kg": 532.0,
+ "mass_without_chain_kg": 449.5,
+ "keel_ballast_kg": 141.9,
+ "waterline_mm": 320,
+ "freeboard_mm": 380,
+ "displaced_volume_m3": 0.516,
+ "waterline_without_ballast_mm": 262,
+ "reserve_buoyancy_percent": 185,
+ "kg_mm": 351,
+ "kb_mm": 186,
+ "bm_mm": 998,
+ "metacentric_height_m": 0.83,
+ "righting_moment_at_10_deg_nm": 754,
+ "wind_heel_deg": 9.0,
+ "wind_speed_m_s": 25,
+ "solar_area_m2": 1.57,
+ "daily_solar_wh_worst_month": 790,
+ "daily_load_wh": 174,
+ "power_margin": 4.5,
+ "battery_autonomy_days": 11.7,
+ "loads": {
+  "AIS receiver": {
+   "watts": 1.5,
+   "hours_per_day": 24,
+   "wh_per_day": 36.0
+  },
+  "Processor": {
+   "watts": 4.0,
+   "hours_per_day": 24,
+   "wh_per_day": 96.0
+  },
+  "Satellite IoT modem, standby": {
+   "watts": 0.2,
+   "hours_per_day": 24,
+   "wh_per_day": 4.8
+  },
+  "Satellite IoT modem, sending": {
+   "watts": 5.0,
+   "hours_per_day": 0.5,
+   "wh_per_day": 2.5
+  },
+  "Camera": {
+   "watts": 8.0,
+   "hours_per_day": 2,
+   "wh_per_day": 16.0
+  },
+  "Oil-sheen sensor": {
+   "watts": 3.0,
+   "hours_per_day": 2.4,
+   "wh_per_day": 7.2
+  },
+  "Navigation light": {
+   "watts": 1.0,
+   "hours_per_day": 12,
+   "wh_per_day": 12.0
+  }
+ },
+ "ais_antenna_above_water_m": 3.77,
+ "ais_range_large_ship_km": 24.0,
+ "ais_range_small_craft_km": 15.1,
+ "camera_above_water_m": 2.81,
+ "camera_recognition_range_km": 8.8,
+ "camera_horizon_to_25m_ship_km": 23.8,
+ "assumptions": {
+  "seawater_density_kg_m3": 1030,
+  "target_waterline_mm": 320,
+  "hull_shell_mm": 12,
+  "water_depth_m": 25,
+  "chain_submerged_kg_per_m": 3.3,
+  "ballast_centre_z_mm": 60,
+  "wind_speed_m_s": 25,
+  "wind_drag_coefficient": 1.2,
+  "air_density_kg_m3": 1.225,
+  "panel_efficiency": 0.2,
+  "system_derate": 0.7,
+  "tilt_and_facing_factor": 0.9,
+  "worst_month_irradiance_kwh_m2_day": 4.0,
+  "battery_kwh": 2.56,
+  "battery_usable_fraction": 0.8,
+  "large_ship_antenna_m": 15,
+  "small_craft_antenna_m": 3,
+  "camera_horizontal_px": 3840,
+  "camera_horizontal_fov_deg": 30,
+  "camera_pixels_on_target_to_recognise": 50,
+  "camera_target_length_m": 60
+ }
+}
