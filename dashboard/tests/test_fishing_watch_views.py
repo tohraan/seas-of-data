@@ -1,4 +1,4 @@
-"""The dashboard's use of Fishing Watch data, on small made-up files. Real data is covered at the end."""
+"""The dashboard's use of Fishing Watch data, on small made-up files. The real files are checked in test_shipped_data.py."""
 import hashlib
 import json
 import re
@@ -23,7 +23,6 @@ from views.history import ships_frame
 from views.movement import build_page, days_old
 
 APP = Path(__file__).resolve().parent.parent / "app.py"
-SHIPPED_CHECKS = Path(__file__).resolve().parent.parent / "derived" / "gfw_checks.json"
 
 
 @pytest.fixture(autouse=True)
@@ -187,6 +186,21 @@ def test_replay_page_escapes_ship_data_before_showing_it():
     page = build_page(json.dumps(MOVEMENT), "1.0 days old.")
     assert 'esc(ship.name || "Name not reported")' in page
     assert 'esc(object.ship.name || "Name not reported")' in page
+
+
+def test_replay_page_has_no_rings_until_a_ship_is_picked():
+    page = build_page(json.dumps({**MOVEMENT, "waterways": [{"name": "Dubai Canal", "path": [[55.2, 25.2], [55.3, 25.2]]}]}), "1.0 days old.")
+    assert "S.rings.has(a.ship.i) || a.ship === chosen" in page
+    assert 'id="ringpick"' in page
+    assert '"name":"Dubai Canal"' in page
+
+
+def test_movement_tab_says_what_was_done_to_the_positions(folders):
+    checks = {"positions": 1000, "moved_to_water": 270, "removed": 5, "removed_ships": 4}
+    (folders[1] / "ship_movement.json").write_text(json.dumps({**MOVEMENT, "position_checks": checks}))
+    app = run_app()
+    assert not app.exception
+    assert any("270 of 1,000" in item.value and "Another 5 positions, from 4 ships" in item.value for item in app.caption)
 
 
 def test_age_of_the_newest_data():

@@ -23,8 +23,10 @@ MAX_BELIEVABLE_KNOTS = 40  # a handful of AIS reports claim more, which would dr
 QUIET_MIN_HOURS = 12
 QUIET_MIN_KM = 5.0
 MOVING_KNOTS = 1.0
+MAX_LINE_HOURS = 3  # a longer gap is a ship not being heard, so no line is drawn across it
 LONG_LOITER_HOURS = 24 * 14
 QUIET_CHECK_MIN_LENGTH_M = 50  # small craft switch off and drift out of range all the time
+OFF_WATER_NOTE_KM = 2.0  # closer than this could just be a marina that isn't on the map
 MANY_FLAGS = 3
 MAX_IDENTITIES_KEPT = 6
 MAX_PORT_CALLS_KEPT = 12
@@ -175,24 +177,53 @@ def quiet_spells(fixes: list[dict], min_hours: float = QUIET_MIN_HOURS, min_km: 
     return spells
 
 
-def movement_payload(fixes_by_vessel: dict[str, list[dict]], spells_by_vessel: dict[str, list[dict]]) -> dict:
-    """A compact file for the replay map: a ship table, the hours, and [ship, hour, lat, lon, speed] rows."""
+def movement_rows(index: int, fixes: list[dict], hour_index: dict[str, int], water: object | None) -> tuple[list[list], int, int]:
+    """[ship, hour, lat, lon, speed] for each position, in time order, with the count of lines routed over water and of jumps.
+
+    A line that would cross land gets estimated rows at fractions of an hour that follow the water. If that isn't possible,
+    the position before it ends in a 1, which means jump to the next position instead of drawing a line.
+    """
+    rows, routed, jumps = [], 0, 0
+    for position, fix in enumerate(fixes):
+        speed = round(believable_speed(fix.get("speed")), 1)
+        hour = hour_index[fix["date"]]
+        row = [index, hour, round(fix["lat"], 4), round(fix["lon"], 4), speed]
+        rows.append(row)
+        if water is None or position + 1 == len(fixes):
+            continue
+        after = fixes[position + 1]
+        gap = hour_index[after["date"]] - hour
+        if gap > MAX_LINE_HOURS or (fix["lat"], fix["lon"]) == (after["lat"], after["lon"]):
+            continue
+        points, jump = water.line_to_next(fix, after, gap, MAX_BELIEVABLE_KNOTS)
+        if jump:
+            row.append(1)
+            jumps += 1
+        elif points:
+            routed += 1
+        rows.extend([index, round(hour + fraction * gap, 3), lat, lon, speed] for fraction, lat, lon in points)
+    return rows, routed, jumps
+
+
+def movement_payload(fixes_by_vessel: dict[str, list[dict]], spells_by_vessel: dict[str, list[dict]], water: object | None = None) -> dict:
+    """A compact file for the replay map: a ship table, the hours, and the rows from movement_rows."""
     hours = sorted({fix["date"] for fixes in fixes_by_vessel.values() for fix in fixes})
     hour_index = {hour: index for index, hour in enumerate(hours)}
     ships, rows = [], []
+    routed = jumps = 0
     for vessel_id, fixes in fixes_by_vessel.items():
         index = len(ships)
         ships.append({**ship_fields(fixes[-1]), "vessel_id": vessel_id})
-        rows.extend(
-            [index, hour_index[fix["date"]], round(fix["lat"], 3), round(fix["lon"], 3), round(believable_speed(fix.get("speed")), 1)]
-            for fix in fixes
-        )
+        ship_rows, ship_routed, ship_jumps = movement_rows(index, fixes, hour_index, water)
+        rows.extend(ship_rows)
+        routed += ship_routed
+        jumps += ship_jumps
     spells = [
         {**spell, "ship": index, "name": ship["name"], "flag": ship["flag"], "type": ship["type"]}
         for index, ship in enumerate(ships)
         for spell in spells_by_vessel.get(ship["vessel_id"], [])
     ]
-    return {"hours": hours, "ships": ships, "fixes": rows, "quiet_spells": spells}
+    return {"hours": hours, "ships": ships, "fixes": rows, "quiet_spells": spells, "max_line_hours": MAX_LINE_HOURS, "lines_routed": routed, "lines_jumped": jumps}
 
 
 def parse_ofac(text: str) -> tuple[dict[str, dict], dict[str, dict]]:
@@ -272,7 +303,7 @@ def length_m(entry: dict | None) -> float | None:
     return round(sources[0]["value"]) if sources and sources[0].get("value") else None
 
 
-def ship_reasons(ship: dict, calls: list[dict], loiter_hours: float, spells: list[dict], changes: dict, length: float | None, by_imo: dict, by_mmsi: dict, since_year: int) -> list[dict]:
+def ship_reasons(ship: dict, calls: list[dict], loiter_hours: float, spells: list[dict], changes: dict, length: float | None, by_imo: dict, by_mmsi: dict, since_year: int, off_water: list[dict] = ()) -> list[dict]:
     """The checkable facts worth a closer look, strongest first."""
     reasons = []
 
@@ -307,12 +338,16 @@ def ship_reasons(ship: dict, calls: list[dict], loiter_hours: float, spells: lis
         add("note", "no_imo", f"About {length:.0f} m long but reports no IMO number.", "Fishing Watch identity")
     if not ship.get("flag"):
         add("note", "no_flag", "Reports no flag.", "Fishing Watch identity")
+    furthest = max((position["km"] for position in off_water), default=0)
+    if furthest >= OFF_WATER_NOTE_KM:
+        positions = "a position" if len(off_water) == 1 else f"{len(off_water)} positions up to"
+        add("note", "off_water", f"Reported {positions} {furthest:.0f} km from any mapped navigable water, in this area. The position may be wrong, or the transmitter may have been ashore.", "Fishing Watch hourly AIS, OpenStreetMap")
     if loiter_hours >= LONG_LOITER_HOURS:
         add("note", "loitering", f"About {loiter_hours / 24:.0f} days loitering at sea in the last 12 months, moving under 2 knots far from shore.", "Fishing Watch loitering events")
     return sorted(reasons, key=lambda reason: LEVELS[reason["level"]])
 
 
-def ship_record(ship: dict, ports_near: list[str], calls: list[dict], loiter_events: list[dict], spells: list[dict], identity: dict | None, timeline: list[dict], by_imo: dict, by_mmsi: dict, since_year: int) -> dict:
+def ship_record(ship: dict, ports_near: list[str], calls: list[dict], loiter_events: list[dict], spells: list[dict], identity: dict | None, timeline: list[dict], by_imo: dict, by_mmsi: dict, since_year: int, off_water: list[dict] = ()) -> dict:
     calls = sorted(calls, key=lambda call: call["start"])
     loiter_hours = sum(float((event.get("loitering") or {}).get("totalTimeHours") or 0) for event in loiter_events)
     changes = identity_changes(timeline, since_year)
@@ -327,5 +362,5 @@ def ship_record(ship: dict, ports_near: list[str], calls: list[dict], loiter_eve
         "recent_calls": calls[-MAX_PORT_CALLS_KEPT:],
         "loitering_hours_12m": round(loiter_hours),
         "identities": timeline[:MAX_IDENTITIES_KEPT],
-        "reasons": ship_reasons(ship, calls, loiter_hours, spells, changes, length, by_imo, by_mmsi, since_year),
+        "reasons": ship_reasons(ship, calls, loiter_hours, spells, changes, length, by_imo, by_mmsi, since_year, off_water),
     }

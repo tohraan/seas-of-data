@@ -28,6 +28,12 @@ To refresh the AIS checks, ship movement and ship history. It takes about 10 min
 uv run python build_gfw.py
 ```
 
+`build_gfw.py` checks ship positions against the map of navigable water. That map rarely needs refreshing, and needs no login:
+
+```bash
+uv run python build_water.py
+```
+
 To refresh the coarse whole-scene radar images on the map, which needs neither the model nor a login:
 
 ```bash

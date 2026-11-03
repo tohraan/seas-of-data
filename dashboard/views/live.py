@@ -1,4 +1,6 @@
 """Live ships: real AIS positions that update as new reports arrive. With no feed, it says so and shows nothing."""
+from pathlib import Path
+
 import pandas as pd
 import pydeck as pdk
 import streamlit as st
@@ -16,6 +18,7 @@ from components import (
     point_layer,
     reported,
 )
+from data import derived_dir
 from live_ais import (
     ESTIMATE_LIMIT_S,
     FEED_STALE_S,
@@ -26,9 +29,11 @@ from live_ais import (
     last_write_age,
     read_reports,
     ship_states,
+    water_lookup,
 )
 
 REFRESH_S = 5
+RING_KEY = "live_rings"
 # The box that ml/ais/capture.py listens to.
 VIEW = pdk.ViewState(longitude=54.9, latitude=24.95, zoom=8.2)
 CAPTURE_COMMAND = (
@@ -75,7 +80,25 @@ def tooltip(row: pd.Series) -> str:
     return f"<b>{name}</b><br/>MMSI {row['mmsi']}<br/>{row['status']}: {speed}{course}<br/>Heard {describe_age(row['age_s'])}<br/>{position}"
 
 
-def live_layers(states: pd.DataFrame) -> list[pdk.Layer]:
+@st.cache_resource(show_spinner=False)
+def water_check(path: str):
+    return water_lookup(Path(path))
+
+
+def choose_rings(states: pd.DataFrame) -> set[str]:
+    """Which quiet ships get a reach ring. None do until asked for, so the map stays readable."""
+    quiet = states[states["reach_km"].notna()]
+    if quiet.empty:
+        return set()
+    labels = {f"{row['name'] if isinstance(row['name'], str) else 'Name not reported'} ({row['mmsi']})": row["mmsi"] for _, row in quiet.iterrows()}
+    # A ship leaves this list when it's heard again.
+    if RING_KEY in st.session_state:
+        st.session_state[RING_KEY] = [label for label in st.session_state[RING_KEY] if label in labels]
+    chosen = st.multiselect("Show how far a quiet ship could have gone", list(labels), key=RING_KEY, placeholder="Pick a ship")
+    return {labels[label] for label in chosen}
+
+
+def live_layers(states: pd.DataFrame, ring_ships: set[str]) -> list[pdk.Layer]:
     points = states.assign(tooltip=[tooltip(row) for _, row in states.iterrows()])
     plain = points[["mmsi", "lat", "lon", "status", "tooltip"]]
     tracks = points.loc[points["track"].notna(), ["track", "status"]]
@@ -89,7 +112,7 @@ def live_layers(states: pd.DataFrame) -> list[pdk.Layer]:
             get_width=2,
             width_units=pdk.types.String("pixels"),
         ))
-    quiet = points[points["reach_km"].notna()]
+    quiet = points[points["reach_km"].notna() & points["mmsi"].isin(ring_ships)]
     for _, row in quiet.iterrows():
         layers.append(circle_layer(pd.DataFrame([{"lat": row["reported_lat"], "lon": row["reported_lon"]}]), row["reach_km"], FIXED_RGB, 12))
     layers += [
@@ -106,7 +129,7 @@ def show_feed() -> None:
     if reports.empty:
         show_no_reports(now)
         return
-    states = ship_states(reports, now)
+    states = ship_states(reports, now, water_check(str(derived_dir() / "water_mask.npz")))
     summary = feed_summary(states, reports, now)
     if summary["newest_age_s"] > FEED_STALE_S:
         st.warning(f"The newest AIS report is {describe_age(summary['newest_age_s'])}, so the collector may have stopped. These positions are out of date.", icon="⚠️")
@@ -118,8 +141,9 @@ def show_feed() -> None:
     quiet_tile.metric("Not heard lately", f"{summary['not_heard']:,}", help=f"No report for over {SILENT_AFTER_S // 60} minutes.")
     newest_tile.metric("Newest report", describe_age(summary["newest_age_s"]))
 
-    st.pydeck_chart(deck(live_layers(states), VIEW), height=MAP_HEIGHT_PX, key="live_map")
-    legend([(SHIP_HEX, "Moving", False), (MUTED, "Stopped", False), ("#c98500", "Not heard lately, with how far it could have gone", True)])
+    ring_ships = choose_rings(states)
+    st.pydeck_chart(deck(live_layers(states, ring_ships), VIEW), height=MAP_HEIGHT_PX, key="live_map")
+    legend([(SHIP_HEX, "Moving", False), (MUTED, "Stopped", False), ("#c98500", "Not heard lately", True)])
     st.caption(
         f"Real AIS reports. Between reports, a moving ship's position is estimated from its last speed and course, for up to {ESTIMATE_LIMIT_S // 60} minutes. "
         f"A ship that goes quiet may just be out of range of the shore receivers, so that alone doesn't mean it switched its AIS off. "

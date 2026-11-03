@@ -278,7 +278,8 @@ def render(frame: pd.DataFrame, manifest: dict | None, metrics: dict | None, evi
         "- **Missed ships can't be counted.** There's no ground truth for the Gulf, so recall is unknown.\n"
         "- **Each pass is a snapshot**, days apart. Radar shows no speed or heading, so ships can't be followed between passes.\n"
         "- **Only one part of the Gulf is covered:** Jebel Ali, Khalifa Port and their approaches.\n"
-        "- **Length is approximate**, good to about ±20 m at 10 m pixels."
+        "- **Length is approximate**, good to about ±20 m at 10 m pixels.\n"
+        "- **AIS positions are rounded to about 1 km.** The replay moves any that land on the shore to the nearest water, using OpenStreetMap, and leaves out the few too far from water to be real. Its lines between hours are estimates."
     )
     render_second_opinion(frame, evidence)
     if manifest and manifest.get("reproduce"):

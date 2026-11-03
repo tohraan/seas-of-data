@@ -4,6 +4,7 @@ import os
 from datetime import UTC, datetime
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
 from streamlit.testing.v1 import AppTest
@@ -19,7 +20,9 @@ from live_ais import (
     project,
     read_reports,
     ship_states,
+    water_lookup,
 )
+from views.live import VIEW
 
 APP = Path(__file__).resolve().parent.parent / "app.py"
 NOW = datetime(2026, 11, 3, 12, 0, tzinfo=UTC).timestamp()
@@ -174,6 +177,26 @@ def test_app_shows_no_ships_and_says_why_without_a_feed(app_env):
     assert not any(metric.label == "Ships in the last hour" for metric in app.metric)
 
 
+def test_a_projection_that_runs_ashore_stays_at_the_last_report(tmp_path):
+    write_feed(tmp_path / "ais", [report(age=120, sog=12.0)])
+    reports = read_reports(tmp_path / "ais", NOW)
+    assert ship_states(reports, NOW, lambda lat, lon: True).iloc[0]["estimated"]
+    row = ship_states(reports, NOW, lambda lat, lon: False).iloc[0]
+    assert not row["estimated"]
+    assert (row["lat"], row["lon"]) == (row["reported_lat"], row["reported_lon"])
+
+
+def test_water_lookup_reads_the_grid_and_allows_what_it_cannot_check(tmp_path):
+    assert water_lookup(tmp_path / "missing.npz") is None
+    grid = np.zeros((10, 10), dtype=bool)
+    grid[:5, :] = True
+    np.savez_compressed(tmp_path / "water.npz", bits=np.packbits(grid), shape=grid.shape, west=55.0, north=25.0, res=0.01)
+    on_water = water_lookup(tmp_path / "water.npz")
+    assert on_water(24.98, 55.05)
+    assert not on_water(24.92, 55.05)
+    assert on_water(30.0, 60.0)
+
+
 def test_last_write_age_uses_the_newest_file(tmp_path):
     assert last_write_age(tmp_path / "missing", NOW) is None
     assert last_write_age(tmp_path, NOW) is None
@@ -196,6 +219,25 @@ def test_a_quiet_feed_is_not_reported_as_nothing_connected(app_env):
     assert any("No ships heard here in the last hour" in message and "2.0 h ago" in message for message in messages)
     assert not any("nothing is collecting" in message or "No live data is connected" in message for message in messages)
     assert not any(metric.label == "Ships in the last hour" for metric in app.metric)
+
+
+def test_a_quiet_ship_only_gets_a_ring_when_someone_picks_it(app_env):
+    now = datetime.now(UTC).timestamp()
+    write_feed(app_env / "ais", [report(mmsi="1", age=30, sog=12.0, now=now), report(mmsi="3", name="QUIET ONE", age=SILENT_AFTER_S + 60, sog=8.0, now=now)], now=now)
+    app = AppTest.from_file(str(APP), default_timeout=60).run()
+    assert not app.exception
+
+    def scatter_layers():
+        charts = [json.loads(item.proto.json) for item in app.get("deck_gl_json_chart")]
+        chart = next(chart for chart in charts if chart["initialViewState"]["longitude"] == VIEW.longitude and chart["initialViewState"]["latitude"] == VIEW.latitude)
+        return [layer for layer in chart["layers"] if layer["@@type"] == "ScatterplotLayer"]
+
+    before = len(scatter_layers())
+    picker = app.multiselect(key="live_rings")
+    assert picker.options == ["QUIET ONE (3)"]
+    picker.set_value(["QUIET ONE (3)"]).run()
+    assert not app.exception
+    assert len(scatter_layers()) == before + 1
 
 
 def test_app_shows_real_counts_with_a_feed(app_env):

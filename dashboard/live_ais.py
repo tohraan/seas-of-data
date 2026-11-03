@@ -9,6 +9,7 @@ import os
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 AIS_DIR = Path(__file__).resolve().parent.parent / "ml" / "data" / "ais"
@@ -34,6 +35,25 @@ def key_present(path: Path = ENV_FILE) -> bool:
         return any(line.startswith("AISSTREAM_KEY=") and line.split("=", 1)[1].strip() for line in path.read_text().splitlines())
     except OSError:
         return False
+
+
+def water_lookup(path: Path):
+    """A check for whether a position is on navigable water, from pipeline/build_water.py's grid, or None if it isn't built."""
+    try:
+        with np.load(path) as saved:
+            rows, columns = (int(size) for size in saved["shape"])
+            water = np.unpackbits(saved["bits"])[: rows * columns].reshape(rows, columns).astype(bool)
+            west, north, res = float(saved["west"]), float(saved["north"]), float(saved["res"])
+    except (OSError, KeyError, ValueError):
+        return None
+
+    def on_water(lat: float, lon: float) -> bool:
+        # The same cell as pipeline/water.py, even for a position exactly on a corner.
+        row, column = int(round((north - lat) / res, 6)), int(round((lon - west) / res, 6))
+        # Beyond the grid there's nothing to check against.
+        return not (0 <= row < rows and 0 <= column < columns) or bool(water[row, column])
+
+    return on_water
 
 
 def last_write_age(directory: Path, now: float) -> float | None:
@@ -94,7 +114,7 @@ def project(lat: float, lon: float, sog: float, cog: float, seconds: float) -> t
     )
 
 
-def ship_states(reports: pd.DataFrame, now: float) -> pd.DataFrame:
+def ship_states(reports: pd.DataFrame, now: float, on_water=None) -> pd.DataFrame:
     """One row per ship: where it was last heard, where it probably is now, and how far it could have gone if it's gone quiet."""
     rows = []
     for mmsi, group in reports.groupby("mmsi", sort=False):
@@ -106,7 +126,12 @@ def ship_states(reports: pd.DataFrame, now: float) -> pd.DataFrame:
         lat, lon = last["lat"], last["lon"]
         estimated = bool(known_motion and moving and 0 < age <= ESTIMATE_LIMIT_S)
         if estimated:
-            lat, lon = project(lat, lon, sog, cog, age)
+            projected = project(lat, lon, sog, cog, age)
+            # A straight projection can run ashore, and then the last report is the better answer.
+            if on_water is None or on_water(*projected):
+                lat, lon = projected
+            else:
+                estimated = False
         silent = age > SILENT_AFTER_S
         names = group["name"].dropna()
         path = group[["lon", "lat"]].drop_duplicates().tail(MAX_TRACK_POINTS).to_numpy().tolist()

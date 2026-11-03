@@ -47,7 +47,7 @@ PAGE = """<!doctype html>
   <button id="unc">Show uncertain</button>
 </div>
 <div id="status"></div>
-<div id="note">Each frame is a real satellite snapshot, and passes are days apart, so a dot that disappears has left the area or wasn't detected. Rings show how far a ship could have gone at the speed you set: an estimate, because radar measures neither speed nor heading.
+<div id="note">Each frame is a real satellite snapshot, and passes are days apart, so a dot that disappears has left the area or wasn't detected. Click a ship for a ring showing how far it could have gone at the speed you set: an estimate, because radar measures neither speed nor heading.
   <span class="key" style="background:var(--ship)"></span>Ship <span class="key" style="background:var(--unc)"></span>Uncertain <span class="key" style="background:var(--fixed)"></span>Likely fixed</div>
 <script>
 __MAP_JS__
@@ -64,15 +64,15 @@ function setHud(p, points) {
   const km = S.speed * 1.852 * S.hours;
   const gap = p.gap_hours === null ? "" : ` Next pass ${p.gap_hours} hours later.`;
   $("status").textContent = (S.hours > 0 && S.speed > 0)
-    ? `After ${S.hours} h at ${S.speed} knots, a ship could be up to ${Math.round(km)} km away (estimate).${S.chosen ? " Highlighted: " + S.chosen + "." : " Click a ship to highlight its ring."}${gap}`
-    : `Snapshot from ${p.label}.${gap}`;
+    ? `After ${S.hours} h at ${S.speed} knots, a ship could be up to ${Math.round(km)} km away (estimate).${S.chosen ? " Ring shown for " + S.chosen + "." : " Click a ship to see its ring."}${gap}`
+    : `Snapshot from ${p.label}. Click a ship to see how far it could have gone.${gap}`;
 }
 function layers() {
   const p = DATA.passes[S.i];
   const visible = d => d.p === S.i && (S.uncertain || d.c !== "uncertain");
   const points = DATA.points.filter(visible);
   const previous = S.i > 0 ? DATA.points.filter(d => d.p === S.i - 1 && (S.uncertain || d.c !== "uncertain")) : [];
-  const rings = S.hours > 0 && S.speed > 0 ? points.filter(d => d.c === "ship") : [];
+  const ring = S.hours > 0 && S.speed > 0 ? points.filter(d => d.id === S.chosen) : [];
   setHud(p, DATA.points.filter(d => d.p === S.i));
   const out = [];
   if (S.radar) {
@@ -80,10 +80,7 @@ function layers() {
     if (q.wide) out.push(new deck.BitmapLayer({ id:"wide"+S.i, image:q.wide, bounds:q.wide_corners, opacity:0.7 }));
     if (q.image) out.push(new deck.BitmapLayer({ id:"radar"+S.i, image:q.image, bounds:q.corners, opacity:0.92 }));
   }
-  // Thin outlines only: filled rings stack into a fog that hides the radar.
-  out.push(new deck.ScatterplotLayer({ id:"rings", data:rings, getPosition:d=>[d.x,d.y], getRadius:S.speed*1852*S.hours, radiusUnits:"meters",
-    filled:false, getLineColor:[109,167,236,S.chosen?35:70], stroked:true, lineWidthUnits:"pixels", getLineWidth:1, updateTriggers:{getRadius:[S.speed,S.hours], getLineColor:[S.chosen]} }));
-  out.push(new deck.ScatterplotLayer({ id:"chosen-ring", data:rings.filter(d=>d.id===S.chosen), getPosition:d=>[d.x,d.y], getRadius:S.speed*1852*S.hours, radiusUnits:"meters",
+  out.push(new deck.ScatterplotLayer({ id:"chosen-ring", data:ring, getPosition:d=>[d.x,d.y], getRadius:S.speed*1852*S.hours, radiusUnits:"meters",
     getFillColor:[57,135,229,45], getLineColor:[240,239,236,230], stroked:true, lineWidthUnits:"pixels", getLineWidth:2, updateTriggers:{getRadius:[S.speed,S.hours]} }));
   out.push(new deck.ScatterplotLayer({ id:"ghost", data:previous, getPosition:d=>[d.x,d.y], getRadius:3, radiusUnits:"pixels", getFillColor:[240,239,236,70] }));
   out.push(new deck.ScatterplotLayer({ id:"now", data:points, getPosition:d=>[d.x,d.y], radiusUnits:"pixels", radiusScale:S.pop,
@@ -96,7 +93,12 @@ const view = { longitude:55.1, latitude:25.0, zoom:7.6, pitch:0, bearing:0 };
 let map;
 function boot() {
   map = new deck.DeckGL({ container:"map", initialViewState:view, controller:true, layers:[],
-    onClick: info => { S.chosen = info.object ? info.object.id : null; draw(); },
+    onClick: info => {
+      S.chosen = info.object && info.object.c === "ship" ? info.object.id : null;
+      // A ring needs some time to grow, so give it a start if the slider is still at zero.
+      if (S.chosen && S.hours === 0) { $("hours").value = 2; S.hours = 2; $("hoursv").textContent = "2 h"; }
+      draw();
+    },
     mapStyle:"https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json", map:maplibregl, attributionControl:false,
     getTooltip:({object}) => object && { html:`<b>${esc(NAMES[object.c]||object.c)}</b> · ${esc(object.id)}<br>about ${esc(object.l)} m · brightness ${esc(object.b)} dB<br>seen at this spot in ${esc(object.n)} pass(es)`,
       style:{ background:"#1a1a19", color:"#f0efec", fontSize:"13px" } } });

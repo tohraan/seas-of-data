@@ -4,7 +4,8 @@ Run from dashboard/pipeline, with GFW_TOKEN in ml/.env:
   uv run python build_gfw.py
 
 Writes to ../derived/: gfw_checks.json, ship_movement.json and ship_history.json. The dashboard reads these files, so it
-never needs the token. Responses are cached in data/gfw_cache for 12 hours; --refresh ignores that cache.
+never needs the token. Responses are cached in data/gfw_cache for 12 hours; --refresh ignores that cache. Positions are checked
+against ../derived/water_mask.npz, from build_water.py.
 """
 import argparse
 import hashlib
@@ -29,6 +30,7 @@ from gfw_logic import (
     ship_fields,
     ship_record,
 )
+from water import WaterMap, clean_positions
 
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT = ROOT / "contracts" / "detections.geojson"
@@ -104,7 +106,7 @@ def fetch_presence(client: Client, now: datetime) -> tuple[list[dict], datetime]
     return all_rows, newest
 
 
-def build_history(client: Client, fixes_by_vessel: dict[str, list[dict]], spells_by_vessel: dict[str, list[dict]], now: datetime) -> dict:
+def build_history(client: Client, fixes_by_vessel: dict[str, list[dict]], spells_by_vessel: dict[str, list[dict]], off_water: dict[str, list[dict]], now: datetime) -> dict:
     since = now - timedelta(days=365)
     start, end = day_text(since), day_text(now + timedelta(days=1))
     since_year = now.year - 2
@@ -148,6 +150,7 @@ def build_history(client: Client, fixes_by_vessel: dict[str, list[dict]], spells
             by_imo,
             by_mmsi,
             since_year,
+            off_water.get(vessel_id, []),
         ))
     return {
         "built_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -172,24 +175,34 @@ def main() -> None:
     checks = build_checks(client, CONTRACT.read_bytes(), now)
     (args.out / "gfw_checks.json").write_text(json.dumps(checks, separators=(",", ":")))
 
+    water = WaterMap.load(OUTPUT / "water_mask.npz")
     rows, newest = fetch_presence(client, now)
-    fixes_by_vessel = group_fixes(rows)
+    fixes_by_vessel, off_water = clean_positions(group_fixes(rows), water)
+    print(f"{sum(map(len, off_water.values()))} positions from {len(off_water)} ships were too far from water to be real", flush=True)
     spells_by_vessel = {vessel_id: quiet_spells(fixes) for vessel_id, fixes in fixes_by_vessel.items()}
     print(f"AIS presence: {len(rows)} rows, {len(fixes_by_vessel)} ships, newest day {day_text(newest)}, quiet spells {sum(map(len, spells_by_vessel.values()))}", flush=True)
     replay_from = (newest - timedelta(days=REPLAY_DAYS - 1)).strftime("%Y-%m-%d")
     recent = {vessel_id: [fix for fix in fixes if fix["date"] >= replay_from] for vessel_id, fixes in fixes_by_vessel.items()}
     recent = {vessel_id: fixes for vessel_id, fixes in recent.items() if fixes}
     recent_spells = {vessel_id: [spell for spell in spells_by_vessel.get(vessel_id, []) if spell["from"] >= replay_from] for vessel_id in recent}
+    removed = [(vessel_id, position) for vessel_id, positions in off_water.items() for position in positions if position["date"] >= replay_from]
     movement = {
         "built_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "attribution": ATTRIBUTION,
         "source_url": SOURCE_URL,
         "dataset": PRESENCE,
-        **movement_payload(recent, recent_spells),
+        "waterways": json.loads((OUTPUT / "waterways.json").read_text()),
+        "position_checks": {
+            "positions": sum(map(len, recent.values())),
+            "moved_to_water": sum(bool(fix.get("moved_to_water")) for fixes in recent.values() for fix in fixes),
+            "removed": len(removed),
+            "removed_ships": len({ship for ship, _ in removed}),
+        },
+        **movement_payload(recent, recent_spells, water),
     }
     (args.out / "ship_movement.json").write_text(json.dumps(movement, separators=(",", ":")))
 
-    history = build_history(client, fixes_by_vessel, spells_by_vessel, now)
+    history = build_history(client, fixes_by_vessel, spells_by_vessel, off_water, now)
     (args.out / "ship_history.json").write_text(json.dumps(history, separators=(",", ":")))
 
     for name in ("gfw_checks.json", "ship_movement.json", "ship_history.json"):

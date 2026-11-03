@@ -78,7 +78,7 @@ def contracts_dir() -> Path:
     return Path(os.environ.get("SEAS_CONTRACTS_DIR") or CONTRACTS_DIR)
 
 
-def _derived_dir() -> Path:
+def derived_dir() -> Path:
     return Path(os.environ.get("SEAS_DERIVED_DIR") or DERIVED_DIR)
 
 
@@ -191,18 +191,18 @@ def load_labels(directory: Path | None = None) -> pd.DataFrame:
 
 
 def load_model_metrics() -> dict | None:
-    return _read_optional_json(_derived_dir() / "model_metrics.json")
+    return _read_optional_json(derived_dir() / "model_metrics.json")
 
 
 def load_wide_radar() -> dict:
     """Whole-scene radar images by scene ID. These are real scenes, so they don't depend on the detections file."""
-    document = _read_optional_json(_derived_dir() / "wide_radar.json")
+    document = _read_optional_json(derived_dir() / "wide_radar.json")
     return document.get("scenes", {}) if isinstance(document, dict) else {}
 
 
 def load_gfw_checks(contract_path: Path) -> dict | None:
     """Fishing Watch's AIS check for each detection, if it was built from this exact detections file."""
-    document = _read_optional_json(_derived_dir() / "gfw_checks.json")
+    document = _read_optional_json(derived_dir() / "gfw_checks.json")
     if not isinstance(document, dict) or document.get("contract_sha256") != hashlib.sha256(contract_path.read_bytes()).hexdigest():
         return None
     return document
@@ -231,13 +231,13 @@ def attach_gfw(detections: pd.DataFrame, checks: dict | None) -> pd.DataFrame:
 
 def ship_movement_text() -> str | None:
     try:
-        return (_derived_dir() / "ship_movement.json").read_text()
+        return (derived_dir() / "ship_movement.json").read_text()
     except OSError:
         return None
 
 
 def load_ship_history() -> dict | None:
-    document = _read_optional_json(_derived_dir() / "ship_history.json")
+    document = _read_optional_json(derived_dir() / "ship_history.json")
     return document if isinstance(document, dict) and document.get("ships") else None
 
 
@@ -247,7 +247,7 @@ def load_buoy_specs() -> dict | None:
 
 def load_evidence(contract_path: Path) -> tuple[Evidence | None, str]:
     """Returns (evidence, state), where state is ok, missing, stale (built from a different contract) or invalid."""
-    document = _read_optional_json(_derived_dir() / "evidence.json")
+    document = _read_optional_json(derived_dir() / "evidence.json")
     if document is None:
         return None, "missing"
     if not isinstance(document, dict) or not EVIDENCE_REQUIRED <= set(document):
@@ -293,7 +293,7 @@ def thumbnail_uri(relative: object, size: int = 72, directory: Path | None = Non
 
 
 def radar_image_uri(relative: str) -> str | None:
-    path = _derived_dir() / relative
+    path = derived_dir() / relative
     try:
         return "data:image/webp;base64," + base64.b64encode(path.read_bytes()).decode()
     except OSError:
