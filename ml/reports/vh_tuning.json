@@ -1,0 +1,609 @@
+{
+ "what": "VH rule variants vs the v2 VV-only rule, on the 120-chip visual review (odd sheets tune, even sheets check)",
+ "verdict": "keep v2 rule: no VH variant that helps on the odd sheets also holds on the even sheets",
+ "results": [
+  {
+   "rule": {
+    "kind": "v2"
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "and",
+    "t": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 116,
+    "reviewed_in_ship": 33,
+    "S": 32,
+    "N": 0,
+    "U": 1,
+    "precision_strict": 0.97,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 116,
+    "reviewed_in_ship": 30,
+    "S": 28,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.933,
+    "keeps_confirmed": "28/34",
+    "keeps_share": 0.824
+   }
+  },
+  {
+   "rule": {
+    "kind": "and",
+    "t": 10
+   },
+   "tune_odd": {
+    "ship_class_n": 116,
+    "reviewed_in_ship": 33,
+    "S": 32,
+    "N": 0,
+    "U": 1,
+    "precision_strict": 0.97,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 116,
+    "reviewed_in_ship": 30,
+    "S": 28,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.933,
+    "keeps_confirmed": "28/34",
+    "keeps_share": 0.824
+   }
+  },
+  {
+   "rule": {
+    "kind": "and",
+    "t": 12
+   },
+   "tune_odd": {
+    "ship_class_n": 115,
+    "reviewed_in_ship": 32,
+    "S": 31,
+    "N": 0,
+    "U": 1,
+    "precision_strict": 0.969,
+    "keeps_confirmed": "31/37",
+    "keeps_share": 0.838
+   },
+   "check_even": {
+    "ship_class_n": 115,
+    "reviewed_in_ship": 30,
+    "S": 28,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.933,
+    "keeps_confirmed": "28/34",
+    "keeps_share": 0.824
+   }
+  },
+  {
+   "rule": {
+    "kind": "and",
+    "t": 14
+   },
+   "tune_odd": {
+    "ship_class_n": 114,
+    "reviewed_in_ship": 32,
+    "S": 31,
+    "N": 0,
+    "U": 1,
+    "precision_strict": 0.969,
+    "keeps_confirmed": "31/37",
+    "keeps_share": 0.838
+   },
+   "check_even": {
+    "ship_class_n": 114,
+    "reviewed_in_ship": 30,
+    "S": 28,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.933,
+    "keeps_confirmed": "28/34",
+    "keeps_share": 0.824
+   }
+  },
+  {
+   "rule": {
+    "kind": "and",
+    "t": 16
+   },
+   "tune_odd": {
+    "ship_class_n": 112,
+    "reviewed_in_ship": 31,
+    "S": 30,
+    "N": 0,
+    "U": 1,
+    "precision_strict": 0.968,
+    "keeps_confirmed": "30/37",
+    "keeps_share": 0.811
+   },
+   "check_even": {
+    "ship_class_n": 112,
+    "reviewed_in_ship": 30,
+    "S": 28,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.933,
+    "keeps_confirmed": "28/34",
+    "keeps_share": 0.824
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 14,
+    "c2": 12,
+    "z2": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 123,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 123,
+    "reviewed_in_ship": 32,
+    "S": 29,
+    "N": 1,
+    "U": 2,
+    "precision_strict": 0.906,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 14,
+    "c2": 12,
+    "z2": 9
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 14,
+    "c2": 15,
+    "z2": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 123,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 123,
+    "reviewed_in_ship": 32,
+    "S": 29,
+    "N": 1,
+    "U": 2,
+    "precision_strict": 0.906,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 14,
+    "c2": 15,
+    "z2": 9
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 16,
+    "c2": 12,
+    "z2": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 122,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 122,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 16,
+    "c2": 12,
+    "z2": 9
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 16,
+    "c2": 15,
+    "z2": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 122,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 122,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 16,
+    "c2": 15,
+    "z2": 9
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 18,
+    "c2": 12,
+    "z2": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 122,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 122,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 18,
+    "c2": 12,
+    "z2": 9
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 18,
+    "c2": 15,
+    "z2": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 122,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 122,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 18,
+    "c2": 15,
+    "z2": 9
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 20,
+    "c2": 12,
+    "z2": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 121,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 121,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 20,
+    "c2": 12,
+    "z2": 9
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 20,
+    "c2": 15,
+    "z2": 8
+   },
+   "tune_odd": {
+    "ship_class_n": 121,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 121,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  },
+  {
+   "rule": {
+    "kind": "or",
+    "t": 20,
+    "c2": 15,
+    "z2": 9
+   },
+   "tune_odd": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 34,
+    "S": 32,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.941,
+    "keeps_confirmed": "32/37",
+    "keeps_share": 0.865
+   },
+   "check_even": {
+    "ship_class_n": 120,
+    "reviewed_in_ship": 31,
+    "S": 29,
+    "N": 1,
+    "U": 1,
+    "precision_strict": 0.935,
+    "keeps_confirmed": "29/34",
+    "keeps_share": 0.853
+   }
+  }
+ ]
+}

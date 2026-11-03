@@ -1,6 +1,6 @@
 """Open a Sentinel-1 GRD scene from the public Microsoft Planetary Computer mirror (no login, no 1 GB download).
 
-Usage:  .venv/bin/python fetch_pc.py S1C_20261024T142351            # prints a signed COG URL (valid about an hour)
+Usage:  .venv/bin/python fetch_pc.py S1C_20261024T142351 [vh]       # prints a signed COG URL (valid about an hour)
         .venv/bin/python cfar.py "$(.venv/bin/python fetch_pc.py S1C_20261024T142351)" --out ... [same flags as local]
 Scenes are cloud-optimised GeoTIFFs, so rasterio reads only the windows it needs over HTTP. Same ESA product as the
 Copernicus Data Space copy; check_same() proves it pixel for pixel on a window.
@@ -34,11 +34,16 @@ def find_item(scene_id):
     raise SystemExit(f"{scene_id} not found in the Planetary Computer catalogue")
 
 
-def signed_vv_url(scene_id):
+def signed_url(scene_id, pol="vv"):
+    """Signed COG URL for one polarisation (vv or vh) of the scene, and the Planetary Computer item id."""
     item = find_item(scene_id)
-    href = urllib.parse.quote(item["assets"]["vv"]["href"], safe="")
+    href = urllib.parse.quote(item["assets"][pol]["href"], safe="")
     with urllib.request.urlopen(SIGN + href, timeout=90) as r:
         return json.load(r)["href"], item["id"]
+
+
+def signed_vv_url(scene_id):
+    return signed_url(scene_id, "vv")
 
 
 def check_same(scene_id, local_tiff, size=512):
@@ -55,6 +60,6 @@ def check_same(scene_id, local_tiff, size=512):
 
 
 if __name__ == "__main__":
-    url, item_id = signed_vv_url(sys.argv[1])
+    url, item_id = signed_url(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "vv")
     print(url)
     print(item_id, file=sys.stderr)

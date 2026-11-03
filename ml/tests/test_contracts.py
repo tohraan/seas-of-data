@@ -49,3 +49,12 @@ def test_port_rows_have_no_assumed_capacity():
 def test_metrics_present():
     m = json.loads((C / "metrics_gulf.json").read_text())
     assert m["sample"]["n"] >= 100 and 0 < m["by_radar_class"]["ship"]["precision_strict"]["estimate"] <= 1
+
+
+def test_ais_check_matches_this_catalogue():
+    import hashlib
+    chk = json.loads((C / "ais_check.json").read_text())
+    assert chk["contract_sha256"] == hashlib.sha256((C / "detections.geojson").read_bytes()).hexdigest()
+    assert set(chk["detections"]) == {p["id"] for p in props}
+    assert {c["check"] for c in chk["detections"].values()} <= {"ais_match", "no_ais", "no_gfw_target", "not_available"}
+    assert all("name" not in c for c in chk["detections"].values() if c["check"] != "ais_match")
