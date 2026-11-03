@@ -63,8 +63,11 @@ merged = []  # one structure often fragments into several blobs: merge returns c
 for d in sorted(dets, key=lambda d: -d["confidence"]):
     if all(math.hypot((d["lon"] - m["lon"]) * 111320 * math.cos(math.radians(d["lat"])), (d["lat"] - m["lat"]) * 110540) > 150 for m in merged):
         merged.append(d)
+stages = {"blobs_above_threshold": int(n), "after_size_filter": n_all, "after_sea_mask": len(dets), "after_merge": len(merged)}
 dets = merged
 print(f"sea mask + merge kept {len(dets)} of {n_all}")
 Path(a.out).parent.mkdir(parents=True, exist_ok=True)
-Path(a.out).write_text(json.dumps({"scene_id": a.scene_id or Path(a.scene).stem, "timestamp": None, "detections": dets}, indent=1))
+Path(a.out).write_text(json.dumps({"scene_id": a.scene_id or Path(a.scene).stem, "timestamp": None,
+                                  "params": {"k": a.k, "win": a.win, "min_px": a.min_px, "max_m": a.max_m, "center": a.center, "radius_km": a.radius_km},
+                                  "stages": stages, "detections": dets}, indent=1))
 print(f"{len(dets)} CFAR detections (k={a.k}, static sea mask) -> {a.out}")

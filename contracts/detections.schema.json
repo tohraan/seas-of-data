@@ -2,31 +2,195 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Ship detections (ML -> dashboard)",
   "type": "object",
-  "required": ["type", "features"],
+  "required": [
+    "type",
+    "features"
+  ],
   "properties": {
-    "type": {"const": "FeatureCollection"},
+    "type": {
+      "const": "FeatureCollection"
+    },
     "features": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["type", "geometry", "properties"],
+        "required": [
+          "type",
+          "geometry",
+          "properties"
+        ],
         "properties": {
-          "type": {"const": "Feature"},
-          "geometry": {"type": "object", "required": ["type", "coordinates"],
-            "properties": {"type": {"const": "Point"}, "coordinates": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2, "description": "[longitude, latitude]"}}},
+          "type": {
+            "const": "Feature"
+          },
+          "geometry": {
+            "type": "object",
+            "required": [
+              "type",
+              "coordinates"
+            ],
+            "properties": {
+              "type": {
+                "const": "Point"
+              },
+              "coordinates": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "[longitude, latitude]"
+              }
+            }
+          },
           "properties": {
             "type": "object",
-            "required": ["id", "scene_id", "timestamp", "confidence", "ais_matched", "dark"],
+            "required": [
+              "id",
+              "scene_id",
+              "timestamp",
+              "confidence",
+              "ais_matched",
+              "dark"
+            ],
             "properties": {
-              "id": {"type": "string"},
-              "scene_id": {"type": "string"},
-              "timestamp": {"type": "string", "format": "date-time"},
-              "confidence": {"type": "number", "minimum": 0, "maximum": 1},
-              "length_m": {"type": ["number", "null"]},
-              "ais_matched": {"type": "boolean"},
-              "dark": {"type": "boolean", "description": "true = detected in radar with no AIS match"},
-              "mmsi": {"type": ["string", "null"]},
-              "port": {"type": ["string", "null"]}
+              "id": {
+                "type": "string"
+              },
+              "scene_id": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "CFAR peak z-score scaled to 0..1 (z/20). A detection-strength score, NOT a probability of being a ship."
+              },
+              "length_m": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "ais_matched": {
+                "type": "boolean",
+                "description": "true only when a real AIS report matched; false also when AIS was not checked"
+              },
+              "dark": {
+                "type": [
+                  "boolean",
+                  "null"
+                ],
+                "description": "true = radar detection with no AIS match. null = AIS not checked (status not_checked); never infer 'dark' from null."
+              },
+              "mmsi": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "port": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "ais_source": {
+                "enum": [
+                  "none",
+                  "gfw",
+                  "aisstream",
+                  "simulated"
+                ],
+                "description": "none = no AIS joined. simulated is for demo/sample data only."
+              },
+              "status": {
+                "enum": [
+                  "matched",
+                  "no_ais_match",
+                  "not_checked"
+                ]
+              },
+              "product": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "ESA product name of the Sentinel-1 scene"
+              },
+              "snr_z": {
+                "type": "number",
+                "description": "CFAR peak z-score (dB-domain, local sea background)"
+              },
+              "size_class": {
+                "enum": [
+                  "tiny",
+                  "small",
+                  "medium",
+                  "large",
+                  "very_large",
+                  null
+                ],
+                "description": "by length_m: <30, 30-60, 60-120, 120-200, 200+ m (length is bounding-box based, +/- 10-20 m)"
+              },
+              "box_px": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "minItems": 4,
+                "maxItems": 4,
+                "description": "x0,y0,x1,y1 in full-resolution pixels of the VV scene"
+              },
+              "persistence": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "number of passes with a detection within 150 m of this spot (incl. this one)"
+              },
+              "radar_class": {
+                "enum": [
+                  "ship",
+                  "uncertain",
+                  "likely_fixed"
+                ],
+                "description": "ship = passes the contrast/coast rule (see ml/features.py RULE); uncertain = fails it (faint or near coast); likely_fixed = detected at the same spot in every pass"
+              },
+              "detector": {
+                "type": "string"
+              },
+              "review": {
+                "enum": [
+                  "unreviewed",
+                  "confirmed",
+                  "rejected",
+                  "unsure"
+                ],
+                "description": "visual review verdict from contracts/labels.csv"
+              },
+              "chip": {
+                "type": "string",
+                "description": "path relative to contracts/: 128 px VV chip"
+              },
+              "chip_context": {
+                "type": "string",
+                "description": "path relative to contracts/: 7.7 km context crop"
+              },
+              "contrast_db": {
+                "type": "number",
+                "description": "peak dB above the median of the surrounding 81x81 px"
+              },
+              "land_distance_m": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "description": "distance to nearest land cell of the static sea mask, ~110 m resolution"
+              }
             }
           }
         }

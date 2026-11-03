@@ -2,57 +2,129 @@
  {
   "port": "Jebel Ali",
   "date": "2026-10-24",
-  "vessel_count": 5,
-  "berth_occupancy_pct": 8.3,
-  "activity_index": 111.1
+  "scene_id": "S1C_20261024T142351",
+  "vessel_count": 3,
+  "uncertain_count": 2,
+  "by_size": {
+   "tiny": 0,
+   "small": 0,
+   "medium": 2,
+   "large": 0,
+   "very_large": 1
+  },
+  "basis": "radar_class=ship detections inside the port box (uncertain and likely_fixed excluded)",
+  "activity_index": 150.0
  },
  {
   "port": "Khalifa Port",
   "date": "2026-10-24",
+  "scene_id": "S1C_20261024T142351",
   "vessel_count": 0,
-  "berth_occupancy_pct": 0.0,
+  "uncertain_count": 0,
+  "by_size": {
+   "tiny": 0,
+   "small": 0,
+   "medium": 0,
+   "large": 0,
+   "very_large": 0
+  },
+  "basis": "radar_class=ship detections inside the port box (uncertain and likely_fixed excluded)",
   "activity_index": 0.0
  },
  {
   "port": "Jebel Ali",
   "date": "2026-10-27",
-  "vessel_count": 4,
-  "berth_occupancy_pct": 6.7,
-  "activity_index": 88.9
+  "scene_id": "S1C_20261027T021440",
+  "vessel_count": 1,
+  "uncertain_count": 3,
+  "by_size": {
+   "tiny": 0,
+   "small": 0,
+   "medium": 1,
+   "large": 0,
+   "very_large": 0
+  },
+  "basis": "radar_class=ship detections inside the port box (uncertain and likely_fixed excluded)",
+  "activity_index": 50.0
  },
  {
   "port": "Khalifa Port",
   "date": "2026-10-27",
-  "vessel_count": 3,
-  "berth_occupancy_pct": 10.0,
-  "activity_index": 120.0
- },
- {
-  "port": "Jebel Ali",
-  "date": "2026-10-30",
-  "vessel_count": 15,
-  "berth_occupancy_pct": 25.0,
-  "activity_index": 333.3
- },
- {
-  "port": "Khalifa Port",
-  "date": "2026-10-30",
-  "vessel_count": 5,
-  "berth_occupancy_pct": 16.7,
-  "activity_index": 200.0
- },
- {
-  "port": "Jebel Ali",
-  "date": "2026-11-02",
+  "scene_id": "S1C_20261027T021440",
   "vessel_count": 1,
-  "berth_occupancy_pct": 1.7,
-  "activity_index": 22.2
+  "uncertain_count": 2,
+  "by_size": {
+   "tiny": 0,
+   "small": 0,
+   "medium": 1,
+   "large": 0,
+   "very_large": 0
+  },
+  "basis": "radar_class=ship detections inside the port box (uncertain and likely_fixed excluded)",
+  "activity_index": 100.0
+ },
+ {
+  "port": "Jebel Ali",
+  "date": "2026-10-30",
+  "scene_id": "S1D_20261030T142416",
+  "vessel_count": 5,
+  "uncertain_count": 10,
+  "by_size": {
+   "tiny": 0,
+   "small": 2,
+   "medium": 2,
+   "large": 1,
+   "very_large": 0
+  },
+  "basis": "radar_class=ship detections inside the port box (uncertain and likely_fixed excluded)",
+  "activity_index": 250.0
+ },
+ {
+  "port": "Khalifa Port",
+  "date": "2026-10-30",
+  "scene_id": "S1D_20261030T142416",
+  "vessel_count": 3,
+  "uncertain_count": 2,
+  "by_size": {
+   "tiny": 0,
+   "small": 2,
+   "medium": 0,
+   "large": 1,
+   "very_large": 0
+  },
+  "basis": "radar_class=ship detections inside the port box (uncertain and likely_fixed excluded)",
+  "activity_index": 300.0
+ },
+ {
+  "port": "Jebel Ali",
+  "date": "2026-11-02",
+  "scene_id": "S1D_20261102T021455",
+  "vessel_count": 1,
+  "uncertain_count": 0,
+  "by_size": {
+   "tiny": 0,
+   "small": 0,
+   "medium": 1,
+   "large": 0,
+   "very_large": 0
+  },
+  "basis": "radar_class=ship detections inside the port box (uncertain and likely_fixed excluded)",
+  "activity_index": 50.0
  },
  {
   "port": "Khalifa Port",
   "date": "2026-11-02",
-  "vessel_count": 2,
-  "berth_occupancy_pct": 6.7,
-  "activity_index": 80.0
+  "scene_id": "S1D_20261102T021455",
+  "vessel_count": 1,
+  "uncertain_count": 1,
+  "by_size": {
+   "tiny": 0,
+   "small": 1,
+   "medium": 0,
+   "large": 0,
+   "very_large": 0
+  },
+  "basis": "radar_class=ship detections inside the port box (uncertain and likely_fixed excluded)",
+  "activity_index": 100.0
  }
 ]
