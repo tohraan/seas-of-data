@@ -1,0 +1,139 @@
+{
+ "what": "Share of detections that look like ships on visual review of the 10 m Sentinel-1 radar chips (precision proxy).",
+ "not": "NOT ground truth: no AIS or survey confirms these. Recall cannot be measured. Reviewer is the ML agent, pending human spot-check.",
+ "sample": {
+  "n": 120,
+  "seed": 7,
+  "per_band": 30,
+  "confirmed": 71,
+  "rejected": 21,
+  "unsure": 28,
+  "design": "stratified random draw from the 250 detections, equal draws per size band, drawn before any detector change"
+ },
+ "precision_strict_unsure_counts_as_not_ship": {
+  "estimate": 0.568,
+  "ci95": [
+   0.486,
+   0.651
+  ]
+ },
+ "precision_lenient_unsure_dropped": {
+  "estimate": 0.721,
+  "ci95": [
+   0.624,
+   0.818
+  ]
+ },
+ "by_radar_class": {
+  "ship": {
+   "catalogue_n": 120,
+   "reviewed_n": 65,
+   "confirmed": 61,
+   "rejected": 2,
+   "unsure": 2,
+   "precision_strict": {
+    "estimate": 0.937,
+    "ci95": [
+     0.876,
+     0.986
+    ]
+   },
+   "precision_lenient": {
+    "estimate": 0.966,
+    "ci95": [
+     0.917,
+     1.0
+    ]
+   }
+  },
+  "uncertain": {
+   "catalogue_n": 121,
+   "reviewed_n": 49,
+   "confirmed": 5,
+   "rejected": 19,
+   "unsure": 25,
+   "precision_strict": {
+    "estimate": 0.094,
+    "ci95": [
+     0.017,
+     0.185
+    ]
+   },
+   "precision_lenient": {
+    "estimate": 0.192,
+    "ci95": [
+     0.042,
+     0.372
+    ]
+   }
+  },
+  "likely_fixed": {
+   "catalogue_n": 9,
+   "reviewed_n": 6,
+   "confirmed": 5,
+   "rejected": 0,
+   "unsure": 1,
+   "precision_strict": {
+    "estimate": 0.833,
+    "ci95": [
+     0.833,
+     0.833
+    ]
+   },
+   "precision_lenient": {
+    "estimate": 0.833,
+    "ci95": [
+     0.833,
+     0.833
+    ]
+   }
+  },
+  "ship_class_keeps_share_of_reviewed_ships": 0.867
+ },
+ "rule": {
+  "min_contrast_db": 18.0,
+  "min_snr_z": 9.0,
+  "coast_m": 600.0,
+  "coast_contrast_db": 32.0
+ },
+ "rule_note": "Thresholds picked on the odd-numbered review sheets (63 chips) and checked on the even ones (57 chips); the review labels were written before the rule existed.",
+ "by_size_band": {
+  "tiny": {
+   "confirmed": 9,
+   "n": 30,
+   "raw_share": 0.3,
+   "wilson95": [
+    0.167,
+    0.479
+   ]
+  },
+  "large+": {
+   "confirmed": 28,
+   "n": 30,
+   "raw_share": 0.933,
+   "wilson95": [
+    0.787,
+    0.982
+   ]
+  },
+  "medium": {
+   "confirmed": 20,
+   "n": 30,
+   "raw_share": 0.667,
+   "wilson95": [
+    0.488,
+    0.808
+   ]
+  },
+  "small": {
+   "confirmed": 14,
+   "n": 30,
+   "raw_share": 0.467,
+   "wilson95": [
+    0.302,
+    0.639
+   ]
+  }
+ },
+ "catalogue_size": 250
+}

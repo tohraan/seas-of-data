@@ -53,7 +53,7 @@ SELECTED_SHOTS = os.environ.get("SEAS_RENDER_SHOTS", ",".join(SHOTS)).split(",")
 
 def waterline_m():
     source = (CAD_DIR / "buoy" / "build_buoy.py").read_text()
-    return float(re.search(r"^WATERLINE_Z = (\d+)", source, re.M).group(1)) * MM_TO_M
+    return float(re.search(r"^WATERLINE_Z = (\d+)", source, re.MULTILINE).group(1)) * MM_TO_M
 
 
 def make_material(name, colour, metallic, roughness, transmission):

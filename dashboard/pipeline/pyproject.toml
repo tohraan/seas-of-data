@@ -1,0 +1,33 @@
+[project]
+name = "seas-of-data-pipeline"
+version = "0.1.0"
+description = "Runs the trained detector on real Sentinel-1 scenes and builds the dashboard's evidence files"
+requires-python = "==3.12.*"
+dependencies = [
+    "numpy>=2",
+    "pillow>=10",
+    "rasterio>=1.4",
+    "scipy>=1.13",
+    "torch>=2.6",
+    "torchvision>=0.21",
+    # The version the model was saved with.
+    "ultralytics==8.4.198",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

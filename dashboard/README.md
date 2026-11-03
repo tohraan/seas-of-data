@@ -1,51 +1,47 @@
 # Seas of Data dashboard
 
-Map of ship detections with dark vessels highlighted, a detections table, a port activity chart and summary stats.
+A directory of real ship detections from Sentinel-1 radar over Jebel Ali, Khalifa Port and their approaches.
 
 ## Run
-Needs [uv](https://docs.astral.sh/uv/), which installs Python 3.12 and the dependencies on first run.
+From the repo root. [uv](https://docs.astral.sh/uv/) installs Python 3.12 and the dependencies on first run.
 
 ```bash
-cd dashboard && uv run streamlit run app.py
+uv run --project dashboard streamlit run dashboard/app.py
 ```
 
-Then open http://localhost:8501. The base map tiles come from CARTO, so the map background needs internet access.
+Then open http://localhost:8501. The map backgrounds and Playback need internet access.
+
+To deploy on Streamlit Community Cloud, set the main file to `dashboard/app.py` and Python to 3.12. Dependencies are in `dashboard/requirements.txt`.
+
+## Views
+| Tab | For | What it does |
+|---|---|---|
+| Explorer | Analysts, journalists | Map on the real radar image, a table with a radar picture per detection, filters, one detection's evidence, a link per detection, and CSV and GeoJSON downloads |
+| Playback | Anyone | Plays the real passes in order, with a ring for how far a ship could have gone at a speed you set |
+| Port watch | Port operations | Ship-class counts by size at each pass, the last pass and the next expected pass |
+| Review queue | Reviewers | Which detections to check next, and the verdicts so far. Read-only |
+| Buoy siting | Planners | Where one to three buoys would cover the most detections |
+| Methods and data | Judges, researchers | Data sources, processing steps, measured quality, limits, the YOLO and VH second opinion, and how to rebuild it |
+
+A link such as `?id=s1d-20261102-a6757c` opens that detection directly.
 
 ## Data
-Read fresh from `contracts/` on every page load:
-
-| Shows | Real file | Used if the real file is missing |
-|---|---|---|
-| Map, table, stats | `detections.geojson` | `sample_detections.geojson` |
-| Port chart | `port_activity.json` | `sample_port_activity.json` |
-
-- A yellow banner appears whenever sample data is on screen.
-- Detections are validated against `contracts/detections.schema.json`. Port activity is validated against the fields listed in `contracts/README.md`, because it has no schema file.
-- If a real file exists but is invalid, the dashboard shows the error for that section. It does not fall back to sample data, so fake numbers can't pass as real ones.
-
-To try the dashboard with files from another folder, without touching `contracts/`, set `SEAS_CONTRACTS_DIR`:
-```bash
-cd dashboard && SEAS_CONTRACTS_DIR=/path/to/contracts uv run streamlit run app.py
-```
-
-## Tabs
-| Tab | What it does |
+| Source | Used for |
 |---|---|
-| Map | Detections for the chosen pass, optional busy-area overlay, port activity |
-| Watchlist | Dark vessels ranked by priority, with the reason for each, plus CSV export |
-| All detections | Filter by status, area, size and radar score, search by ID or MMSI, plus CSV export |
-| Where could it be? | The area a dark vessel could have reached at an assumed speed, and time to each port |
-| Patterns | Detections per pass by area and size, and spots seen in more than one pass |
-| Data health | What the data can and can't support, including the fields it lacks |
+| `contracts/` | Detections, radar pictures, port counts, data sources and review results. Owned by the ML side |
+| `derived/` | The radar map images and second opinion, built by `pipeline/`. Used only if built from the current `contracts/detections.geojson` |
+| `../cad/buoy/specs.json` | Buoy antenna height and camera range, for Buoy siting |
 
-The derived signals are in `analysis.py`. The priority thresholds, size classes and 300 m repeat radius are our own starting rules and aren't calibrated.
+- Files are read fresh on every page load. If `detections.geojson` is missing, sample data is shown with a warning. If a real file is invalid, the page shows the error and doesn't fall back to samples, so fake numbers can't pass as real ones.
+- To try other files without touching `contracts/`, set `SEAS_CONTRACTS_DIR` to another folder.
 
 ## Reading the numbers
-- The default view is the latest pass. Across all passes, one ship can be counted several times.
-- The radar score is a detector output, not a probability.
-- No real route or heading-based projection is shown, because the data has no heading, speed or real AIS history. The reach zone is an area the vessel could have reached, not a predicted position.
-- If detections have `ais_source: "simulated"`, the dark ship labels say so, and a banner explains that the dark share is a simulation parameter, not a finding.
-- Port counts per pass are small, so the chart shows raw counts as bars, with the activity index beside them in the table. The index is not drawn as a trend.
+- **Nothing is called dark without a real AIS check.** A detection counts as possibly dark only if `status` is `no_ais_match` from a real source. Simulated flags are ignored.
+- **The default view is the latest pass.** Across all passes, one ship can be counted several times.
+- **Radar class comes from the ML side.** On a review of 120 chips, not ground truth, the ship class was about 94% ship-like.
+- **Dots don't move between passes**, because radar has no speed or heading. Playback's rings are estimates at a speed you set.
+- **The next pass is projected** from the 12-day repeat of the passes so far, not from a published schedule.
+- **Buoy sites are a starting point.** Water depth, shipping lanes and permits aren't checked.
 
 ## Test
 ```bash

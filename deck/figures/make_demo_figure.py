@@ -1,4 +1,4 @@
-"""Radar crop of one real pass with detections coloured by AIS match (teal = matched, amber = dark; AIS is simulated).
+"""Radar crop of one real pass with detections coloured by radar class (teal = ship, slate = uncertain, white = likely fixed); no AIS.
 Run with the ml venv:  ml/.venv/bin/python deck/figures/make_demo_figure.py
 """
 import json, sys
@@ -11,7 +11,7 @@ from rasterio.windows import Window
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "ml"))
 from infer import scene_window, to_uint8
-import postprocess
+import build_catalog as bc
 
 scene = next((ROOT / "ml/data/scenes").glob("*20261102T021455*_vv.tiff"))
 fc = json.loads((ROOT / "contracts/detections.geojson").read_text())["features"]
@@ -24,8 +24,7 @@ with rasterio.open(scene) as ds:
     arr = ds.read(1, window=Window(X0, Y0, X1 - X0, Y1 - Y0), out_shape=(int((Y1 - Y0) * s), OUT_W))
     img = Image.fromarray(to_uint8(arr, lo, hi)).convert("RGB")
     d = ImageDraw.Draw(img)
-    for name, p in postprocess.PORTS.items():
-        x0, y0, x1, y1 = p["bbox"]
+    for name, (x0, y0, x1, y1) in bc.PORTS.items():
         pts = []
         for lon, lat in [(x0, y0), (x1, y0), (x1, y1), (x0, y1), (x0, y0)]:
             r, c = tr.rowcol(lon, lat)
@@ -38,9 +37,9 @@ with rasterio.open(scene) as ds:
         x, y = (c - X0) * s, (r - Y0) * s
         if not (0 <= x < img.width and 0 <= y < img.height):
             continue
-        dark = f["properties"]["dark"]
-        col = (240, 169, 59) if dark else (63, 184, 166)
+        cls = f["properties"]["radar_class"]
+        col = {"ship": (63, 184, 166), "uncertain": (143, 163, 181), "likely_fixed": (238, 240, 234)}[cls]
         d.ellipse([x - 15, y - 15, x + 15, y + 15], outline=col, width=4)
-        n_d += dark; n_m += not dark
+        n_m += cls == "ship"; n_d += cls != "ship"
 img.save(Path(__file__).parent / "demo_20261102.png")
-print("saved", img.size, "matched", n_m, "dark", n_d)
+print("saved", img.size, "ship", n_m, "other", n_d)

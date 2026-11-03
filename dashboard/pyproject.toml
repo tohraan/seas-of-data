@@ -6,6 +6,7 @@ requires-python = "==3.12.*"
 dependencies = [
     "jsonschema[format-nongpl]>=4.23",
     "pandas>=2.2",
+    "pillow>=13.0.0",
     "plotly>=5.24",
     "pydeck>=0.9",
     "streamlit>=1.40",
@@ -19,3 +20,4 @@ package = false
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+testpaths = ["tests"]
