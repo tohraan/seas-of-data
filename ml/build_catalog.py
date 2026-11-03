@@ -1,4 +1,4 @@
-"""Raw detector output -> contracts (v2): detections.geojson, port_activity.json, chips/.
+"""Raw detector output -> contracts (v3): detections.geojson, port_activity.json, chips/.
 
 Usage: .venv/bin/python build_catalog.py runs/cfar_2026*T*.json [--scenes data/scenes] [--no-chips]
 

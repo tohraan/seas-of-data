@@ -15,5 +15,6 @@ for s in $SCENES; do
 done
 $PY build_catalog.py runs/cfar_2026*T*.json "$@"
 $PY review_apply.py > /dev/null     # re-stamps review verdicts and re-computes contracts/metrics_gulf.json
+if grep -qs '^GFW_TOKEN=.' .env; then $PY -m ais.gfw_join; else echo "no GFW_TOKEN in ml/.env: contracts/ais_check.json not refreshed"; fi
 $PY manifest.py ${OFFLINE:+--offline}
 $PY -m pytest -q tests

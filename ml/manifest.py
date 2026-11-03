@@ -88,13 +88,28 @@ def main():
     sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
     mask = __import__("numpy").load(ML / "assets" / "sea_mask.npz")
     lon0, lat0, res, shp = float(mask["lon0"]), float(mask["lat0"]), float(mask["res"]), mask["mask"].shape
+    def ais_note():
+        f = ROOT / "contracts" / "ais_check.json"
+        base = "detections.geojson carries no AIS verdicts (status not_checked, dark null). "
+        if not f.exists():
+            return base + "No AIS check has been run."
+        chk = json.loads(f.read_text())
+        if chk["contract_sha256"] != hashlib.sha256((ROOT / "contracts" / "detections.geojson").read_bytes()).hexdigest():
+            return base + "contracts/ais_check.json is stale (built for another detections.geojson): rerun python -m ais.gfw_join."
+        n = Counter(c["check"] for c in chk["detections"].values())
+        off = [p["scene_id"] for p in chk["passes"] if not p["available"]]
+        return (base + f"An independent AIS check against Global Fishing Watch's SAR targets is in contracts/ais_check.json: "
+                f"{n['ais_match']} detections match an AIS-broadcasting vessel, {n['no_ais']} match a GFW target with no AIS "
+                f"(leads for a patrol, not verdicts), {n['no_gfw_target']} have no GFW target within 1 km"
+                + (f", {n['not_available']} are not checked yet (GFW has not published {', '.join(off)})." if off else "."))
+
     manifest = {
-        "title": "Seas of Data: Gulf radar ship detections (Jebel Ali and Khalifa Port), contract v2",
+        "title": "Seas of Data: Gulf radar ship detections (Jebel Ali and Khalifa Port), contract v3",
         "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "code_git_sha": sha,
         "attribution": "Contains modified Copernicus Sentinel data (2026). Sentinel-1 data are free and open under the Copernicus licence.",
         "what_is_real": "Every detection is a bright target found by a CFAR detector in a real Sentinel-1 VV scene; the scenes are listed below with sha256, so anyone can re-download them and check.",
-        "what_is_not": "No AIS has been joined. status is not_checked for every detection and dark is null; nothing in this release says a ship is dark.",
+        "what_is_not": ais_note(),
         "area_searched": {"lon_min": lon0, "lon_max": round(lon0 + res * shp[1], 3), "lat_min": lat0, "lat_max": round(lat0 + res * shp[0], 3),
                           "note": "limited by the static sea mask ml/assets/sea_mask.npz, not by the scene, which is wider"},
         "detector": {"name": meta["detector"], "radar_class_rule": meta["rule"], "persistence_gate_m": meta["persist_gate_m"],
