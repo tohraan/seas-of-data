@@ -15,20 +15,80 @@
  },
  "scenes": {
   "S1C_20261024T142351": {
-   "params": null,
-   "stages": null
+   "params": {
+    "k": 8.0,
+    "win": 61,
+    "min_px": 3,
+    "max_m": 450,
+    "center": [
+     54.86,
+     24.91
+    ],
+    "radius_km": 40.0
+   },
+   "stages": {
+    "blobs_above_threshold": 84,
+    "after_size_filter": 57,
+    "after_sea_mask": 49,
+    "after_merge": 40
+   }
   },
   "S1C_20261027T021440": {
-   "params": null,
-   "stages": null
+   "params": {
+    "k": 8.0,
+    "win": 61,
+    "min_px": 3,
+    "max_m": 450,
+    "center": [
+     54.86,
+     24.91
+    ],
+    "radius_km": 40.0
+   },
+   "stages": {
+    "blobs_above_threshold": 229,
+    "after_size_filter": 130,
+    "after_sea_mask": 95,
+    "after_merge": 80
+   }
   },
   "S1D_20261030T142416": {
-   "params": null,
-   "stages": null
+   "params": {
+    "k": 8.0,
+    "win": 61,
+    "min_px": 3,
+    "max_m": 450,
+    "center": [
+     54.86,
+     24.91
+    ],
+    "radius_km": 40.0
+   },
+   "stages": {
+    "blobs_above_threshold": 134,
+    "after_size_filter": 80,
+    "after_sea_mask": 71,
+    "after_merge": 57
+   }
   },
   "S1D_20261102T021455": {
-   "params": null,
-   "stages": null
+   "params": {
+    "k": 8.0,
+    "win": 61,
+    "min_px": 3,
+    "max_m": 450,
+    "center": [
+     54.86,
+     24.91
+    ],
+    "radius_km": 40.0
+   },
+   "stages": {
+    "blobs_above_threshold": 187,
+    "after_size_filter": 108,
+    "after_sea_mask": 77,
+    "after_merge": 73
+   }
   }
  }
 }

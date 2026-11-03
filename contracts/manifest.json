@@ -1,0 +1,289 @@
+{
+ "title": "Seas of Data: Gulf radar ship detections (Jebel Ali and Khalifa Port), contract v2",
+ "generated_utc": "2026-11-03T03:06:08Z",
+ "code_git_sha": "7414de143bec900ba4680bb93cb374b9ed1d4b1d",
+ "attribution": "Contains modified Copernicus Sentinel data (2026). Sentinel-1 data are free and open under the Copernicus licence.",
+ "what_is_real": "Every detection is a bright target found by a CFAR detector in a real Sentinel-1 VV scene; the scenes are listed below with sha256, so anyone can re-download them and check.",
+ "what_is_not": "No AIS has been joined. status is not_checked for every detection and dark is null; nothing in this release says a ship is dark.",
+ "area_searched": {
+  "lon_min": 54.45,
+  "lon_max": 55.3,
+  "lat_min": 24.55,
+  "lat_max": 25.3,
+  "note": "limited by the static sea mask ml/assets/sea_mask.npz, not by the scene, which is wider"
+ },
+ "detector": {
+  "name": "cfar-v1",
+  "radar_class_rule": {
+   "min_contrast_db": 18.0,
+   "min_snr_z": 9.0,
+   "coast_m": 600.0,
+   "coast_contrast_db": 32.0
+  },
+  "persistence_gate_m": 150,
+  "note": "confidence is the CFAR peak z-score divided by 20, not a probability"
+ },
+ "totals": {
+  "scenes": 4,
+  "detections": 250,
+  "by_radar_class": {
+   "ship": 120,
+   "uncertain": 121,
+   "likely_fixed": 9
+  }
+ },
+ "scenes": [
+  {
+   "scene_id": "S1C_20261024T142351",
+   "product": "S1C_IW_GRDH_1SDV_20261024T142351_20261024T142421_010028_014031_F91A.SAFE",
+   "satellite": "S1C",
+   "mode": "IW GRDH 1SDV (VV used)",
+   "acquired_start_utc": "2026-10-24T14:23:51Z",
+   "acquired_stop_utc": "2026-10-24T14:24:21Z",
+   "absolute_orbit": 10028,
+   "file": "S1C_IW_GRDH_1SDV_20261024T142351_20261024T142421_010028_014031_F91A_vv.tiff",
+   "size_bytes": 988243882,
+   "sha256": "e6a673e11b0b1146f45696f4acea6c8256c1e96a567e0db04c9b9266722a5223",
+   "pixels": {
+    "width": 25195,
+    "height": 19607
+   },
+   "scene_extent_deg": {
+    "lon_min": 53.754,
+    "lon_max": 56.572,
+    "lat_min": 23.826,
+    "lat_max": 26.006
+   },
+   "copernicus_data_space": {
+    "id": "519d4b66-23f5-4272-84f9-02ba9ba3778b",
+    "download_size_bytes": 1984667554,
+    "url": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(519d4b66-23f5-4272-84f9-02ba9ba3778b)"
+   },
+   "planetary_computer_item": "S1C_IW_GRDH_1SDV_20261024T142351_20261024T142421_010028_014031",
+   "cfar": {
+    "params": {
+     "k": 8.0,
+     "win": 61,
+     "min_px": 3,
+     "max_m": 450,
+     "center": [
+      54.86,
+      24.91
+     ],
+     "radius_km": 40.0
+    },
+    "stages": {
+     "blobs_above_threshold": 84,
+     "after_size_filter": 57,
+     "after_sea_mask": 49,
+     "after_merge": 40
+    }
+   },
+   "detections": {
+    "n": 40,
+    "by_radar_class": {
+     "ship": 23,
+     "uncertain": 15,
+     "likely_fixed": 2
+    },
+    "by_size_class": {
+     "large": 10,
+     "medium": 11,
+     "tiny": 6,
+     "very_large": 3,
+     "small": 10
+    }
+   }
+  },
+  {
+   "scene_id": "S1C_20261027T021440",
+   "product": "S1C_IW_GRDH_1SDV_20261027T021440_20261027T021505_010064_01416D_E83E.SAFE",
+   "satellite": "S1C",
+   "mode": "IW GRDH 1SDV (VV used)",
+   "acquired_start_utc": "2026-10-27T02:14:40Z",
+   "acquired_stop_utc": "2026-10-27T02:15:05Z",
+   "absolute_orbit": 10064,
+   "file": "S1C_IW_GRDH_1SDV_20261027T021440_20261027T021505_010064_01416D_E83E_vv.tiff",
+   "size_bytes": 844544732,
+   "sha256": "c6b9e941650a31c2b6040fcaa2bb088b56efca924316e4aa5a1064dbd0649448",
+   "pixels": {
+    "width": 25213,
+    "height": 16744
+   },
+   "scene_extent_deg": {
+    "lon_min": 53.852,
+    "lon_max": 56.621,
+    "lat_min": 24.095,
+    "lat_max": 26.013
+   },
+   "copernicus_data_space": {
+    "id": "8edc86ec-2f82-4af5-a795-754d177dc9fb",
+    "download_size_bytes": 1696181136,
+    "url": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(8edc86ec-2f82-4af5-a795-754d177dc9fb)"
+   },
+   "planetary_computer_item": "S1C_IW_GRDH_1SDV_20261027T021440_20261027T021505_010064_01416D",
+   "cfar": {
+    "params": {
+     "k": 8.0,
+     "win": 61,
+     "min_px": 3,
+     "max_m": 450,
+     "center": [
+      54.86,
+      24.91
+     ],
+     "radius_km": 40.0
+    },
+    "stages": {
+     "blobs_above_threshold": 229,
+     "after_size_filter": 130,
+     "after_sea_mask": 95,
+     "after_merge": 80
+    }
+   },
+   "detections": {
+    "n": 80,
+    "by_radar_class": {
+     "uncertain": 41,
+     "ship": 36,
+     "likely_fixed": 3
+    },
+    "by_size_class": {
+     "tiny": 28,
+     "medium": 18,
+     "small": 24,
+     "large": 8,
+     "very_large": 2
+    }
+   }
+  },
+  {
+   "scene_id": "S1D_20261030T142416",
+   "product": "S1D_IW_GRDH_1SDV_20261030T142416_20261030T142441_005246_009F7A_C2FB.SAFE",
+   "satellite": "S1D",
+   "mode": "IW GRDH 1SDV (VV used)",
+   "acquired_start_utc": "2026-10-30T14:24:16Z",
+   "acquired_stop_utc": "2026-10-30T14:24:41Z",
+   "absolute_orbit": 5246,
+   "file": "S1D_IW_GRDH_1SDV_20261030T142416_20261030T142441_005246_009F7A_C2FB_vv.tiff",
+   "size_bytes": 864078972,
+   "sha256": "84263d6742f1e320dcf641fd65bc96ee4a4fb79ef3017649f3d40efa024e5a50",
+   "pixels": {
+    "width": 25819,
+    "height": 16728
+   },
+   "scene_extent_deg": {
+    "lon_min": 53.66,
+    "lon_max": 56.494,
+    "lat_min": 24.469,
+    "lat_max": 26.399
+   },
+   "copernicus_data_space": {
+    "id": "cde344dd-5982-4976-97e1-e796ed7934f5",
+    "download_size_bytes": 1735263128,
+    "url": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(cde344dd-5982-4976-97e1-e796ed7934f5)"
+   },
+   "planetary_computer_item": "S1D_IW_GRDH_1SDV_20261030T142416_20261030T142441_005246_009F7A",
+   "cfar": {
+    "params": {
+     "k": 8.0,
+     "win": 61,
+     "min_px": 3,
+     "max_m": 450,
+     "center": [
+      54.86,
+      24.91
+     ],
+     "radius_km": 40.0
+    },
+    "stages": {
+     "blobs_above_threshold": 134,
+     "after_size_filter": 80,
+     "after_sea_mask": 71,
+     "after_merge": 57
+    }
+   },
+   "detections": {
+    "n": 57,
+    "by_radar_class": {
+     "ship": 20,
+     "uncertain": 35,
+     "likely_fixed": 2
+    },
+    "by_size_class": {
+     "medium": 10,
+     "large": 12,
+     "small": 29,
+     "very_large": 3,
+     "tiny": 3
+    }
+   }
+  },
+  {
+   "scene_id": "S1D_20261102T021455",
+   "product": "S1D_IW_GRDH_1SDV_20261102T021455_20261102T021520_005282_00A0C3_F7F9.SAFE",
+   "satellite": "S1D",
+   "mode": "IW GRDH 1SDV (VV used)",
+   "acquired_start_utc": "2026-11-02T02:14:55Z",
+   "acquired_stop_utc": "2026-11-02T02:15:20Z",
+   "absolute_orbit": 5282,
+   "file": "S1D_IW_GRDH_1SDV_20261102T021455_20261102T021520_005282_00A0C3_F7F9_vv.tiff",
+   "size_bytes": 860367982,
+   "sha256": "80bd519f78e0e9064bda3dfb221de74929291c872b7ca3dc65a8a34e66c289a4",
+   "pixels": {
+    "width": 25725,
+    "height": 16717
+   },
+   "scene_extent_deg": {
+    "lon_min": 53.776,
+    "lon_max": 56.591,
+    "lat_min": 23.958,
+    "lat_max": 25.885
+   },
+   "copernicus_data_space": {
+    "id": "6577c4cc-97ce-45a3-9489-efe0c61791b4",
+    "download_size_bytes": 1728079851,
+    "url": "https://catalogue.dataspace.copernicus.eu/odata/v1/Products(6577c4cc-97ce-45a3-9489-efe0c61791b4)"
+   },
+   "planetary_computer_item": "S1D_IW_GRDH_1SDV_20261102T021455_20261102T021520_005282_00A0C3",
+   "cfar": {
+    "params": {
+     "k": 8.0,
+     "win": 61,
+     "min_px": 3,
+     "max_m": 450,
+     "center": [
+      54.86,
+      24.91
+     ],
+     "radius_km": 40.0
+    },
+    "stages": {
+     "blobs_above_threshold": 187,
+     "after_size_filter": 108,
+     "after_sea_mask": 77,
+     "after_merge": 73
+    }
+   },
+   "detections": {
+    "n": 73,
+    "by_radar_class": {
+     "ship": 41,
+     "uncertain": 30,
+     "likely_fixed": 2
+    },
+    "by_size_class": {
+     "large": 12,
+     "tiny": 21,
+     "small": 21,
+     "medium": 19
+    }
+   }
+  }
+ ],
+ "reproduce": [
+  "cd ml && uv sync",
+  "ml/run_all.sh   # reads scenes from the Planetary Computer mirror if ml/data/scenes is empty, runs CFAR (k=8), builds contracts/ + chips",
+  "ml/.venv/bin/python ml/manifest.py   # re-checks hashes and rewrites this file"
+ ]
+}
