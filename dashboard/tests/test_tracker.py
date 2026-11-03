@@ -140,7 +140,7 @@ def empty_env(tmp_path, monkeypatch):
 def test_tracker_tab_renders_with_shipped_data():
     app = AppTest.from_file(str(APP), default_timeout=60).run()
     assert not app.exception
-    assert "Ship tracker" in [tab.label for tab in app.tabs]
+    assert any(tab.label.endswith("Ship tracker") for tab in app.tabs)
     assert any(item.value == "Ship tracker" for item in app.subheader)
 
 

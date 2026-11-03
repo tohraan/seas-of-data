@@ -1,9 +1,24 @@
 [theme]
 base = "dark"
-primaryColor = "#3987e5"
-backgroundColor = "#0d0d0d"
-secondaryBackgroundColor = "#1a1a19"
-textColor = "#f0efec"
+primaryColor = "#38d9c6"
+backgroundColor = "#070b0e"
+secondaryBackgroundColor = "#0f171c"
+textColor = "#e9eef1"
+borderColor = "#1d2a31"
+showWidgetBorder = true
+baseRadius = "0.6rem"
+font = "Geist:https://fonts.googleapis.com/css2?family=Geist:wght@300..800&display=swap"
+headingFont = "Geist:https://fonts.googleapis.com/css2?family=Geist:wght@300..800&display=swap"
+codeFont = "Geist Mono:https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400..600&display=swap"
+headingFontWeights = [700, 650, 600, 600, 600, 600]
+metricValueFontWeight = 600
+
+[client]
+toolbarMode = "minimal"
+
+[server]
+# Serves dashboard/static (the 3D ship models) at app/static/.
+enableStaticServing = true
 
 [browser]
 gatherUsageStats = false

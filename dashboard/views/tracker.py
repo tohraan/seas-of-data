@@ -16,37 +16,39 @@ REFRESH_S = 120
 PAGE = """<!doctype html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/deck.gl@9.1.14/dist.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/satellite.js@5.0.0/dist/satellite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.46.2/dist/globe.gl.min.js"></script>
 <style>
-  :root { --ink:#f0efec; --ink2:#c3c2b7; --muted:#898781; --surface:#1a1a19; --line:#2f3a3a; --hud:#56c7e8; --live:#3ddc97; --amber:#e9b949; --red:#d03b3b; }
-  html,body { margin:0; background:#0d0d0d; color:var(--ink); font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  :root { --ink:#e9eef1; --ink2:#b8c4ca; --muted:#7d8d96; --surface:#0f181d; --line:#1d2a31; --hud:#38d9c6; --live:#3ddc97; --amber:#f2b84b; --red:#ff5d5d; --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace; }
+  html,body { margin:0; background:#070b0e; color:var(--ink); font:13px "Geist",system-ui,-apple-system,"Segoe UI",sans-serif; }
+  #strip, #hud, #pass, #attr, #count, .mono { font-family:var(--mono); }
   .maplibregl-ctrl-bottom-right { display:none; }
-  #strip { display:flex; flex-wrap:wrap; gap:6px 18px; padding:8px 10px; border:1px solid var(--line); border-radius:8px 8px 0 0; background:#0f1414; color:var(--ink2); }
+  #strip { display:flex; flex-wrap:wrap; gap:6px 18px; padding:8px 10px; border:1px solid var(--line); border-radius:14px 14px 0 0; background:linear-gradient(90deg,#0c161a,#0a1013); color:var(--ink2); }
   #strip b { color:var(--hud); font-weight:600; letter-spacing:.06em; margin-right:6px; }
   #strip .on { color:var(--live); }
-  #wrap { display:flex; border:1px solid var(--line); border-top:none; border-radius:0 0 8px 8px; overflow:hidden; }
-  #map { position:relative; flex:1 1 auto; height:__MAP__px; background:#0d0d0d; }
+  #wrap { display:flex; border:1px solid var(--line); border-top:none; border-radius:0 0 14px 14px; overflow:hidden; }
+  #map { position:relative; flex:1 1 auto; height:__MAP__px; background:#070b0e; }
   #grid { position:absolute; inset:0; pointer-events:none; z-index:1;
-    background-image:linear-gradient(rgba(86,199,232,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(86,199,232,.05) 1px,transparent 1px); background-size:60px 60px; }
+    background-image:linear-gradient(rgba(56,217,198,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(56,217,198,.045) 1px,transparent 1px); background-size:60px 60px; }
   .corner { position:absolute; width:18px; height:18px; border:0 solid var(--hud); opacity:.7; z-index:2; pointer-events:none; }
-  #hud { position:absolute; left:12px; top:12px; background:rgba(8,12,12,.82); border:1px solid var(--line); border-radius:4px; padding:7px 10px; line-height:1.55; z-index:2; pointer-events:none; }
+  #hud { position:absolute; left:12px; top:12px; background:rgba(7,12,15,.86); border:1px solid var(--line); border-radius:4px; padding:7px 10px; line-height:1.55; z-index:2; pointer-events:none; }
   #hud .k { color:var(--hud); }
   .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin:0 4px 0 10px; vertical-align:-1px; }
   .dot:first-child { margin-left:0; }
   .ring { background:none !important; border:2px solid; width:6px; height:6px; }
-  #attr { position:absolute; left:8px; bottom:6px; color:var(--ink2); font-size:11px; background:rgba(8,12,12,.7); padding:1px 6px; border-radius:3px; z-index:2; }
+  #attr { position:absolute; left:8px; bottom:6px; color:var(--ink2); font-size:11px; background:rgba(7,12,15,.75); padding:1px 6px; border-radius:3px; z-index:2; }
   #attr a { color:var(--ink2); }
-  #orbit { position:absolute; right:10px; bottom:10px; width:270px; background:rgba(8,12,12,.88); border:1px solid var(--line); border-radius:4px; z-index:3; }
+  #orbit { position:absolute; right:10px; bottom:10px; width:270px; background:rgba(7,12,15,.9); border:1px solid var(--line); border-radius:4px; z-index:3; }
   #orbit h4 { margin:0; padding:6px 10px 0; color:var(--hud); font-size:12px; letter-spacing:.08em; font-weight:600; display:flex; justify-content:space-between; }
   #orbit h4 button { background:none; border:none; color:var(--muted); cursor:pointer; font:inherit; padding:0; }
   #globe { height:170px; }
   #pass { padding:2px 10px 8px; line-height:1.45; color:var(--ink2); font-size:11.5px; }
   #pass .big { color:var(--ink); font-size:14px; }
   #pass .ok { color:var(--live); }
-  #side { flex:0 0 300px; height:__MAP__px; display:flex; flex-direction:column; background:#0f1414; border-left:1px solid var(--line); }
+  #side { flex:0 0 300px; height:__MAP__px; display:flex; flex-direction:column; background:#0a1114; border-left:1px solid var(--line); }
   #controls { padding:10px; display:grid; gap:7px; border-bottom:1px solid var(--line); }
   input[type=search], select { background:var(--surface); color:var(--ink); border:1px solid #383835; border-radius:4px; padding:6px 8px; font:inherit; min-width:0; }
   .row2 { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
@@ -114,10 +116,8 @@ const $ = id => document.getElementById(id);
 const esc = text => String(text ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
 const HOUR = 3600e3, KM_PER_KN_H = 1.852;
 const LIVE_MS = 15 * 60e3;
-const RGB = { live:[61,220,151], gfw:[86,170,240], stale:[120,120,115], lead:[208,59,59], ship:[233,185,73], fixed:[201,133,0], uncertain:[137,135,129], reach:[233,185,73], trail:[86,199,232] };
+const RGB = { live:[61,220,151], gfw:[78,168,255], stale:[125,141,150], lead:[255,93,93], ship:[242,184,75], fixed:[201,133,0], uncertain:[137,145,150], reach:[242,184,75], trail:[56,217,198] };
 const hex = c => `rgb(${c.join(",")})`;
-// Hull lengths by type, for drawing only. Fishing Watch doesn't give a ship's size here.
-const DRAW_LENGTH_M = { CARGO:190, PASSENGER:60, BUNKER:100, OTHER_NON_FISHING:40 };
 const store = {
   get(key) { try { return JSON.parse(sessionStorage.getItem("tracker." + key)); } catch (e) { return null; } },
   set(key, value) { try { sessionStorage.setItem("tracker." + key, JSON.stringify(value)); } catch (e) {} },
@@ -314,35 +314,31 @@ function radarShown() {
 }
 const radarColour = d => d.lead ? RGB.lead : d.cls === "ship" ? RGB.ship : d.cls === "likely_fixed" ? RGB.fixed : RGB.uncertain;
 
-// ---------- 3D hull, built here so no model file is needed ----------
-function hullMesh() {
-  const pos = [], nrm = [];
-  const centre = [0, 0, 0.04];
-  function tri(a, b, c) {
-    const u = [b[0]-a[0], b[1]-a[1], b[2]-a[2]], v = [c[0]-a[0], c[1]-a[1], c[2]-a[2]];
-    let n = [u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]];
-    const mid = [(a[0]+b[0]+c[0])/3 - centre[0], (a[1]+b[1]+c[1])/3 - centre[1], (a[2]+b[2]+c[2])/3 - centre[2]];
-    // Face outward whichever way the corners were listed.
-    if (n[0]*mid[0] + n[1]*mid[1] + n[2]*mid[2] < 0) { n = n.map(x => -x); [b, c] = [c, b]; }
-    const len = Math.hypot(...n) || 1;
-    for (const p of [a, b, c]) { pos.push(...p); nrm.push(n[0]/len, n[1]/len, n[2]/len); }
-  }
-  const quad = (a, b, c, d) => { tri(a, b, c); tri(a, c, d); };
-  // Bow along +y. Length 1, beam 0.16, deck height 0.06.
-  const w = 0.08, h = 0.06;
-  const outline = [[-w, -0.5], [w, -0.5], [w, 0.28], [0, 0.5], [-w, 0.28]];
-  outline.forEach((p, k) => { const q = outline[(k + 1) % outline.length]; quad([p[0], p[1], 0], [q[0], q[1], 0], [q[0], q[1], h], [p[0], p[1], h]); });
-  for (let k = 1; k < outline.length - 1; k++) tri([outline[0][0], outline[0][1], h], [outline[k][0], outline[k][1], h], [outline[k+1][0], outline[k+1][1], h]);
-  // Bridge block near the stern.
-  const bx = 0.06, y0 = -0.44, y1 = -0.28, z0 = h, z1 = h + 0.09;
-  const c = [[-bx, y0], [bx, y0], [bx, y1], [-bx, y1]];
-  c.forEach((p, k) => { const q = c[(k + 1) % 4]; quad([p[0], p[1], z0], [q[0], q[1], z0], [q[0], q[1], z1], [p[0], p[1], z1]); });
-  quad([-bx, y0, z1], [bx, y0, z1], [bx, y1, z1], [-bx, y1, z1]);
-  return { positions:{ size:3, value:new Float32Array(pos) }, normals:{ size:3, value:new Float32Array(nrm) } };
-}
-const HULL = window.deck ? hullMesh() : null;
-const MESH_ZOOM = 11;
+// ---------- ship icons and 3D models ----------
 const hasHeading = s => s.course !== null && s.course !== undefined;
+// Top-down silhouettes, bow up, drawn white so deck.gl can tint them by freshness. Rotated by heading like a flight tracker.
+const SVG = body => "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 96" width="64" height="192">${body}</svg>`);
+const ICONS = {
+  cargo:{ id:"cargo", width:64, height:192, anchorY:96, mask:true, url:SVG(`<path d="M16 2 C23 12 26 22 26 32 L26 86 Q26 93 19 93 L13 93 Q6 93 6 86 L6 32 C6 22 9 12 16 2Z" fill="#fff"/>
+    <g fill="#fff" fill-opacity=".45"><rect x="9" y="26" width="14" height="9" rx="1"/><rect x="9" y="38" width="14" height="9" rx="1"/><rect x="9" y="50" width="14" height="9" rx="1"/><rect x="9" y="62" width="14" height="9" rx="1"/></g>
+    <rect x="8" y="75" width="16" height="8" rx="1.5" fill="#000" fill-opacity=".0" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>`) },
+  tanker:{ id:"tanker", width:64, height:192, anchorY:96, mask:true, url:SVG(`<path d="M16 4 C22 12 25 22 25 32 L25 86 Q25 92 19 92 L13 92 Q7 92 7 86 L7 32 C7 22 10 12 16 4Z" fill="#fff"/>
+    <path d="M16 18 L16 72" stroke="#fff" stroke-opacity=".45" stroke-width="2"/><g fill="#fff" fill-opacity=".45"><circle cx="16" cy="30" r="3"/><circle cx="16" cy="46" r="3"/><circle cx="16" cy="62" r="3"/></g>
+    <rect x="9" y="76" width="14" height="7" rx="1.5" fill-opacity="0" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>`) },
+  passenger:{ id:"passenger", width:64, height:192, anchorY:96, mask:true, url:SVG(`<path d="M16 14 C24 22 27 32 27 42 L27 84 Q27 90 21 90 L11 90 Q5 90 5 84 L5 42 C5 32 8 22 16 14Z" fill="#fff"/>
+    <rect x="9" y="38" width="14" height="44" rx="5" fill-opacity="0" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/><circle cx="16" cy="32" r="2.5" fill="#fff" fill-opacity=".5"/>`) },
+  service:{ id:"service", width:64, height:192, anchorY:96, mask:true, url:SVG(`<path d="M16 40 C23 46 25 52 25 58 L25 76 Q25 82 19 82 L13 82 Q7 82 7 76 L7 58 C7 52 9 46 16 40Z" fill="#fff"/>
+    <rect x="11" y="56" width="10" height="9" rx="2" fill-opacity="0" stroke="#fff" stroke-opacity=".55" stroke-width="1.5"/>`) },
+  still:{ id:"still", width:64, height:64, anchorY:32, mask:true, url:"data:image/svg+xml;charset=utf-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="64" height="64"><circle cx="16" cy="16" r="11" fill="none" stroke="#fff" stroke-width="3"/><circle cx="16" cy="16" r="4.5" fill="#fff"/></svg>`) },
+};
+const iconKind = s => s.type === "CARGO" ? "cargo" : s.type === "BUNKER" ? "tanker" : s.type === "PASSENGER" ? "passenger" : "service";
+// Icon height in pixels at zoom 10; a ship with no heading gets a plain marker, since an arrow would claim a direction.
+const ICON_PX = { cargo:34, tanker:30, passenger:28, service:22, still:11 };
+const shipIcon = s => ICONS[hasHeading(s) ? iconKind(s) : "still"];
+// The team's own Blender ships (website/blender/ship.py), exported by pipeline/export_ship_models.py. About 210 m long, bow along +x.
+const MODEL_ZOOM = 12.5;
+const MODEL_URL = { CARGO:new URL("app/static/ship_container.glb", document.baseURI).href, BUNKER:new URL("app/static/ship_tanker.glb", document.baseURI).href };
+const MODEL_SCALE = { CARGO:0.9, BUNKER:0.5 };
 
 // ---------- layers ----------
 let map;
@@ -366,27 +362,30 @@ function layers() {
   const radar = radarShown();
   out.push(new deck.ScatterplotLayer({ id:"radar", data:radar, getPosition:d => [d.lon, d.lat], getRadius:d => d.lead ? 6 : 5, radiusUnits:"pixels",
     filled:true, getFillColor:d => d.lead ? [...RGB.lead, 200] : [0, 0, 0, 0], stroked:true, getLineColor:radarColour, lineWidthUnits:"pixels", getLineWidth:1.6, pickable:true }));
-  const meshMode = zoom >= MESH_ZOOM;
-  const dots = meshMode ? S.visible.filter(s => !hasHeading(s)) : S.visible;
-  out.push(new deck.ScatterplotLayer({ id:"ships", data:dots, getPosition:s => [s.lon, s.lat], getRadius:s => s.kn >= 1 ? 4.5 : 3, radiusUnits:"pixels",
-    getFillColor:colour, stroked:true, lineWidthUnits:"pixels", getLineWidth:s => s === chosen ? 2 : 0, getLineColor:[240, 239, 236], pickable:true,
-    updateTriggers:{ getLineWidth:chosen && chosen.key } }));
-  if (meshMode) {
-    // Ships are drawn larger than life below zoom 14 so they stay visible.
-    out.push(new deck.SimpleMeshLayer({ id:"hulls", data:S.visible.filter(hasHeading), mesh:HULL, getPosition:s => [s.lon, s.lat, 0],
-      getOrientation:s => [0, -s.course, 0], getScale:s => { const L = DRAW_LENGTH_M[s.type] || 40; return [L, L, L]; },
-      sizeScale:Math.max(1, 2 ** (14 - zoom)), getColor:s => s === chosen ? [240, 239, 236] : colour(s), pickable:true,
-      material:{ ambient:0.45, diffuse:0.6, shininess:24, specularColor:[90, 90, 90] }, updateTriggers:{ getColor:chosen && chosen.key } }));
+  const modelled = zoom >= MODEL_ZOOM ? S.visible.filter(s => hasHeading(s) && MODEL_URL[s.type]) : [];
+  const inModel = new Set(modelled);
+  if (chosen) out.push(new deck.ScatterplotLayer({ id:"chosen-ring", data:[chosen], getPosition:s => [s.lon, s.lat], getRadius:20, radiusUnits:"pixels",
+    filled:true, getFillColor:[56, 217, 198, 28], stroked:true, getLineColor:[56, 217, 198, 230], lineWidthUnits:"pixels", getLineWidth:1.5 }));
+  out.push(new deck.IconLayer({ id:"ships", data:S.visible.filter(s => !inModel.has(s)), getPosition:s => [s.lon, s.lat], getIcon:shipIcon,
+    getSize:s => ICON_PX[hasHeading(s) ? iconKind(s) : "still"], sizeUnits:"pixels", sizeScale:Math.min(1.35, Math.max(0.5, (zoom - 5.5) / 4.5)),
+    billboard:false, getAngle:s => hasHeading(s) ? -s.course : 0, getColor:s => s === chosen ? [233, 238, 241] : colour(s), pickable:true, alphaCutoff:0.05,
+    updateTriggers:{ getColor:chosen && chosen.key } }));
+  for (const type of Object.keys(MODEL_URL)) {
+    const data = modelled.filter(s => s.type === type);
+    if (!data.length) continue;
+    // Drawn larger than life below zoom 15 so a ship stays visible; the card gives the real numbers.
+    out.push(new deck.ScenegraphLayer({ id:`model-${type}`, data, scenegraph:MODEL_URL[type], getPosition:s => [s.lon, s.lat, 0],
+      getOrientation:s => [0, 90 - s.course, 0], sizeScale:MODEL_SCALE[type] * Math.max(1, 2 ** (14.5 - zoom)), _lighting:"pbr", pickable:true }));
   }
   if (zoom >= 12.5) out.push(new deck.TextLayer({ id:"names", data:S.visible.filter(s => s.name), getPosition:s => [s.lon, s.lat], getText:s => s.name, getSize:11,
-    getColor:[195, 194, 183], getPixelOffset:[0, -14], fontFamily:"ui-monospace, Menlo, monospace", characterSet:"auto" }));
+    getColor:[195, 194, 183], getPixelOffset:[0, -14], fontFamily:"Geist Mono, ui-monospace, Menlo, monospace", characterSet:"auto" }));
   if (PORT_LABELS) out.push(PORT_LABELS);
   return out;
 }
 function draw() { if (map) map.setProps({ layers:layers(), viewState:S.view }); }
 function tooltip({ object, layer }) {
   if (!object || !layer) return null;
-  const style = { background:"#0f1414", color:"#f0efec", fontSize:"12px", fontFamily:"ui-monospace, Menlo, monospace", border:"1px solid #2f3a3a" };
+  const style = { background:"#0a1114", color:"#e9eef1", fontSize:"12px", fontFamily:"Geist Mono, ui-monospace, Menlo, monospace", border:"1px solid #1d2a31", borderRadius:"8px", padding:"8px 10px" };
   if (layer.id === "radar") return { html:`<b>Radar detection</b> · ${esc(object.label || object.cls)}<br>Sentinel-1 pass ${esc(fmtShort(object.t))}<br>AIS: ${esc(object.ais || "not checked")}${object.lead ? "<br><b style='color:#e66767'>Possibly dark: a lead, not a verdict</b>" : ""}`, style };
   return { html:`<b>${esc(object.name || "Name not reported")}</b><br>${esc(typeLabel(object.type))} · ${object.kn.toFixed(1)} kn<br>${object.source === "live" ? "Live AIS" : "Last known (GFW)"}, ${fmtAge(Date.now() - object.t)} ago`, style };
 }
@@ -480,10 +479,10 @@ function startGlobe() {
   const globe = new Globe(el, { animateIn:false })
     .width(el.clientWidth || 270).height(170).backgroundColor("rgba(0,0,0,0)")
     .globeImageUrl("https://cdn.jsdelivr.net/npm/three-globe@2.41.12/example/img/earth-night.jpg")
-    .showAtmosphere(true).atmosphereColor("#56c7e8").atmosphereAltitude(0.12)
+    .showAtmosphere(true).atmosphereColor("#38d9c6").atmosphereAltitude(0.12)
     .pathPoints("pts").pathPointLat(p => p[0]).pathPointLng(p => p[1]).pathPointAlt(p => p[2]).pathColor("color").pathStroke("width").pathTransitionDuration(0)
     .htmlLat("lat").htmlLng("lng").htmlAltitude("alt").htmlTransitionDuration(0)
-    .htmlElement(d => { const e = document.createElement("div"); e.style.cssText = "color:#56c7e8;font:11px ui-monospace,Menlo,monospace;white-space:nowrap;transform:translate(-4px,-6px);pointer-events:none"; e.textContent = "◆ " + d.id; return e; });
+    .htmlElement(d => { const e = document.createElement("div"); e.style.cssText = "color:#38d9c6;font:11px Geist Mono,ui-monospace,Menlo,monospace;white-space:nowrap;transform:translate(-4px,-6px);pointer-events:none"; e.textContent = "◆ " + d.id; return e; });
   globe.pointOfView({ lat:22, lng:52, altitude:2.4 }, 0);
   globe.controls().enableZoom = true;
   ORBIT.globe = globe;
@@ -497,8 +496,8 @@ function updateGlobe(paths) {
   if (paths) {
     const data = [{ pts:ORBIT.areaBox, color:"#d03b3b", width:1.2 }];
     for (const s of ORBIT.sats) {
-      data.push({ pts:orbitPath(s, now, 100, null), color:"rgba(86,199,232,0.9)", width:0.6 });
-      data.push({ pts:orbitPath(s, now, 100, 0.002), color:"rgba(86,199,232,0.3)", width:0.3 });
+      data.push({ pts:orbitPath(s, now, 100, null), color:"rgba(56,217,198,0.9)", width:0.6 });
+      data.push({ pts:orbitPath(s, now, 100, 0.002), color:"rgba(56,217,198,0.3)", width:0.3 });
     }
     g.pathsData(data);
   }
@@ -536,7 +535,7 @@ $("hideGlobe").onclick = () => {
 // ---------- start ----------
 $("note").innerHTML = `Positions are real AIS. The blue ones are each ship's last fix from Global Fishing Watch, which runs a few days behind, so they show where ships were, not where they are now.
   Green ones come from the live AIS collector when it's running, and only count as live within 15 minutes of a report. Coastal receivers miss ships further out, so a missing ship isn't proof of anything.
-  Hulls appear when you zoom in, drawn only for ships whose last two fixes give a heading, at a size by type rather than measured.
+  Ship shapes point along the heading from the last two fixes; a ship with no heading is a plain ring. Up close, cargo ships and tankers become 3D models, drawn by type and larger than life when zoomed out, not measured.
   Click a ship for the area it could have reached over water since its last fix.
   Radar rings are our own Sentinel-1 detections, and red ones are possibly dark: a ship-class target with no AIS match, a reason to look closer rather than proof.
   The next-pass countdown comes from the satellites' published orbits and is checked against our real scenes, but ESA decides which passes are imaged.`;
