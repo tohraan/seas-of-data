@@ -57,7 +57,7 @@ def _to_db(pixels: np.ndarray) -> np.ndarray:
 
 def local_contrast(pixels: np.ndarray, row: float, col: float) -> float:
     """Brightest point near (row, col), in dB above the median of the ring around it. NaN if it can't be measured."""
-    r, c = int(round(row)), int(round(col))
+    r, c = round(row), round(col)
     if r < RING_OUTER_PX or c < RING_OUTER_PX or r + RING_OUTER_PX >= pixels.shape[0] or c + RING_OUTER_PX >= pixels.shape[1]:
         return float("nan")
     crop = pixels[r - RING_OUTER_PX : r + RING_OUTER_PX + 1, c - RING_OUTER_PX : c + RING_OUTER_PX + 1]
@@ -71,7 +71,7 @@ def local_contrast(pixels: np.ndarray, row: float, col: float) -> float:
 
 def ship_shape(pixels: np.ndarray, row: float, col: float, half_px: int = 32) -> tuple[float, float, float, float] | None:
     """Fit the bright blob at (row, col). Returns (length_px, elongation, axis_row, axis_col), or None if there's no clear blob."""
-    r, c = int(round(row)), int(round(col))
+    r, c = round(row), round(col)
     r0, c0 = max(0, r - half_px), max(0, c - half_px)
     crop = pixels[r0 : r + half_px + 1, c0 : c + half_px + 1]
     if crop.size == 0 or crop.max() == 0:
@@ -111,7 +111,7 @@ def bearing_deg(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
 def chip_data_uri(pixels: np.ndarray, row: float, col: float, stretch: tuple[float, float], size: int = CHIP_PX) -> str | None:
     """A small radar image centred on the target, as a data URI the dashboard can show directly."""
     half = size // 2
-    r, c = int(round(row)), int(round(col))
+    r, c = round(row), round(col)
     if r < 0 or c < 0 or r >= pixels.shape[0] or c >= pixels.shape[1]:
         return None
     canvas = np.zeros((size, size), dtype=pixels.dtype)

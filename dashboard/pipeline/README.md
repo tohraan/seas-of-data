@@ -2,7 +2,7 @@
 
 Runs the trained YOLO model on the real Sentinel-1 passes behind `contracts/detections.geojson`, then measures every detection from the radar pixels. The dashboard doesn't need this folder, the model or the scenes to run.
 
-**Status: work in progress.** `yolo_scan.py` works and resumes where it stopped. `build_evidence.py` hasn't been run end to end yet, and the dashboard doesn't read its output yet.
+The Methods page shows the output as a second opinion, and the Explorer shows the radar images. Rebuild it whenever `contracts/detections.geojson` changes: the dashboard hides evidence built from a different file.
 
 ## Data sources
 - **Scenes:** Copernicus Sentinel-1 GRD, read from the public [Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/dataset/sentinel-1-grd) mirror. No login needed, and only the study area is downloaded.

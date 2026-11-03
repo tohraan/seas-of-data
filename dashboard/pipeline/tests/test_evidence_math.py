@@ -25,7 +25,7 @@ def add_ship(pixels, row, col, length, angle_deg, brightness=3000):
     angle = math.radians(angle_deg)
     for t in np.linspace(-length / 2, length / 2, length * 4):
         r, c = row + t * math.cos(angle), col + t * math.sin(angle)
-        pixels[int(round(r)), int(round(c))] = brightness
+        pixels[round(r), round(c)] = brightness
     return pixels
 
 

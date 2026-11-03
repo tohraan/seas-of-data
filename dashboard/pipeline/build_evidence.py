@@ -230,6 +230,8 @@ def main() -> None:
         for target in targets:
             if target["scene_id"] == scene_id:
                 target.update(measure(vv, vh, target["lon"], target["lat"], vh_threshold))
+                if not target["yolo_only"]:  # the contract already holds a VV chip for its own detections
+                    del target["chip_vv"]
         corners = save_radar_image(vv, args.out / "radar" / f"{scene_id}.webp")
 
         cfar = cfar_by_scene[scene_id]
